@@ -69,7 +69,7 @@ def research(a):
     """The right-hand researcher only: traced along her face profile, collar and coat front (the woman
     beside her overlaps), keeping her own hands and the orange meter; her sleeve logo retouched out."""
     H, W = a.shape
-    poly = np.array([(380, 38), (560, 40), (700, 980), (305, 980), (292, 832), (180, 805), (90, 790), (85, 700),
+    poly = np.array([(380, 38), (560, 40), (700, 980), (305, 980), (300, 800), (205, 784), (98, 780), (85, 700),
                      (95, 630), (200, 622), (242, 640), (312, 620), (318, 446), (350, 425), (360, 375), (335, 370), (320, 365),
                      (310, 350), (305, 340), (295, 330), (287, 315), (262, 300), (250, 282), (240, 262), (214, 230), (186, 200), (230, 140), (290, 80)],
                     np.float64) + (800, 100)

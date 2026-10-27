@@ -133,6 +133,10 @@ ikw = dict(left_mm=IST_LEFT, top_mm=IST_TOP, width_mm=IST_W_MM)
 it = C.place(ist, **ikw)
 v = (hz * 0.5)[..., None]                                    # the palace's left wing stands in the haze
 it[..., :3] = it[..., :3] * (1 - v) + haze * v
+# smog pools at ground level: the hazy wing's dark ground floor is veiled further (it read as a dark box
+# beside the researcher)
+v2 = (hz * np.clip((yy - 118) / 8, 0, 1) * 0.5)[..., None]
+it[..., :3] = it[..., :3] * (1 - v2) + haze * v2
 it = C.light_wrap(it, full(st.comp), width_px=5, strength=0.3)
 it = C.melt_background(ist, bgm, ikw, it, st.comp, top=1.0, bottom=0.92)
 st.add("Istana Negara (real photo, relit to clear sun)", it)
@@ -190,23 +194,40 @@ def clear_morning(ev):
     return f
 
 
-RS = 19 / 320                                    # mm per source px (hijab top 145 -> chin 465)
-RTOP = 98.0 - 145 * RS
+# review 28 Oct: she was cut by the trim. Now in the middle ground with the planting pair (head 12 mm,
+# hijab top 104 mm), fully inside the safe area, her meter clear of the officer's salute
+RS = 12 / 320                                    # mm per source px (hijab top 145 -> chin 465)
+RTOP = 104.0 - 145 * RS
 person("U-C1-RESEARCH.png", "Environmental researcher - penyelidikan (real photo)", prep=clear_morning(-0.2),
-       bottom=RTOP + 1080 * RS - 0.5, left_mm=21.5 - (1920 - 1100) * RS, top_mm=RTOP, width_mm=1920 * RS,
+       bottom=RTOP + 1080 * RS - 0.5, left_mm=10.5 - (1920 - 1500) * RS, top_mm=RTOP, width_mm=1920 * RS,
        flip=True)
 # two young people planting a sapling (real), the sapling between them; they crouch on their own soil,
 # with hands and sapling clear of the roundel (head 10 mm, a step behind the soldier; soil at 129 mm,
 # just above the roundel; sapling at x 112)
-PS = 10 / 210
+# review 28 Oct: a step larger (head 11.5 mm) so they and the officer read as one group, and their hands
+# and the sapling lifted (the photo's own shadowed soil had swallowed them)
+PS = 11.5 / 210
 PLANT = dict(left_mm=112 - 1000 * PS, top_mm=129 - 1060 * PS, width_mm=2000 * PS)
-person("U-C1-PLANTING.png", "Youths planting - rakyat / anak muda (real photo)", prep=clear_morning(-0.1), **PLANT)
+
+
+def planting_light(p):
+    p = clear_morning(0.0)(p)
+    hy, hx = np.mgrid[0:p.shape[0], 0:p.shape[1]].astype(np.float32)
+    hands = np.exp(-(((hx - 990) / 230) ** 2 + ((hy - 930) / 120) ** 2))[..., None]
+    p[..., :3] = np.clip(p[..., :3] * (1 + hands * 0.35), 0, 1)
+    return p
+
+
+person("U-C1-PLANTING.png", "Youths planting - rakyat / anak muda (real photo)", prep=planting_light,
+       bottom=129 + (1333 - 1060) * PS - 1.0, **PLANT)                 # the photo's own bottom edge, feathered
 # REAL 10 Para officer saluting (photo supplied by Anaqi 28 Oct, pitch comp; user_prep.py). Head matched
 # to the soldier he replaces (beret top 94.5 mm, head 17 mm, face centre x 60.5); in front of the youths,
 # the photo's bottom edge sinks into the ferns
 arm = cut("U-ARMY.png")
-arm[..., :3] = C.saturation(C.curves(arm[..., :3], [(0, 0), (0.5, 0.48), (1, 0.97)]), 0.92)
-akw = dict(left_mm=7.0, top_mm=92.3, width_mm=113.7)
+# review 28 Oct: he out-shouted the planting (the theme); a step calmer in contrast and colour, and 5 mm
+# to the right so he stands with the planting pair, saluting toward them
+arm[..., :3] = C.saturation(C.curves(arm[..., :3], [(0, 0.015), (0.5, 0.47), (1, 0.94)]), 0.82)
+akw = dict(left_mm=12.0, top_mm=92.3, width_mm=113.7)
 ar = C.place(arm, **akw)
 ar[..., 3] *= np.clip((156 - yy) / 8, 0, 1)
 ar = C.rim_light(ar, SUN, direction=(1, -0.6), width_px=5, strength=0.28)
@@ -252,7 +273,7 @@ st.add("Shade - Jata + office text", full(np.broadcast_to(C.hexf("#0B2B56"), (H,
 # the 7.5-8.5 pt white office lines cross the flag's white stripes and bright cloud: a soft burn
 # shaped to the lines (no box) keeps every line above 4.5:1
 st.add("Shade - office text (soft burn)", full(np.broadcast_to(C.hexf("#0B2B56"), (H, W, 3)),
-                                               C.text_burn(ROOT, "C1") * 0.55))
+                                               C.text_burn(ROOT, "C1") * 0.75))
 
 
 def grade(c):

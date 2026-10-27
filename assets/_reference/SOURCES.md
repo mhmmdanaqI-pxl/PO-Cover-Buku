@@ -70,7 +70,7 @@ licence them (or use official CGSO/ATM/PDRM photos) and get consent for identifi
 | File | Use |
 |---|---|
 | user_supplied/36_ATM_10Para_patrol_RIFLE.png | No longer used (replaced 28 Oct by 44, public domain). Was C2: 10 Para soldier (head and chest only). He carries a rifle in the photo: the rifle stock is cut out of the matte and he sinks into the navy base above the weapon. Likely a news-agency photo. |
-| user_supplied/37_Student_hijab_phone.png | C2: student in a grey hijab with phone and folder. |
+| user_supplied/37_Student_hijab_phone.png | No longer used (replaced 28 Oct by the AI placeholder C2-F, a Malaysian Indian student with a padlock phone, so the set shows all three main communities; this photo's licence was also unknown). |
 | user_supplied/39_Cyber_analyst_SOC.png | C2: cyber analyst with tablet and phone (mirrored). |
 | user_supplied/40_Researchers_labcoat_meter_NAMETAG.png | C1: the right-hand researcher only, with the orange meter (mirrored). The other two women and the readable name tag are excluded; her sleeve logo is retouched out. |
 | user_supplied/43_Planting_pair_sapling.png | C1: two young people planting a sapling, with the photo's own soil as their ground. |

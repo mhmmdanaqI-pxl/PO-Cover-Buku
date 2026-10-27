@@ -85,6 +85,7 @@ st.add("Sun - disc", full(np.broadcast_to(C.hexf("#FFF8E8"), (H, W, 3)), sun_cor
 # ------------------------------------------------------------------ big flag (as 2025), fading out above the dawn band
 flag = cut("FLAG_waving.png")
 flag[..., :3] = C.exposure(flag[..., :3], -0.3)
+flag[..., :3] = C.saturation(flag[..., :3], 0.85)                      # review 28 Oct: the scene, not the flag, leads
 flag[..., :3] = C.tint_shadows_highlights(flag[..., :3], shadow=(0.0, -0.01, 0.03), highlight=(0.06, 0.03, -0.02))
 # 9.5 review: the flag owned the top third and out-read the energy scene; smaller, and it clears
 # the sky ~12 mm higher so the dawn band and sun carry the middle of the cover
@@ -135,7 +136,8 @@ dul = cut("U-DULANG.png")
 dk = C.place(dul, left_mm=-1, top_mm=HZ + 0.6 - 0.64 * 35, width_mm=35)
 # asset review: the supplied photo is front-lit noon daylight; at sunrise it stands against the dawn,
 # so its sea-facing side falls into a cool, hazed shadow and only the edges toward the sun catch light
-dk = backlit(dk, -1.05, 0.6, (0.0, 0.0, 0.04), haze=0.26)
+dk = backlit(dk, -0.8, 0.68, (0.0, 0.0, 0.04), haze=0.18)
+dk[..., :3] = C.curves(dk[..., :3], [(0, 0), (0.25, 0.19), (0.6, 0.64), (1, 1)])     # review 28 Oct: more contrast
 dk = C.rim_light(dk, AMBER, direction=(1, -0.5), width_px=2, strength=0.65)
 dref = np.zeros_like(dk)
 dwl = int(round(mm(HZ + 0.6)))
@@ -308,7 +310,7 @@ st.add("Promontory under the crew (real lalang)", back)
 
 crew = cut("R-OG-CREW.png")                   # REAL (Pexels 28247164; real_prep2.py)
 # they face the sunrise, so the backs we see are in shade; the coveralls stay orange, the sun rims hats and shoulders
-crew = backlit(crew, -1.05, 0.85, (-0.005, 0.0, 0.035))
+crew = backlit(crew, -0.72, 0.88, (-0.005, 0.0, 0.035))                      # review 28 Oct: a step brighter
 CW = 46.0                                     # 9.5 review: larger and closer, a clear human anchor
 ckw = dict(left_mm=76, top_mm=110.0 - 0.063 * CW * crew.shape[0] / crew.shape[1], width_mm=CW)
 cw = C.place(crew, **ckw)

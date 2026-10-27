@@ -168,14 +168,13 @@ def rising_line():
     drop_mask = canvas(mode="L")
     dd = ImageDraw.Draw(drop_mask)
     for x, y, f in nodes:
-        r1, r2 = 0.85 + 0.3 * f, 1.8 + 0.5 * f
+        r1, r2 = 0.75 + 0.25 * f, 1.4 + 0.35 * f              # review 28 Oct: smaller rings (a busy middle band)
         (cx, cy), = to_px([(x, y)])
         nd.ellipse([cx - r1 * PXMM * SS, cy - r1 * PXMM * SS, cx + r1 * PXMM * SS, cy + r1 * PXMM * SS], fill=255)
         nd.ellipse([cx - r2 * PXMM * SS, cy - r2 * PXMM * SS, cx + r2 * PXMM * SS, cy + r2 * PXMM * SS],
                    outline=215, width=int(0.14 * PXMM * SS) + 1)
-        for k in range(40):                                           # 16 mm drop, 55% -> 0
-            ya, yb = y + r2 + 0.4 + k * 0.4, y + r2 + 0.4 + (k + 1) * 0.4
-            dd.line(to_px([(x, ya), (x, yb)]), fill=int(255 * 0.55 * (1 - k / 40)), width=int(0.12 * PXMM * SS) + 1)
+        # (review 28 Oct: the vertical drop lines to the baseline are gone; they added a third layer of
+        # thin lines across the platform, tanker and plant)
 
     # --- faint area fill under the chart (gold, fading 20 mm down, fading in from the left)
     yy = (np.arange(H_PX, dtype=np.float32)[:, None] + 0.5) / PXMM
@@ -219,11 +218,10 @@ def rising_line():
     stops = "".join(f'<stop offset="{o}" stop-color="{c}"/>' for o, c in GOLD_STOPS)
     area_pts = [(x, y) for x, y in P if x >= 44] + [(P[-1][0], P[-1][1] + 20), (44, np.interp(44, P[:, 0], P[:, 1]) + 20)]
     area_pts.insert(0, (44, float(np.interp(44, P[:, 0], P[:, 1]))))
-    drops = "".join(f'<line x1="{fmt(x)}" y1="{fmt(y + 1.7 + 0.4 * f)}" x2="{fmt(x)}" y2="{fmt(y + 17.7)}" '
-                    f'stroke="url(#drop)" stroke-width="0.12"/>' for x, y, f in nodes)
+    drops = ""
     node_svg = "".join(
-        f'<circle cx="{fmt(x)}" cy="{fmt(y)}" r="{fmt(0.85 + 0.3 * f)}" fill="{NODE}"/>'
-        f'<circle cx="{fmt(x)}" cy="{fmt(y)}" r="{fmt(1.8 + 0.5 * f)}" fill="none" stroke="{NODE}" '
+        f'<circle cx="{fmt(x)}" cy="{fmt(y)}" r="{fmt(0.75 + 0.25 * f)}" fill="{NODE}"/>'
+        f'<circle cx="{fmt(x)}" cy="{fmt(y)}" r="{fmt(1.4 + 0.35 * f)}" fill="none" stroke="{NODE}" '
         f'stroke-opacity="0.85" stroke-width="0.14"/>' for x, y, f in nodes)
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W_MM}mm" height="{H_MM}mm" viewBox="0 0 {W_MM} {H_MM}">'
            f'<defs><linearGradient id="gold" gradientUnits="userSpaceOnUse" x1="{fmt(p0[0])}" y1="{fmt(p0[1])}" '

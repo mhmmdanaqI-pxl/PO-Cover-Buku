@@ -103,6 +103,10 @@ key[..., 3] *= 1 - stripe * 0.4
 near = C.radial(DOME_CX, DOME_CY + 4, 34, 2.0)
 rs[..., 3] *= 1 - near * 0.4
 key[..., 3] *= 1 - near * 0.4
+# review 28 Oct: the top-left (engraving + crescent + stripes) was the busiest corner; ease it there
+tl = C.radial(18, 40, 48, 1.6)
+rs[..., 3] *= 1 - tl * 0.45
+key[..., 3] *= 1 - tl * 0.45
 st.add("Guilloche halo keyline", key)
 st.add("Guilloche halo", rs, opacity=0.85)
 halo = C.radial(DOME_CX, HALO_CY, 70, 2.2)
@@ -112,7 +116,7 @@ st.add("Halo glow", full(np.broadcast_to(C.hexf("#C99A3E"), (H, W, 3)), halo), m
 jets = cut("R-SU30.png")                     # REAL RMAF Su-30MKMs (USAF photo, public domain; real_prep.py)
 jets[..., :3] = C.exposure(jets[..., :3], -0.25)
 jets[..., :3] = C.tint_shadows_highlights(jets[..., :3], shadow=(0.0, 0.0, 0.03), highlight=(0.05, 0.02, -0.02))
-jkw = dict(cx_mm=74, cy_mm=25, width_mm=51.2, rotate=0, flip=True)
+jkw = dict(cx_mm=72, cy_mm=25, width_mm=58.9, rotate=0, flip=True)          # review 28 Oct: +15%
 jt = C.place(jets, **jkw)
 # last light of dusk catches the upper surfaces: a stronger warm edge so the formation reads on navy
 jt = C.rim_light(jt, WARM, direction=(-1, -0.6), width_px=5, strength=0.6)
@@ -243,6 +247,12 @@ def oath_light(p):
     return p
 
 
+def brighter(p, ev):
+    p = p.copy()
+    p[..., :3] = C.exposure(p[..., :3], ev)
+    return p
+
+
 # review 28 Oct: a calmer, formal pose. Studio portrait (photo 31, supplied, pitch comp): hands clasped,
 # working uniform, real crest and rank. Head matched (cap top 96.4 mm, 13 mm crown to chin), face at x 71;
 # brightened slightly against the navy base (less darkening than the outdoor photos)
@@ -254,8 +264,11 @@ def formal_light(p):
     return p
 
 
-person("U-PDRM-FORMAL.png", "Police - PDRM, formal (real photo)", fade=(142, 160), rim=0.3, prep=formal_light,
-       left_mm=48.5, top_mm=89.4, width_mm=46.7)
+# review 28 Oct: police and soldier stood shoulder to shoulder; 3 mm apart each way now, and both a
+# step brighter (the dusk grade had taken them too far down)
+person("U-PDRM-FORMAL.png", "Police - PDRM, formal (real photo)", fade=(142, 160), rim=0.3,
+       prep=lambda p: brighter(formal_light(p), 0.18),
+       left_mm=45.5, top_mm=89.4, width_mm=46.7)
 # 9.5 push: the three AI figures replaced by REAL photos Anaqi supplied (user_prep2.py; licences to
 # confirm, SOURCES.md). Head sizes and positions matched to the figures they replace.
 
@@ -278,15 +291,20 @@ def dusk_light(ev, sat=0.95):
 # His pose answers the police officer's. Beret top 98 mm, 13.5 mm crown to chin (source 432 -> 610).
 AZ = 13.5 / 178
 person("U-C2-SOLDIER2.png", "Soldier - ATM, 10 Para (real photo, DVIDS public domain)", fade=(132, 150),
-       prep=dusk_light(-0.35, 0.95), rim=0.35, left_mm=86 - 812 * AZ, top_mm=98 - 432 * AZ, width_mm=2000 * AZ)
+       prep=dusk_light(-0.12, 0.95), rim=0.35, left_mm=89 - 812 * AZ, top_mm=98 - 432 * AZ, width_mm=2000 * AZ)
 # cyber analyst (real; security-operations desk, tablet + phone, lanyard), flipped to face the centre;
 # already lit by her screens' blue, so only a small step into the dusk
-person("U-C2-ANALYST.png", "Researcher - penyelidikan (siber, real photo)", rim_dir=(1, -0.2), fade=(128, 142),
-       prep=dusk_light(-0.1, 1.0), left_mm=121 - 1310 * 17 / 505, top_mm=98.5 - 55 * 17 / 505, width_mm=2000 * 17 / 505,
+# review 28 Oct: her hands and tablet crowded the roundel; she stands a step further back (8% smaller)
+# and 4 mm higher, so the tablet clears the roundel's top
+AN = 17 * 0.92 / 505
+person("U-C2-ANALYST.png", "Researcher - penyelidikan (siber, real photo)", rim_dir=(1, -0.2), fade=(124, 138),
+       prep=dusk_light(-0.05, 1.0), left_mm=122 - 1310 * AN, top_mm=95.0 - 55 * AN, width_mm=2000 * AN,
        flip=True)
-# student (real; grey hijab, phone and folder, smiling at the camera), front-left
-person("U-C2-STUDENT.png", "Student - rakyat / anak muda (real photo)", prep=dusk_light(-0.45, 0.95),
-       left_mm=35 - 620 * 17 / 390, top_mm=104.5 - 150 * 17 / 390, width_mm=2000 * 17 / 390)
+# student, front-left: review 28 Oct, a Malaysian Indian student (AI-generated placeholder, made for this
+# cover's blue hour; to be replaced by a licensed or official photo for print) so the set shows all
+# three main communities; her phone's padlock screen is the cover's message. She replaces the stock
+# photo of a student in a grey hijab, whose licence was unknown.
+person("C2-F.png", "Student - rakyat / anak muda (AI placeholder)", left_mm=8, top_mm=97, height_mm=82)
 
 # ------------------------------------------------------------------ base + dossier
 shade = np.clip((yy - 128) / 70, 0, 1) ** 1.3 * 0.9
