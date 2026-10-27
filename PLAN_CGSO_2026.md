@@ -423,3 +423,107 @@ Glance test at WhatsApp size (254 × 360 px per cover): before this, the three r
 - **C1 placket:** the generator's plain rank-style tab on the placket (not on the issue shirt) is re-covered with the placket's own print from just above it (`camo.patch`).
 - Rebuilt C1 and C2, print proofs (TAC 285%, ΔE p95 ≤ 3.1), mockups, deck and the Drive folder. Before/after sheet: `05_Presentation/Celoreng_ATM_sebelum_selepas.jpg` (internal, not packaged).
 - **Not ours:** `output/imagegen/` (20:38–20:54) holds another tool's whole-montage regenerations. Its v4 turns the soldiers into PDRM UTK in blue-grey camo, reading Zharief's "baju utk PDRM" as *Unit Tindakhas*; in his message "utk" = *untuk*. Those images also regenerate faces and badges, so none of them feed the covers.
+
+## 32. C3 redesigned around energy, real photos only (27-28 Oct, ~21:30-00:20)
+- **Zharief (21:27):** C3 = oil-and-gas ship, coal, natural gas, "TNB sikit"; remove the police and the Istana. Then (21:41) "jgn versi AI": real photos.
+- **Layout:** the approved blockout (`05_Presentation/C3_Tenaga_blockout.jpg`). The flag fades out by y 98 above a clean dawn band, with the horizon at y 109 and the sun at (101, 100), behind the tanker's bridge.
+- **Real photos, all from Wikimedia Commons** (logged in `assets/_reference/SOURCES.md`):
+
+  | Element | Photo | Licence |
+  |---|---|---|
+  | Oil tanker | Eagle San Diego. Hull name and "NO SMOKING" sign retouched out | CC0 |
+  | Coal | TNB Kapar coal plant with its pylons | CC BY-SA 4.0 |
+  | Storage tanks | Pengerang tanks, lettering retouched out | CC BY-SA 4.0 |
+  | Foreground tower | TNB 275 kV red-and-white tower, from the Kapar photo against blue sky | CC BY-SA 4.0 |
+  | Signboard | The Kapar roadside sign, its face replaced with the official TNB logo (Tenaga_Nasional.svg, PD on Commons, trademark) | |
+  | Near bank | Kelana Jaya lalang field | CC0 |
+  | Sea | Tinos open water | CC BY-SA 4.0 |
+
+- **Cut-outs:** `_scripts/energy_prep.py`. The tanker uses BiRefNet. The tanks, coal plant and tower use a sky key that unmixes the sky from the edges; the tanks are filled solid per column.
+- **Relighting:** `_scripts/build_C3.py` relights everything as backlit sunrise (`backlit()`), with distance haze, rim lights, a rippled tanker reflection, a glitter path from the sea's own crests, and a sloped bank with a ragged grass edge and a wet waterline.
+- **Removed:** police, Istana, protective arc, port cranes. Old scripts are in `_archive/build_C3_istana_police.py` and `_archive/build_growth_istana.py`.
+- **Chart re-routed** (`build_growth.py`, asserts pass): it climbs over the bow, dips, then rises above the bridge and the tower.
+- **Deck:** C3 copy is rewritten as energy security, and the credits page names every C3 photo.
+- **Package:** the BACA_SAYA README notes the C3 credits and the TNB trademark.
+- **Re-exported:** print proof (C3 TAC 285%, ΔE p95 2.68), mockups, deck, package.
+- **Still open:** real PDRM photos for C2 (JAPEN MyFoto, Hari Kebangsaan 2026). The previews are watermarked at 720×480; full resolution has to be ordered through the order form or psf@inform.gov.my, ideally by CGSO or Zharief.
+
+## 33. Real photos replace the AI security assets, C1 nature and C3 crew (28 Oct, ~00:25-01:25)
+- **Anaqi:** "jgn versi AI": use real, top-quality photos wherever they fit. **Zharief (00:33):** "orang tak perlu remove je, kalau nak pun orang yang pakai baju kapten, oil and gas". The people stay on C3; an oil-and-gas crew is added.
+- **Not done on purpose:** removing watermarks from JAPEN MyFoto or stock previews. That would infringe the owners' copyright. The JAPEN originals have to be ordered (psf@inform.gov.my), ideally by CGSO.
+- **Real swaps** (all logged in `assets/_reference/SOURCES.md`; cut-outs in `_scripts/real_prep.py` and `_scripts/real_prep2.py`):
+
+  | Cover | Element | Source | Licence | How it was fitted |
+  |---|---|---|---|---|
+  | C2 | Police officer | Police-officer-at-Johore 014, Rizuan | CC BY-SA 3.0 | Current working uniform. BiRefNet; relit from noon to warm dusk (`pdrm_light`); placed behind the soldier, head-matched |
+  | C2, C3 | Su-30MKMs | USAF photo | Public domain | Lead + wingman; refuelling hose and drogue erased |
+  | C1 | C-130H | Real RMAF C-130H seen from below, Pangalau | CC BY-SA 4.0 | Luminance key; 2.4x Lanczos (classical, no AI upscaler); matte pits closed |
+  | C1 | Haze plate | Real KL haze, Renek78 (Sept 2026, AQI 200) | CC0 | Warmed to burning-season amber |
+  | C1 | Distant forest band | Taman Negara, Vyacheslav Argenberg | CC BY 4.0 | |
+  | C1 | Front foliage | Pexels 38145936 ferns | Pexels licence | Frond colour key + sharpness gate, ragged bush top |
+  | C3 | Oil-and-gas crew | Pexels 28247164, two crew in coveralls and hard hats seen from behind | Pexels licence | Back logos retouched out, mirrored to watch the tanker, backlit, waist sinks behind the solar row |
+
+- **C3 near bank:** rolling top line, long taper and a dark rippled reflection, so it no longer reads as a flat hedge.
+- **Still AI (Anaqi: keep for the pitch):** the ATM soldiers (C1, C2) and the civilians on all three covers. The C2 dossier is AI too. Free real photos of Malaysians in these poses don't exist.
+- **Pipeline note:** Windows intermittently refuses freshly written files (OSError 22). Run the export scripts through a retry wrapper that retries PIL saves (`retry_run.py`, in the session scratchpad).
+- **Re-exported:** all three covers, print proofs (TAC 285%; ΔE p95 C1 3.14, C2 1.78, C3 2.68), mockups, the deck (credits page and image-source notes updated) and the Drive package.
+
+## 34. Art-director review fixes (28 Oct, ~02:00), previews only, NOT exported
+- **Anaqi:** apply the review, remove C3's four civilians (keep only the oil-and-gas crew), no export until told. Previews render to the session scratchpad (`preview_run.py`), so `04_Final` and the package are untouched. Script backups are in the scratchpad (`build_C*_before_review.py`).
+- **C3:**
+  - Horizon lifted 5 mm and the flag ends 8 mm higher, giving a taller energy band.
+  - The tanker is 75 mm (was 68), in its real red-orange with backlit contrast and a dark waterline contact.
+  - The researcher and professionals are removed. The crew stand waist-deep in real lalang on a promontory that joins the TNB bank (`back` + `shore`, Kelana Jaya CC0).
+  - The solar row covers to the bleed; the glitter path fades toward the camera.
+  - The chart is re-routed above the ship (`build_growth.py` HEADS/KEEP_CLEAR updated, asserts pass).
+  - The roundel has a backing.
+- **C1:**
+  - The smog has volume, from the haze photo's own tonal variation plus soft noise.
+  - The C-130 is 47 mm with its tail veiled.
+  - The ferns have solid alpha (no ghosting) and brighter midtones.
+  - A second real fern stand (`f2`) covers the planting patch's edge, so the ground is continuous.
+  - The roundel has a backing.
+- **C2:**
+  - The police officer is pulled to PDRM navy, has deeper contrast, sits a step back in the dusk air, and has a weaker rim light.
+  - The guilloche is knocked back 40% where it crosses the flag stripes.
+  - The dossier stays AI: no clean free real match (Pexels options carried hands, boxes or English "TOP SECRET" text). Production route: a real CGSO "SULIT" file photo.
+- **Thumbnail test** at 254×360: all three themes read.
+
+## 35. Anaqi's supplied photos (28 Oct, ~02:40), previews only, NOT exported
+- **Supplied:** 8 photos, saved losslessly in `assets/_reference/user_supplied/`. Source and licence are unknown, so they are pitch comps only (see SOURCES.md). Cut-outs: `_scripts/user_prep.py`.
+- **Used:**
+  - **C1:** the real saluting 10 Para officer (`U-ARMY`) replaces the AI soldier. Head-matched (beret top 94.5 mm, ×1.22 after the first pass came out small), drawn in front of the youths, his belt sinking into the ferns. The second fern stand is now limited to x > 70 so it no longer makes a dark block beside him.
+  - **C3:** PETRONAS Dulang B (`U-DULANG`) on the horizon left of the tanker (35 mm, backlit, hazed, short reflection). Offshore oil and gas now reads at once.
+- **Not used:**
+
+  | Photo | Reason |
+  |---|---|
+  | 09 PDRM parade | Xinhua watermark; not removed |
+  | 13 Westports | SCOOP watermark; not removed |
+  | 10 PDRM ranks | Crowd: overlapping officers, open mouths; no clean single cut-out |
+  | 11 platform aerial, 14 Westports aerial | Aerial perspective clashes with the eye-level sea horizon |
+  | 15 TNB linemen | 900×600 and low-angle; C3 already has the TNB tower, sign and the crew |
+- **Still AI:** the C2 soldier, the civilians, the C2 dossier.
+
+## 36. Second batch of supplied photos (28 Oct, ~03:00), previews only, NOT exported
+- **Used:** photo 24, a real PDRM officer taking the oath (ikrar) in the current working uniform, now on C2 (`U-PDRM-OATH`, `user_prep.py --oath-only`). He replaces the hands-on-hip Johor officer (`R-C2-PDRM`, kept on disk). The pledge gesture carries the cover's message ("Rahsiakan Rahsia Kerajaan").
+  - **Placement:** face at x ≈71 mm, between the student and the soldier, so the raised hand clears the student's head; his right side sits behind the soldier's shoulder. Head is matched to the old officer.
+  - **Light:** `oath_light` (overcast photo, already PDRM navy, so dusk tint only).
+- **Not used:**
+
+  | Photo | Reason |
+  |---|---|
+  | 18 PETRONAS platform at sunset | Shows AI or heavy-composite tells: generic "PETRONAS MALAYSIA" boards, one seamless hose curve, postcard sun |
+  | 26 Xinhua, 27 vehicles, 29 BERNAMA | Watermarked. Photo 29 is also a duplicate of 24 |
+  | 20 TNB engineer | TNB brand overlay; night shot |
+  | 16, 17 Westports; 21, 22, 23 solar | Aerial views; clash with the eye-level horizons |
+  | 19 TNB linemen | Small and distant figures |
+  | 25 mounted parade, 28 white ceremonial PDRM, 30 K9 | Crowds, rifles or tactical gear; off-message for these concepts |
+- **Licensing:** all photos are supplied without a licence, so they are pitch comps only. The oath officer is identifiable, and his name tag and service number are visible: final production needs PDRM's official photo and consent.
+
+## 37. Review tweaks + identity audit (28 Oct, ~03:30), previews only, NOT exported
+- **C1:** the saluting officer moves 9 mm right, to the edge of the planting patch beside the youths he faces; the fern stand reaches him, so he stands *at* the planting site. The researcher moves 3 mm right.
+- **C2:** a calmer, formal PDRM officer (photo 31, `U-PDRM-FORMAL`, `user_prep.py --formal-only`): hands clasped, real crest and rank, `formal_light` (brighter than the outdoor shots). Head matched, face at x 71. Replaces the oath officer.
+- **C3:** platform `backlit(-0.4, haze .12)` (was -0.95, .26); crew `backlit(-0.45)` (was -0.95). Both read at print size.
+- **Credits:** deck and README updated (Rizuan removed; supplied photos marked pitch-only, with ATM/PDRM/PETRONAS permission needed).
+- **Identity / insignia audit:** see the permissions table in this session's reply. The IGP's official portrait (34) is deliberately excluded.

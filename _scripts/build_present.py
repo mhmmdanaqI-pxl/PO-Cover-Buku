@@ -45,14 +45,16 @@ CONCEPTS = [
                  "Jalur Gemilang"]),
     dict(key="C3", no="KONSEP 3", theme="EKONOMI", title="Berhemah Hari Ini, Teguh Esok",
          accent=(1.0, 0.71, 0.28),
-         body=("Ketidaktentuan global, termasuk kesan konflik di Timur Tengah terhadap harga tenaga, menuntut langkah "
-               "berhemah. Matahari terbit di belakang Istana Negara melambangkan harapan; graf emas yang menurun "
-               "seketika sebelum meningkat semula melambangkan ekonomi yang pulih dan terus berkembang melalui "
-               "langkah berhemah, dinaungi lengkungan pelindung.\n\n"
-               "Jurutera tenaga boleh baharu dengan sel solar mewakili penyelidikan dan penjimatan tenaga, golongan "
-               "profesional muda mewakili rakyat yang menggerakkan ekonomi, manakala anggota PDRM berkawal "
-               "melindungi aset dan infrastruktur negara. Ladang solar menjadi asas: tenaga lestari untuk ketahanan negara."),
-         checks=["Istana Negara, Jalan Duta", "Pegawai keselamatan: PDRM + Su-30MKM TUDM",
+         body=("Konflik di Timur Tengah menjejaskan bekalan dan harga tenaga dunia. Bekalan minyak, gas asli, arang batu "
+               "dan grid elektrik negara ialah aset yang mesti dilindungi, dan langkah penjimatan menjadi tanggungjawab "
+               "bersama. Kapal tangki minyak belayar dengan selamat di bawah matahari terbit, dengan tangki simpanan gas "
+               "dan stesen janakuasa arang batu TNB di pesisir. Menara grid TNB menyalurkan tenaga ke seluruh negara.\n\n"
+               "Graf emas yang menurun seketika sebelum meningkat semula melambangkan ekonomi yang pulih melalui langkah "
+               "berhemah. Jurutera tenaga boleh baharu dengan sel solar mewakili penyelidikan dan penjimatan tenaga, "
+               "golongan profesional muda mewakili rakyat, krew minyak dan gas memantau keselamatan bekalan di laut, dan Su-30MKM TUDM mengawal laluan tenaga negara. "
+               "Semua elemen tenaga ialah foto sebenar."),
+         checks=["Tenaga: kapal tangki minyak, tangki simpanan gas, arang batu, grid TNB",
+                 "Pegawai keselamatan: Su-30MKM TUDM",
                  "Rakyat / anak muda: profesional muda", "Penyelidikan: jurutera tenaga boleh baharu",
                  "Jalur Gemilang"]),
 ]
@@ -148,11 +150,14 @@ specs = [
     ("Warna", "CMYK FOGRA39 (offset, kertas bersalut), had dakwat 300% (maks. sebenar 285%). Jata: hitam 100% K, warna pepejal bersih; "
               "merah logo kekal CMYK asal (M90.5 Y96.1). Pruf lembut disertakan; pruf fizikal disyorkan bersama pencetak."),
     ("Sudut buku", "Elemen penting berada dalam kawasan selamat 10 mm untuk sudut bulat (~6 mm, tertakluk kepada pencetak)."),
-    ("Kredit foto", "Istana Negara: CEphoto, Uwe Aranas (CC BY-SA 3.0). Untuk cetakan akhir, foto ini boleh diganti dengan "
-                    "foto rasmi atau foto berlesen."),
-    ("Sumber imej", "Figura manusia, pesawat dan kebanyakan latar dijana dengan AI sebagai visual cadangan. Istana Negara ialah "
-                    "foto sebenar dan Jalur Gemilang dibina secara vektor. Untuk produksi akhir, imej AI akan diganti dengan "
-                    "foto rasmi, foto berlesen atau sesi fotografi."),
+    ("Kredit foto", "Istana Negara: CEphoto, Uwe Aranas (CC BY-SA 3.0). C-130H: "
+                    "Pangalau (CC BY-SA 4.0). Su-30MKM: Tentera Udara AS (domain awam). Jerebu KL: Renek78 (CC0). Hutan "
+                    "Taman Negara: Vyacheslav Argenberg (CC BY 4.0). Pakis dan krew minyak & gas: Pexels. K3: Stesen Janakuasa "
+                    "Sultan Salahuddin Abdul Aziz: Chongkian; tangki: Encik Tekateki; laut: Jules Verne Times Two (CC BY-SA 4.0); "
+                    "kapal tangki dan menara TNB: CC0. Logo TNB ialah tanda dagangan TNB; kelulusan diperlukan untuk cetakan akhir."),
+    ("Sumber imej", "Foto sebenar: Istana Negara, pegawai ATM (K1) dan PDRM (K2), pesawat TUDM, jerebu, hutan, semua elemen tenaga dan krew "
+                    "minyak & gas. Anggota ATM (K2) dan orang awam masih visual cadangan (AI) dan akan diganti dengan foto rasmi CGSO "
+                    "atau sesi fotografi berlesen untuk produksi akhir. Jalur Gemilang dibina secara vektor."),
 ]
 y = 190
 for k, v in specs:

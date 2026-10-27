@@ -95,18 +95,22 @@ rs[..., :3] = C.hexf("#E2BC4F")
 key = np.zeros((H, W, 4), np.float32)
 key[..., :3] = C.hexf("#081634")
 key[..., 3] = np.clip(C.blur(rs[..., 3], 2.2) * 1.4, 0, 1) * 0.42
+stripe = np.clip(fl[..., 3] * 1.2, 0, 1) * np.clip((DOME_CX - 18 - xx) / 14 + 1, 0, 1) * np.clip((DOME_CY + 2 - yy) / 6, 0, 1)
+rs[..., 3] *= 1 - stripe * 0.4
+key[..., 3] *= 1 - stripe * 0.4
 st.add("Guilloche halo keyline", key)
 st.add("Guilloche halo", rs, opacity=0.85)
 halo = C.radial(DOME_CX, HALO_CY, 70, 2.2)
 st.add("Halo glow", full(np.broadcast_to(C.hexf("#C99A3E"), (H, W, 3)), halo), mode="screen", opacity=0.18)
 
 # ------------------------------------------------------------------ jets (clear of halo and Jata)
-jets = cut("C2-D.png")
-jets[..., :3] = C.exposure(jets[..., :3], -0.35)
-jkw = dict(cx_mm=74, cy_mm=22, width_mm=50, rotate=9)
+jets = cut("R-SU30.png")                     # REAL RMAF Su-30MKMs (USAF photo, public domain; real_prep.py)
+jets[..., :3] = C.exposure(jets[..., :3], -0.55)
+jets[..., :3] = C.tint_shadows_highlights(jets[..., :3], shadow=(0.0, 0.0, 0.03), highlight=(0.05, 0.02, -0.02))
+jkw = dict(cx_mm=74, cy_mm=25, width_mm=51.2, rotate=0, flip=True)
 jt = C.place(jets, **jkw)
 jt = C.rim_light(jt, WARM, direction=(-1, -0.3), width_px=4, strength=0.3)
-st.add("Su-30MKM formation", jt, src=C.src_layer(ROOT, "C2-D.png", **jkw))
+st.add("Su-30MKM formation (real photo)", jt)
 
 # ------------------------------------------------------------------ istana relit to blue hour
 ist = ist_src.copy()
@@ -202,17 +206,55 @@ def person(cut_name, layer_name, fade=(146, 172), rim_dir=(-1, -0.2), prep=None,
 
 
 OFF_H = 103.0
-# back to front: soldier, researcher (far right), police, student (front-left).
+
+
+def pdrm_light(p):
+    """The real officer was shot at noon in hard sun: bring him into C2's warm dusk floodlight."""
+    p = p.copy()
+    p[..., :3] = C.exposure(p[..., :3], -0.85)
+    p[..., :3] = C.curves(p[..., :3], [(0, 0), (0.25, 0.17), (0.7, 0.66), (1, 0.95)])     # deeper blacks, soldier's contrast
+    # the uniform reads grey in the noon photo: pull its blue-grey toward PDRM navy (skin, badges, ribbons untouched)
+    hsv = cv2.cvtColor(np.clip(p[..., :3], 0, 1).astype(np.float32), cv2.COLOR_RGB2HSV)
+    navy = ((hsv[..., 0] > 190) & (hsv[..., 0] < 250) & (hsv[..., 1] < 0.6) & (hsv[..., 2] < 0.6)).astype(np.float32)
+    navy = C.blur(navy, 2)[..., None]
+    p[..., :3] = p[..., :3] * (1 - navy * 0.55) + (C.lum(p[..., :3])[..., None] * C.hexf("#2B3D78") * 1.6) * navy * 0.55
+    p[..., :3] = C.tint_shadows_highlights(p[..., :3], shadow=(-0.01, -0.005, 0.03), highlight=(0.05, 0.02, -0.03))
+    p[..., :3] = p[..., :3] * 0.92 + C.hexf("#1E2A4A") * 0.08                          # a step back in the dusk air
+    return p
+# back to front: police, soldier, researcher (far right), student (front-left).
 # Police and soldier: uniform-accurate regenerations (PROMPTS_ChatGPT_Uniformed.md) with the real
 # PDRM crest / 10 Para badge (insignia.py). Each is placed so the head top, head centre and head size
 # (crown to chin) match the figure it replaces; the lower body sinks into the navy base.
+# REAL PDRM officer taking the oath (ikrar), right hand raised (photo supplied by Anaqi 28 Oct, pitch
+# comp; user_prep.py): the pledge is the cover's message, Rahsiakan Rahsia Kerajaan. He stands in the
+# gap between the student and the soldier, so the raised hand rises clear of her; his right side is
+# behind the soldier's shoulder. Overcast photo: already PDRM navy, so only brought into the dusk light.
+def oath_light(p):
+    p = p.copy()
+    p[..., :3] = C.exposure(p[..., :3], -0.55)
+    p[..., :3] = C.curves(p[..., :3], [(0, 0), (0.25, 0.19), (0.7, 0.67), (1, 0.96)])
+    p[..., :3] = C.tint_shadows_highlights(p[..., :3], shadow=(-0.01, -0.005, 0.03), highlight=(0.05, 0.02, -0.03))
+    return p
+
+
+# review 28 Oct: a calmer, formal pose. Studio portrait (photo 31, supplied, pitch comp): hands clasped,
+# working uniform, real crest and rank. Head matched (cap top 96.4 mm, 13 mm crown to chin), face at x 71;
+# brightened slightly against the navy base (less darkening than the outdoor photos)
+def formal_light(p):
+    p = p.copy()
+    p[..., :3] = C.exposure(p[..., :3], -0.2)
+    p[..., :3] = C.curves(p[..., :3], [(0, 0), (0.25, 0.22), (0.7, 0.71), (1, 0.98)])
+    p[..., :3] = C.tint_shadows_highlights(p[..., :3], shadow=(-0.008, -0.004, 0.025), highlight=(0.045, 0.02, -0.025))
+    return p
+
+
+person("U-PDRM-FORMAL.png", "Police - PDRM, formal (real photo)", fade=(142, 160), rim=0.3, prep=formal_light,
+       left_mm=48.5, top_mm=89.4, width_mm=46.7)
 person("UNI-C2-ARMY_ins.png", "Soldier - ATM", fade=(130, 148), left_mm=65.74, top_mm=96.13, height_mm=62.14)
 person("C2-E.png", "Researcher - penyelidikan (siber)", rim_dir=(1, -0.2),
        left_mm=121 - 0.541 * 78 * 1024 / 1536, top_mm=95 - 0.144 * 78, height_mm=78, flip=True)
 # the near-black PDRM uniform needs more separation from the navy base than the camouflage does:
 # a stronger warm floodlight edge, opened-up fabric shadows and a later fade
-person("UNI-C2-PDRM3_ins.png", "Police - PDRM", fade=(140, 158), rim=0.42, lift=0.035,
-       left_mm=34.81, top_mm=93.77, height_mm=69.26)
 person("C2-F.png", "Student - rakyat / anak muda", left_mm=8, top_mm=97, height_mm=82)
 
 # ------------------------------------------------------------------ base + dossier

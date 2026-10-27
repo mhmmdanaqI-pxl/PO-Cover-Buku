@@ -26,3 +26,39 @@ The generated outputs are synthetic assets. These source photographs document re
 | [insignia_10Para/10th_Parachute_Brigade_cap_badge_with_black_backing.svg](insignia_10Para/10th_Parachute_Brigade_cap_badge_with_black_backing.svg) (179,530 bytes) | [English Wikipedia](https://en.wikipedia.org/wiki/File:10th_Parachute_Brigade_cap_badge_with_black_backing.svg), attributed to the Malaysian Army | Fair use (non-free); Wikipedia's claim covers its own article only | 10 Para beret badge on the maroon-beret soldiers (C1, C2). Rendered to `Para10_badge_1600.png`. |
 
 For final production, CGSO should confirm or supply the official insignia artwork.
+
+## C3 Tenaga (real photos, Zharief 27 Oct: "jgn versi AI")
+| File | Author | Source | Licence | Use |
+|---|---|---|---|---|
+| [C3_energy/Tanker_EagleSanDiego.jpg](C3_energy/Tanker_EagleSanDiego.jpg) | Jordanroderick | [Wikimedia file page](https://commons.wikimedia.org/wiki/File:Crude_oil_tanker_Eagle_San_Diego.jpg) | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | Hero oil tanker (AET / MISC group), cut out and relit. Hull name retouched out. |
+| [C3_energy/Coal_Kapar_SSAA.jpg](C3_energy/Coal_Kapar_SSAA.jpg) | Chongkian | [Wikimedia file page](https://commons.wikimedia.org/wiki/File:Sultan_Salahuddin_Abdul_Aziz_Power_Station.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | TNB Kapar coal power station + TNB pylons (far shore, right). Credit required. |
+| [C3_energy/Tanks_Pengerang.jpg](C3_energy/Tanks_Pengerang.jpg) | Encik Tekateki | [Wikimedia file page](https://commons.wikimedia.org/wiki/File:Pengerang_Terminal_Two_Silo.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | Storage tanks (far shore, behind the tanker). Petroleum terminal, not LNG; lettering retouched out. Credit required. |
+| [C3_energy/Pylon_TNB275_PuduUlu.jpg](C3_energy/Pylon_TNB275_PuduUlu.jpg) | Wiki Farazi | [Wikimedia file page](https://commons.wikimedia.org/wiki/File:Pencawang_Masuk_Utama_(PMU)_TNB_275-175-337Kv_Pudu_Ulu_20241130_144837.jpg) | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | Foreground TNB 275 kV tower. |
+| [C3_energy/Pylons_KelanaJaya.jpg](C3_energy/Pylons_KelanaJaya.jpg) | Wiki Farazi | [Wikimedia file page](https://commons.wikimedia.org/wiki/File:National_Grid_Malaysia_transmission_line_at_Kelana_Jaya,_Petaling_Jaya_20231008_111911.jpg) | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | Spare towers / conductors. |
+| [C3_energy/TNB_logo.svg](C3_energy/TNB_logo.svg) | Tenaga Nasional Berhad | [Wikimedia file page](https://commons.wikimedia.org/wiki/File:Tenaga_Nasional.svg) | Public domain on Commons (trademark) | TNB logo on the tower plate. Trademark: fine for the pitch; final production needs TNB/CGSO approval. |
+| [C3_energy/Sea_Tinos.jpg](C3_energy/Sea_Tinos.jpg) | Jules Verne Times Two | [Wikimedia file page](https://commons.wikimedia.org/wiki/File:APILIOTIS_oil_tanker_leaving_the_Port_of_Tinos_at_sunset,_Tinos,_Greece_julesvernex2.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | Open-water surface only (sea band). Credit required. |
+
+## C2 real PDRM officer (28 Oct, "jgn versi AI")
+| File | Author | Source | Licence | Use |
+|---|---|---|---|---|
+| [C2_real/PDRM_Johor_Rizuan.jpg](C2_real/PDRM_Johor_Rizuan.jpg) | Rizuan | [Wikimedia file page](https://commons.wikimedia.org/wiki/File:Police-officer-at-Johore_014.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) | Right-hand officer (working uniform, peaked cap) cut out for C2. Real identifiable person: final production should use an official CGSO photo with consent. Credit required. |
+
+## Real-photo round 2 (28 Oct)
+| File | Author | Source | Licence | Use |
+|---|---|---|---|---|
+| [C3_energy/OG_crew_pexels_28247164.jpg](C3_energy/OG_crew_pexels_28247164.jpg) | Pexels photographer (photo 28247164) | [Pexels](https://www.pexels.com/photo/two-men-in-orange-safety-gear-stand-on-the-deck-of-a-ship-28247164/) | [Pexels licence](https://www.pexels.com/license/) (free commercial use, no credit required) | C3: oil-and-gas crew in coveralls and hard hats, seen from behind (Zharief 28 Oct: "orang yang pakai baju kapten, oil and gas"). |
+| [C1_real/Haze_KL_2026.jpg](C1_real/Haze_KL_2026.jpg) | Renek78 | [Wikimedia file page](https://commons.wikimedia.org/wiki/File:Haze_in_Kuala_Lumpur_(September_2026,_AQI_200).jpg) | [CC0](https://creativecommons.org/publicdomain/zero/1.0/) | C1: real haze sky (September 2026, AQI 200). |
+| [C1_real/Rainforest_TamanNegara.jpg](C1_real/Rainforest_TamanNegara.jpg) | Vyacheslav Argenberg | [Wikimedia file page](https://commons.wikimedia.org/wiki/File:Taman_Negara,_Malaysia,_Primary_tropical_rainforest.jpg) | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | C1: real rainforest. Credit required. |
+| [C1_real/Ferns_pexels_38145936.jpg](C1_real/Ferns_pexels_38145936.jpg) | Pexels photographer (photo 38145936) | [Pexels](https://www.pexels.com/photo/lush-green-rainforest-with-ferns-and-palm-trees-38145936/) | [Pexels licence](https://www.pexels.com/license/) | C1: real rainforest ferns, front foliage border (sky keyed out). |
+
+## Supplied by Anaqi (28 Oct): source and licence not known, PITCH COMP ONLY
+Real press/agency photos, supplied without source or licence. Used only as pitch visuals. For final production each needs a licence or official permission (ATM PR, PETRONAS media), and identifiable people need consent. Watermarked files (09 Xinhua, 13 SCOOP) are not used; their watermarks are not removed.
+| File | Use |
+|---|---|
+| user_supplied/08_ATM_10Para_salute.png | C1: the saluting 10 Para officer replaces the AI soldier (the officer on the left is excluded). Real, identifiable senior officer: needs ATM approval. |
+| user_supplied/12_PETRONAS_Dulang_B.png | C3: PETRONAS Dulang B platform on the horizon (offshore oil and gas). |
+| 10, 11, 14, 15 | Reviewed, not used (see PLAN §35). |
+| user_supplied/24_PDRM_oath_officer.png | Tried on C2 (oath), replaced by 31 at the 28 Oct review ("calmer pose"). |
+| user_supplied/31_PDRM_formal_NAAZRON.png | C2: formal PDRM officer, hands clasped. Real, identifiable officer; name tag visible. Needs PDRM approval and consent. |
+| 32, 34, 35 | Not used. **34 is the official portrait of the Inspector-General of Police**; 32 is a senior officer in ceremonial dress. Neither may stand in as a generic figure. 35 is a headshot crop. |
+| C2_real/PDRM_Johor_Rizuan.jpg | No longer used on C2 (replaced 28 Oct); its credit has been removed from the deck. |

@@ -95,15 +95,16 @@ def save_preview(layers, stem):
 
 
 # ------------------------------------------------------------------ rising line (a real line chart)
-# Data points in canvas mm: emerges from behind the engineer's solar cell, a small dip (the energy
-# shock), then a prudent recovery and steady growth to the upper right. Straight segments, nodes,
-# drop lines and a faint area fill are what make it read as a chart rather than a light streak.
-CHART = [(-2.0, 121.0), (24.0, 117.0), (46.0, 108.0), (59.0, 111.0), (74.0, 99.0), (113.0, 82.0),
-         (132.0, 70.0), (156.0, 54.0)]
+# Data points in canvas mm: emerges from behind the engineer, climbs over the tanker's bow, a small
+# dip (the energy shock), then a prudent recovery and steady growth to the upper right, above the
+# tanker's bridge, the power station and the TNB tower. Straight segments, nodes, drop lines and a
+# faint area fill are what make it read as a chart rather than a light streak.
+CHART = [(-2.0, 112.0), (20.0, 104.0), (36.0, 84.0), (50.0, 89.0), (68.0, 75.0), (100.0, 68.0),
+         (128.0, 64.0), (156.0, 52.0)]
 NODE_IDX = (2, 3, 4, 5, 6)                       # visible points (0-1 sit behind the engineer, 7 is in the bleed)
-# C3 heads (canvas mm): engineer, three professionals, police; nodes must stay clear of faces
-HEADS = [(17, 112), (53, 123), (69, 120), (88, 121), (113, 103)]
-KEEP_CLEAR = [(106, 66, 108, 90), (82, 95, 87, 104)]   # royal standard, lower-dome finial (x0, y0, x1, y1)
+# C3 heads (canvas mm); nodes must stay clear of faces
+HEADS = [(90, 114), (113, 113)]                         # the oil-and-gas crew (review 28 Oct)
+KEEP_CLEAR = [(78, 80, 108, 100), (118, 74, 150, 95)]   # tanker bridge + mast, tower top + chimneys (x0, y0, x1, y1)
 
 
 def rising_line():
@@ -116,7 +117,7 @@ def rising_line():
     s /= s[-1]
     width = 0.6 + 2.0 * s ** 1.3                                     # mm: a bold chart stroke that reads at thumbnail
     nodes = [(P[i][0], P[i][1], sv[i]) for i in NODE_IDX]
-    # clearances: roundel (+3 mm), headline block (y >= 155), faces, royal standard, lower-dome finial
+    # clearances: roundel (+3 mm), headline block (y >= 155), faces, tanker bridge, tower top
     dist = np.linalg.norm(pts - np.array(ROUNDEL_C), axis=1) - width / 2
     assert dist.min() > ROUNDEL_R + 3, f"line too close to roundel: {dist.min():.1f}"
     assert pts[:, 1].max() + width.max() / 2 < 155, "line touches headline"

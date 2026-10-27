@@ -43,7 +43,11 @@ def plate(path):
 
 # ------------------------------------------------------------------ sky: haze lifting
 clear = plate(os.path.join(ROOT, "assets/C1/C1-A1_v2.png"))
-haze = plate(os.path.join(ROOT, "assets/C1/C1-A2_v2.png"))
+# REAL haze: Kuala Lumpur, September 2026, AQI 200 (Renek78, CC0). The open smog and ghost towers of
+# the left part of the frame, warmed toward the smoky amber of a burning-season haze
+hreal = C.load_rgb(os.path.join(ROOT, "assets/_reference/C1_real/Haze_KL_2026.jpg"))[:, :1584]
+haze = C.place(np.dstack([hreal, np.ones(hreal.shape[:2], np.float32)]), left_mm=0, top_mm=-8, width_mm=154)[..., :3]
+haze = haze * 0.45 + C.lum(haze)[..., None] * C.hexf("#EAD2AE") * 0.62
 # keep the plate's own smoky brown-grey (desaturating it to beige read as plain background at thumbnail)
 haze = C.saturation(C.exposure(haze, 0.06), 0.95)
 clear = C.curves(clear, [(0, 0), (0.5, 0.48), (1, 0.98)])
@@ -52,7 +56,11 @@ n1 = C.blur(rng.normal(0, 1, (H, W)).astype(np.float32), 55)
 n1 /= n1.std() + 1e-6
 n2 = C.blur(rng.normal(0, 1, (H // 4, W // 4)).astype(np.float32), 30)
 n2 = cv2.resize(n2 / (n2.std() + 1e-6), (W, H), interpolation=cv2.INTER_CUBIC)
-haze = haze * (1 + 0.11 * np.clip(n2, -2, 2))[..., None]               # large, soft smoke volumes
+n3 = C.blur(rng.normal(0, 1, (H // 2, W // 2)).astype(np.float32), 9)
+n3 = cv2.resize(n3 / (n3.std() + 1e-6), (W, H), interpolation=cv2.INTER_CUBIC)
+haze = haze + (haze - C.blur(haze, mm(14))) * 2.2                      # the smog's own tonal variation, amplified
+haze = haze * (1 + 0.14 * np.clip(n2, -2, 2) + 0.03 * np.clip(n3, -2, 2))[..., None]   # rolling smoke volumes
+haze = np.clip(haze, 0, 1)
 d = (xx / 154) * 0.85 + (yy / 216) * 0.75                              # diagonal coordinate
 hz = np.clip((0.90 - d + n1 * 0.04) / 0.44, 0, 1)
 hz = hz * hz * (3 - 2 * hz)
@@ -74,21 +82,16 @@ fl = C.rim_light(fl, SUN, direction=(1, -1), width_px=5, strength=0.3)
 st.add("Jalur Gemilang (exact vector on fabric)", fl)
 
 # ------------------------------------------------------------------ C-130 flying out of the haze
-c130 = cut("C1-G.png")
-blue = np.clip((c130[..., 2] - c130[..., 0] - 0.06) / 0.12, 0, 1)[..., None]   # sky caught in the prop discs
-c130[..., :3] = c130[..., :3] * (1 - blue) + C.lum(c130[..., :3])[..., None] * C.hexf("#D8CDB8") * blue
-c130[..., 3] *= 1 - blue[..., 0] * 0.35
-# seen from below with the sun above: deeper mid-tones and a shaded underside, so it reads against bright haze
-c130[..., :3] = C.curves(c130[..., :3], [(0, 0), (0.3, 0.19), (0.7, 0.58), (1, 0.94)])
-rows = np.where(c130[..., 3].max(axis=1) > 0.5)[0]
-under = np.clip((np.arange(c130.shape[0], dtype=np.float32) - rows.min()) / max(1, rows.max() - rows.min()), 0, 1)
-c130[..., :3] *= (1 - 0.32 * under)[:, None, None]
-ckw = dict(cx_mm=28, cy_mm=75, width_mm=46, rotate=5)
+c130 = cut("R-C130.png")                     # REAL RMAF C-130H seen from below (Pangalau, CC BY-SA 4.0; real_prep.py)
+# a backlit underside against bright haze: keep it a deep, slightly warm silhouette, not pure black
+c130[..., :3] = C.curves(c130[..., :3], [(0, 0.03), (0.3, 0.2), (0.7, 0.6), (1, 0.94)])
+c130[..., :3] = C.tint_shadows_highlights(c130[..., :3], shadow=(0.01, 0.0, -0.01))
+ckw = dict(cx_mm=29, cy_mm=75, width_mm=47, rotate=8, flip=True)
 cl = C.place(c130, **ckw)
-v = (hz * np.clip(0.22 - xx / 300, 0.08, 0.22))[..., None]   # flying out of the haze: tail more veiled than nose
+v = (hz * np.clip(0.42 - (xx - 8) / 90, 0.08, 0.42))[..., None]   # flying out of the haze: tail more veiled than nose
 cl[..., :3] = cl[..., :3] * (1 - v) + haze * v
 cl = C.rim_light(cl, SUN, direction=(1, -1), width_px=3, strength=0.45)
-st.add("TUDM C-130H (cloud seeding)", cl, src=C.src_layer(ROOT, "C1-G.png", **ckw))
+st.add("TUDM C-130H (real photo, cloud seeding)", cl)
 
 # ------------------------------------------------------------------ istana in clear morning sun
 IST_W_MM = 188.0
@@ -122,7 +125,7 @@ it = C.melt_background(ist, bgm, ikw, it, st.comp, top=1.0, bottom=0.92)
 st.add("Istana Negara (real photo, relit to clear sun)", it)
 
 # ------------------------------------------------------------------ distant forest band (grounds the palace)
-fplate = C.load_rgb(os.path.join(ROOT, "assets/C1/C1-F_v2.png"))
+fplate = C.load_rgb(os.path.join(ROOT, "assets/_reference/C1_real/Rainforest_TamanNegara.jpg"))   # REAL (CC BY 4.0)
 fb = C.place(np.dstack([fplate, np.ones(fplate.shape[:2], np.float32)]), left_mm=-10, top_mm=118, width_mm=176)
 fb[..., :3] = C.blur(C.exposure(fb[..., :3], -0.9), 4) * 0.8 + C.hexf("#0E2E20") * 0.2
 fb[..., 3] = np.clip((yy - 134) / 10, 0, 1) * (fb[..., 3] > 0)
@@ -148,25 +151,48 @@ def person(name, layer_name, ground=None, **kw):
 
 
 # researcher left and soldier right, so her air-quality meter (the research cue) is clear of his sleeve
-person("C1-D.png", "Environmental researcher - penyelidikan", left_mm=-6, top_mm=92, height_mm=74)
-person("UNI-C1-ARMY_ins.png", "Soldier - ATM", left_mm=28.46, top_mm=86.41, height_mm=94.35)
+person("C1-D.png", "Environmental researcher - penyelidikan", left_mm=-3, top_mm=92, height_mm=74)
 person("C1-E.png", "Youths planting - rakyat / anak muda", ground="assets/C1/C1-E_v4.png", left_mm=74, top_mm=94,
        width_mm=84)
+# REAL 10 Para officer saluting (photo supplied by Anaqi 28 Oct, pitch comp; user_prep.py). Head matched
+# to the soldier he replaces (beret top 94.5 mm, head 17 mm, face centre x 60.5); in front of the youths,
+# the photo's bottom edge sinks into the ferns
+arm = cut("U-ARMY.png")
+arm[..., :3] = C.saturation(C.curves(arm[..., :3], [(0, 0), (0.5, 0.48), (1, 0.97)]), 0.92)
+akw = dict(left_mm=7.0, top_mm=92.3, width_mm=113.7)
+ar = C.place(arm, **akw)
+ar[..., 3] *= np.clip((156 - yy) / 8, 0, 1)
+ar = C.rim_light(ar, SUN, direction=(1, -0.6), width_px=5, strength=0.28)
+ar = C.light_wrap(ar, full(st.comp), width_px=6, strength=0.28)
+st.add("Soldier - ATM shadow", C.shadow_layer(ar, offset_mm=(-1.5, 1.2), blur_mm=4, opacity=0.28, color="#0C1A14"))
+st.add("Soldier - ATM, 10 Para (real photo)", ar)
 
 # ------------------------------------------------------------------ rainforest base
-fol = cut("C1-F.png")
-fol[..., :3] = C.curves(fol[..., :3], [(0, 0), (0.5, 0.46), (1, 0.95)])
-fkw = dict(left_mm=-14, top_mm=100, width_mm=182)
+fol = cut("R-FERNS.png")                     # REAL rainforest ferns (Pexels 38145936; real_prep2.py)
+fol[..., 3] = np.clip((fol[..., 3] - 0.3) / 0.4, 0, 1)                 # solid fronds: no semi-transparent ghosting
+fol[..., :3] = C.curves(fol[..., :3], [(0, 0), (0.25, 0.24), (0.5, 0.52), (1, 0.97)])
+fol[..., :3] = C.tint_shadows_highlights(fol[..., :3], shadow=(-0.01, 0.0, 0.01), highlight=(0.03, 0.02, -0.02))
+fkw = dict(left_mm=-48, top_mm=99, width_mm=250)
 fo = C.place(fol, **fkw)
-fo[..., :3] = C.exposure(fo[..., :3], -0.25)
+fo[..., :3] = C.exposure(fo[..., :3], -0.05)
 st.add("Rainforest base shadow", C.shadow_layer(fo, offset_mm=(0, -2), blur_mm=6, opacity=0.35, color="#06140E"))
-st.add("Rainforest base", fo, src=C.src_layer(ROOT, "C1-F.png", **fkw))
+fo = C.rim_light(fo, SUN, direction=(1, -0.8), width_px=3, strength=0.55)
+st.add("Rainforest base (real photo)", fo)
+# the youths' planting patch ran out in mid-air: a second stand of the same real ferns rises in front
+# of its edge on the right, so the ground runs continuously into the forest floor
+f2 = C.place(fol, left_mm=48, top_mm=106.5, width_mm=160, flip=True)
+f2[..., :3] = C.exposure(f2[..., :3], -0.12)
+f2[..., 3] *= np.clip((xx - 62) / 8, 0, 1) * np.clip((174 - yy) / 12, 0, 1)   # melts into the first stand below
+f2 = C.rim_light(f2, SUN, direction=(1, -0.8), width_px=3, strength=0.5)
+st.add("Ferns in front of the planting patch shadow", C.shadow_layer(f2, offset_mm=(0, -1.5), blur_mm=4, opacity=0.3, color="#06140E"))
+st.add("Ferns in front of the planting patch (real photo)", f2)
 
 shade = np.clip((yy - 136) / 52, 0, 1) ** 1.1 * 0.9
 shade = shade * np.clip((118 - xx) / 30, 0.45, 1)
 st.add("Shade - headline base", full(np.broadcast_to(C.hexf("#04190F"), (H, W, 3)), shade))
 
 # Jata + office block: a soft deep-blue pad so the emblem pops over sky and flag
+st.add("Shade - roundel backing", full(np.broadcast_to(C.hexf("#04190F"), (H, W, 3)), C.radial(118, 151.8, 30, 1.6) * 0.5))
 tr = np.clip(C.radial(120, 30, 46, 1.4) * 0.62 + C.radial(154, 0, 82, 1.7) * 0.35, 0, 0.75)
 st.add("Shade - Jata + office text", full(np.broadcast_to(C.hexf("#0B2B56"), (H, W, 3)), tr))
 # the 7.5-8.5 pt white office lines cross the flag's white stripes and bright cloud: a soft burn
