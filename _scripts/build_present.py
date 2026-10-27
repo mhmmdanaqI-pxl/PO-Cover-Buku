@@ -21,8 +21,8 @@ CONCEPTS = [
          body=("Jerebu bukan sekadar isu cuaca. Ia menjejaskan kesihatan rakyat, ekonomi dan imej negara. "
                "Langit yang beralih daripada jerebu kepada biru di atas Istana Negara melambangkan usaha bersama "
                "memulihkan alam sekitar sebagai aset negara.\n\n"
-               "Pesawat C-130H TUDM, yang digunakan dalam operasi pembenihan awan ketika jerebu, bersama anggota "
-               "ATM mewakili pasukan keselamatan. Penyelidik dengan alat pemantau kualiti udara mewakili penyelidikan, "
+               "Pesawat C-130H TUDM dalam operasi pembenihan awan meninggalkan jejak yang membuka laluan langit biru "
+               "menembusi jerebu, dan anggota ATM yang memberi tabik hormat mewakili pasukan keselamatan. Penyelidik dengan alat pemantau kualiti udara mewakili penyelidikan, "
                "manakala anak muda "
                "yang menanam pokok melambangkan tanggungjawab rakyat. Hutan hujan tropika menjadi asas: alam yang "
                "dilindungi hari ini ialah warisan generasi akan datang."),
@@ -35,8 +35,8 @@ CONCEPTS = [
                "keselamatan pada pasport dan wang kertas, membentuk lingkaran pelindung di belakang Istana Negara, "
                "lengkap dengan teks mikro \"Rahsiakan Rahsia Kerajaan\" dan nama Pejabat Ketua Pegawai Keselamatan "
                "Kerajaan Malaysia.\n\n"
-               "Fail sulit yang dimeterai dengan logo \"Rahsiakan Rahsia Kerajaan\" melambangkan dokumen rasmi "
-               "kerajaan yang wajib dilindungi. "
+               "Fail sulit berlambang Jata Negara bercetak kerajang emas, dimeterai dengan logo \"Rahsiakan Rahsia "
+               "Kerajaan\", melambangkan dokumen rasmi kerajaan yang wajib dilindungi. "
                "Anggota PDRM dan ATM berkawal, pesawat "
                "Su-30MKM TUDM mengawal ruang udara, penyelidik keselamatan siber memantau ancaman digital, dan seorang "
                "pelajar menunjukkan telefon berkunci: setiap rakyat bertanggungjawab tidak berkongsi maklumat rasmi."),
@@ -50,12 +50,12 @@ CONCEPTS = [
                "bersama. Kapal tangki minyak belayar dengan selamat di bawah matahari terbit, dengan tangki simpanan gas "
                "dan stesen janakuasa arang batu TNB di pesisir. Menara grid TNB menyalurkan tenaga ke seluruh negara.\n\n"
                "Graf emas yang menurun seketika sebelum meningkat semula melambangkan ekonomi yang pulih melalui langkah "
-               "berhemah. Jurutera tenaga boleh baharu dengan sel solar mewakili penyelidikan dan penjimatan tenaga, "
-               "golongan profesional muda mewakili rakyat, krew minyak dan gas memantau keselamatan bekalan di laut, dan Su-30MKM TUDM mengawal laluan tenaga negara. "
+               "berhemah. Pelantar minyak dan gas di luar pesisir, krew minyak dan gas yang memantau keselamatan bekalan, "
+               "ladang solar sebagai langkah penjimatan tenaga, dan Su-30MKM TUDM yang mengawal laluan tenaga negara. "
                "Semua elemen tenaga ialah foto sebenar."),
-         checks=["Tenaga: kapal tangki minyak, tangki simpanan gas, arang batu, grid TNB",
+         checks=["Tenaga: kapal tangki, pelantar minyak & gas, tangki gas, arang batu, grid TNB",
                  "Pegawai keselamatan: Su-30MKM TUDM",
-                 "Rakyat / anak muda: profesional muda", "Penyelidikan: jurutera tenaga boleh baharu",
+                 "Rakyat: krew minyak dan gas", "Penjimatan tenaga: ladang solar",
                  "Jalur Gemilang"]),
 ]
 

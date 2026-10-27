@@ -64,6 +64,17 @@ haze = np.clip(haze, 0, 1)
 d = (xx / 154) * 0.85 + (yy / 216) * 0.75                              # diagonal coordinate
 hz = np.clip((0.90 - d + n1 * 0.04) / 0.44, 0, 1)
 hz = hz * hz * (3 - 2 * hz)
+# cloud-seeding run: the C-130 dispenses salt from its ramp; a widening plume streams back from the
+# tail into the haze and the smog thins along its path (the story of the cover in one gesture)
+P0, P1 = np.array([20.5, 79.6]), np.array([-8.0, 87.5])            # tail -> off the left edge (canvas mm)
+seg = P1 - P0
+tt = np.clip(((xx - P0[0]) * seg[0] + (yy - P0[1]) * seg[1]) / (seg @ seg), 0, 1)
+dist = np.hypot(xx - (P0[0] + tt * seg[0]), yy - (P0[1] + tt * seg[1]))
+pw = 0.7 + 4.2 * tt ** 0.8                                             # plume half-width grows behind the tail
+wob = 1 + 0.35 * np.clip(n3, -2, 2)
+plume = np.exp(-(dist / (pw * wob)) ** 2) * np.clip(tt * 12, 0, 1)
+corridor = np.exp(-(dist / (pw * 3.6)) ** 2) * np.clip(tt * 4, 0, 1)
+hz = hz * (1 - corridor * 0.7)
 sky = clear * (1 - hz[..., None]) + haze * hz[..., None]
 beam = np.clip(1 - np.abs(d - 0.74 + n1 * 0.02) / 0.10, 0, 1) * np.clip((150 - yy) / 60, 0, 1)
 sky = C.blend(sky, np.broadcast_to(C.hexf("#FFF4DC"), sky.shape), beam, "screen", 0.22)
@@ -123,6 +134,12 @@ it[..., :3] = it[..., :3] * (1 - v) + haze * v
 it = C.light_wrap(it, full(st.comp), width_px=5, strength=0.3)
 it = C.melt_background(ist, bgm, ikw, it, st.comp, top=1.0, bottom=0.92)
 st.add("Istana Negara (real photo, relit to clear sun)", it)
+# the plume sits over the palace layer's melted sky edge (they never overlap the building itself)
+pl_a = np.clip(plume * (0.8 + 0.3 * np.clip(n2, -1, 1)) * np.clip(1 - tt * 0.45, 0, 1), 0, 0.92)
+# a cloud has a lit top and a cool, shaded underside: offset the shade down so the plume has volume
+under = np.clip(np.roll(pl_a, int(mm(1.2)), axis=0) - pl_a * 0.6, 0, 1) * 0.55
+st.add("Cloud-seeding plume underside", full(np.broadcast_to(C.hexf("#8F96A3"), (H, W, 3)), under), mode="multiply")
+st.add("Cloud-seeding plume", full(np.broadcast_to(C.hexf("#FFFDF8"), (H, W, 3)), pl_a))
 
 # ------------------------------------------------------------------ distant forest band (grounds the palace)
 fplate = C.load_rgb(os.path.join(ROOT, "assets/_reference/C1_real/Rainforest_TamanNegara.jpg"))   # REAL (CC BY 4.0)

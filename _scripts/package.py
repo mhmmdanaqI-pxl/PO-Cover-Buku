@@ -78,6 +78,10 @@ NOTA IMEJ
     dipadam), permukaan laut (Jules Verne Times Two, CC BY-SA 4.0).
   - Logo TNB ialah tanda dagangan Tenaga Nasional Berhad. Untuk cetakan akhir, kelulusan TNB
     atau CGSO diperlukan.
+  - Pelantar minyak dan gas PETRONAS Dulang B (Konsep 3) ialah foto yang dibekalkan. Untuk
+    cetakan akhir, kelulusan PETRONAS atau CGSO diperlukan.
+  - Jata Negara pada fail sulit (Konsep 2) dibina daripada fail vektor rasmi yang dibekalkan,
+    dalam satu warna (kesan kerajang emas). Jata utama di atas kulit kekal berwarna penuh.
   - Jalur Gemilang dibina semula secara vektor mengikut ukuran rasmi.
   - Lencana pada anggota keselamatan ialah lencana sebenar: lambang PDRM pada topi dan kolar
     polis, dan lencana beret 10 Briged Para pada anggota beret merah marun. Untuk produksi akhir,

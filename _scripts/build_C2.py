@@ -105,11 +105,12 @@ st.add("Halo glow", full(np.broadcast_to(C.hexf("#C99A3E"), (H, W, 3)), halo), m
 
 # ------------------------------------------------------------------ jets (clear of halo and Jata)
 jets = cut("R-SU30.png")                     # REAL RMAF Su-30MKMs (USAF photo, public domain; real_prep.py)
-jets[..., :3] = C.exposure(jets[..., :3], -0.55)
+jets[..., :3] = C.exposure(jets[..., :3], -0.25)
 jets[..., :3] = C.tint_shadows_highlights(jets[..., :3], shadow=(0.0, 0.0, 0.03), highlight=(0.05, 0.02, -0.02))
 jkw = dict(cx_mm=74, cy_mm=25, width_mm=51.2, rotate=0, flip=True)
 jt = C.place(jets, **jkw)
-jt = C.rim_light(jt, WARM, direction=(-1, -0.3), width_px=4, strength=0.3)
+# last light of dusk catches the upper surfaces: a stronger warm edge so the formation reads on navy
+jt = C.rim_light(jt, WARM, direction=(-1, -0.6), width_px=5, strength=0.6)
 st.add("Su-30MKM formation (real photo)", jt)
 
 # ------------------------------------------------------------------ istana relit to blue hour
@@ -262,17 +263,65 @@ shade = np.clip((yy - 128) / 70, 0, 1) ** 1.3 * 0.9
 st.add("Shade - headline base", full(np.broadcast_to(C.hexf("#060E26"), (H, W, 3)), shade))
 
 dos = cut("C2-B.png")
-dos[..., :3] = C.exposure(dos[..., :3], -0.15)
+dos[..., :3] = C.exposure(dos[..., :3], 0.05)
 dh, dw = dos.shape[:2]
+# the blank cream label read as a hole at thumbnail: re-cover it in the file's own navy leather
+# (its paper grain kept as texture), so only the gold frame of the label remains
 lab = np.zeros((dh, dw), np.float32)
 lab[int(.40 * dh):int(.62 * dh), int(.22 * dw):int(.55 * dw)] = 1
 lab *= (C.lum(dos[..., :3]) > 0.35)
 lab = C.blur(lab, 3)[..., None]
-dos[..., :3] = dos[..., :3] * (1 - lab) + (dos[..., :3] * C.hexf("#1A2A55") * 0.55) * lab
+grain_l = C.lum(dos[..., :3])
+leather = C.hexf("#1E2D58") * (0.9 + (grain_l - C.blur(grain_l, 4))[..., None] * 1.5)
+dos[..., :3] = dos[..., :3] * (1 - lab) + leather * lab
+
+
+def foil_jata(img):
+    """Gold-foil Jata Negara stamped into the file's blind-embossed circle (official government dossier).
+    Rendered from the supplied vector, single-colour foil, mapped onto the tilted cover plane."""
+    import pymupdf
+    src = os.path.join(ROOT, "JATA NEGARA AI (1).ai")
+    page = pymupdf.open(src)[0]
+    r = pymupdf.Rect()
+    for d in page.get_drawings():
+        r |= d["rect"]
+    pm = page.get_pixmap(clip=r, alpha=True, dpi=int(900 * 72 / r.width))
+    px_ = np.frombuffer(pm.samples, np.uint8).reshape(pm.height, pm.width, pm.n).astype(np.float32) / 255
+    # one-colour foil keeps the emblem's drawing: dark line work stamps solid, light fills stamp
+    # thinner, so the tigers, shield and crest stay legible instead of a flat silhouette
+    lum_j = px_[..., :3] @ np.array([0.3, 0.59, 0.11], np.float32)
+    edge_j = np.clip(np.abs(lum_j - cv2.GaussianBlur(lum_j, (0, 0), 2.0)) * 4, 0, 1)
+    ja = px_[..., 3] * np.clip(0.18 + 0.82 * (1 - lum_j) ** 1.4 + edge_j * 0.6, 0, 1)
+    jh, jw = ja.shape
+    # cover plane from the gold frame's corners (source px): top-left, top-right, bottom-left
+    TL, U, V = np.array([612.0, 92.0]), np.array([428.0, 98.0]), np.array([-362.0, 513.0])
+    ctr = np.array([722.0, 316.0])                                   # centre of the embossed circle
+    ws = 0.33                                                        # Jata width as a fraction of the frame
+    ht = ws * (jh / jw) * np.linalg.norm(U) / np.linalg.norm(V)
+    Ux, Vy = U * ws / jw, V * ht / jh
+    off = ctr - Ux * jw / 2 - Vy * jh / 2
+    M = np.array([[Ux[0], Vy[0], off[0]], [Ux[1], Vy[1], off[1]]], np.float32)
+    a = cv2.warpAffine(ja, M, (dw, dh), flags=cv2.INTER_AREA if False else cv2.INTER_LINEAR)
+    a = np.clip(a, 0, 1)
+    # foil: warm gold with a diagonal sheen; debossed, so a fine shadow on the upper-left inner edge
+    gy_, gx_ = np.mgrid[0:dh, 0:dw].astype(np.float32)
+    sheen = 0.5 + 0.5 * np.sin((gx_ * 0.6 + gy_) / 38.0)
+    gold = C.hexf("#B8893A") * (1 - sheen[..., None]) + C.hexf("#F3D88C") * sheen[..., None]
+    sh = np.clip(np.roll(np.roll(a, -2, 0), -2, 1) - a, 0, 1)
+    out = img.copy()
+    out[..., :3] = out[..., :3] * (1 - sh[..., None] * 0.5)
+    out[..., :3] = out[..., :3] * (1 - a[..., None]) + gold * a[..., None]
+    return out
+
+
+dos = foil_jata(dos)
 # lower right, clear of the headline: the roundel overlaps the file like an official chop
 dkw = dict(left_mm=50, top_mm=139, width_mm=128, rotate=8)
 dl = C.place(dos, **dkw)
-dl = C.rim_light(dl, WARM, direction=(-1, -1), width_px=4, strength=0.3)
+dl = C.rim_light(dl, WARM, direction=(-1, -1), width_px=4, strength=0.45)
+# a warm desk-lamp pool across the cover so the foil and gold frame catch light
+pool = C.radial(104, 168, 34, 1.6)[..., None]
+dl[..., :3] = np.clip(dl[..., :3] * (1 + pool * 0.35) + C.hexf("#FFB65C") * pool * 0.04, 0, 1)
 st.add("Dossier shadow", C.shadow_layer(dl, offset_mm=(2, 3), blur_mm=5, opacity=0.6, color="#02050F"))
 st.add("Classified dossier", dl, src=C.src_layer(ROOT, "C2-B.png", **dkw))
 

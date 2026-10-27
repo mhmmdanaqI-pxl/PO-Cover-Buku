@@ -216,6 +216,10 @@ rlg = C.load_rgba(os.path.join(ROOT, "02_Vectors/C3_Growth/C3_rising_line_glow_3
 office = C.text_burn(ROOT, "C3", feather_mm=1.0)                  # no linework behind the small type
 rl[..., 3] *= 1 - office
 rlg[..., 3] *= 1 - office
+# the line weaves behind the Dulang platform instead of scribbling across its steelwork
+plat = C.blur(cv2.dilate((dk[..., 3] > 0.3).astype(np.uint8), np.ones((5, 5), np.uint8)).astype(np.float32), 1.0)
+rl[..., 3] *= 1 - plat
+rlg[..., 3] *= 1 - plat * 0.85
 st.add("Rising line glow", rlg, mode="screen", opacity=0.7)
 st.add("Rising line", rl)
 
