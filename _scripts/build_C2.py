@@ -306,10 +306,10 @@ person("U-C2-SOLDIER2.png", "Soldier - ATM, 10 Para (real photo, DVIDS public do
 # cyber analyst (real; security-operations desk, tablet + phone, lanyard), flipped to face the centre;
 # already lit by her screens' blue, so only a small step into the dusk
 # review 28 Oct: her hands and tablet crowded the roundel; she stands a step further back (8% smaller)
-# and 4 mm higher, so the tablet clears the roundel's top
+# and 4 mm higher, so the tablet clears the roundel's top; 6 mm right, so it clears the soldier's sleeve
 AN = 17 * 0.92 / 505
 person("U-C2-ANALYST.png", "Researcher - penyelidikan (siber, real photo)", rim_dir=(1, -0.2), fade=(114, 128),
-       prep=dusk_light(-0.05, 1.0), left_mm=123.5 - 1310 * AN, top_mm=95.0 - 55 * AN, width_mm=2000 * AN,
+       prep=dusk_light(-0.05, 1.0), left_mm=129.5 - 1310 * AN, top_mm=95.0 - 55 * AN, width_mm=2000 * AN,
        flip=True)
 # her photo ends at the waist (seated at a desk): the night pools under the right of the row, so she and
 # the soldier sink into the dark like the student and the officer on the left (she floated over the
@@ -380,7 +380,9 @@ def foil_jata(img):
 
 dos = foil_jata(dos)
 # lower right, clear of the headline: the roundel overlaps the file like an official chop
-dkw = dict(left_mm=50, top_mm=139, width_mm=128, rotate=8)
+# review 28 Oct: its gold border ran under the headline's "AB" and the foil Jata sat half under the
+# roundel; moved right and down so the headline clears the file and the Jata sits below the roundel, whole
+dkw = dict(left_mm=66, top_mm=143, width_mm=128, rotate=8)
 dl = C.place(dos, **dkw)
 dl = C.rim_light(dl, WARM, direction=(-1, -1), width_px=4, strength=0.45)
 # a warm desk-lamp pool across the cover so the foil and gold frame catch light
