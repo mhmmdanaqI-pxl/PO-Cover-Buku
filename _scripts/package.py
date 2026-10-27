@@ -66,9 +66,11 @@ NOTA IMEJ
     (Pangalau, CC BY-SA 4.0) dan Su-30MKM (Tentera Udara AS, domain awam), jerebu KL (Renek78,
     CC0), hutan Taman Negara (Vyacheslav Argenberg, CC BY 4.0), pakis dan krew minyak & gas
     (Pexels), dan semua elemen tenaga Konsep 3.
-  - Anggota ATM (Konsep 2) dan orang awam masih visual cadangan (AI). Untuk produksi akhir, gantikan dengan
-    foto rasmi CGSO atau sesi fotografi berlesen. Pegawai PDRM ialah individu sebenar: untuk
-    cetakan akhir, gunakan foto rasmi dengan kebenaran.
+  - Semua individu pada ketiga-tiga kulit ialah foto sebenar (tiada lagi visual AI). Foto pelajar,
+    penganalisis siber, penyelidik, belia menanam pokok dan anggota ATM Konsep 2 dibekalkan untuk
+    cadangan sahaja: untuk cetakan akhir, lesen setiap foto perlu disahkan (atau diganti dengan foto
+    rasmi CGSO), dan individu yang boleh dikenal pasti memerlukan kebenaran. Pegawai PDRM dan ATM
+    ialah individu sebenar: gunakan foto rasmi dengan kebenaran.
   - Istana Negara ialah foto sebenar: CEphoto, Uwe Aranas (CC BY-SA 3.0). Untuk cetakan akhir,
     foto ini boleh diganti dengan foto rasmi atau foto berlesen.
   - Konsep 3 (Tenaga): semua elemen tenaga ialah foto sebenar (Wikimedia Commons).

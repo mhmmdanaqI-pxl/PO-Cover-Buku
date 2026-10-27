@@ -62,3 +62,16 @@ Real press/agency photos, supplied without source or licence. Used only as pitch
 | user_supplied/31_PDRM_formal_NAAZRON.png | C2: formal PDRM officer, hands clasped. Real, identifiable officer; name tag visible. Needs PDRM approval and consent. |
 | 32, 34, 35 | Not used. **34 is the official portrait of the Inspector-General of Police**; 32 is a senior officer in ceremonial dress. Neither may stand in as a generic figure. 35 is a headshot crop. |
 | C2_real/PDRM_Johor_Rizuan.jpg | No longer used on C2 (replaced 28 Oct); its credit has been removed from the deck. |
+
+## Supplied by Anaqi (28 Oct, 9.5 push): source and licence NOT YET CONFIRMED, PITCH COMP ONLY
+These replace every remaining AI person on C1 and C2 (user_prep2.py). They look like commercial stock
+or agency photos: before the pitch is sent, record each one's source URL and licence here; for print,
+licence them (or use official CGSO/ATM/PDRM photos) and get consent for identifiable people.
+| File | Use |
+|---|---|
+| user_supplied/36_ATM_10Para_patrol_RIFLE.png | C2: 10 Para soldier (head and chest only). He carries a rifle in the photo: the rifle stock is cut out of the matte and he sinks into the navy base above the weapon. Likely a news-agency photo. |
+| user_supplied/37_Student_hijab_phone.png | C2: student in a grey hijab with phone and folder. |
+| user_supplied/39_Cyber_analyst_SOC.png | C2: cyber analyst with tablet and phone (mirrored). |
+| user_supplied/40_Researchers_labcoat_meter_NAMETAG.png | C1: the right-hand researcher only, with the orange meter (mirrored). The other two women and the readable name tag are excluded; her sleeve logo is retouched out. |
+| user_supplied/43_Planting_pair_sapling.png | C1: two young people planting a sapling, with the photo's own soil as their ground. |
+| 38, 41, 42 | Reviewed, not used: 38 is an alternative student (orange folder clashes with C2); 41 is only 588 x 384 px (too small to print); 42 is an alternative planting group. |

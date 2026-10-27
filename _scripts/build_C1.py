@@ -152,8 +152,10 @@ st.add("Distant forest band", fb)
 
 
 # ------------------------------------------------------------------ people
-def person(name, layer_name, ground=None, **kw):
+def person(name, layer_name, ground=None, bottom=None, prep=None, **kw):
     p = cut(name)
+    if prep:
+        p = prep(p)
     if ground:                                   # restore the real soil/grass under kneeling subjects
         src = C.load_rgb(os.path.join(ROOT, ground))
         ph, pw = src.shape[:2]
@@ -165,14 +167,39 @@ def person(name, layer_name, ground=None, **kw):
     pl = C.rim_light(pl, SUN, direction=(1, -0.6), width_px=5, strength=0.28)
     pl = C.light_wrap(pl, full(st.comp), width_px=6, strength=0.28)
     pl[..., 3] *= np.clip((176 - yy) / 26, 0, 1)
+    if bottom:                                   # the photo's own frame edge: never a hard line
+        pl[..., 3] *= np.clip((bottom - yy) / 6, 0, 1)
     st.add(layer_name + " shadow", C.shadow_layer(pl, offset_mm=(-1.5, 1.2), blur_mm=4, opacity=0.28, color="#0C1A14"))
     st.add(layer_name, pl, src=C.src_layer(ROOT, name, **kw))
 
 
 # researcher left and soldier right, so her air-quality meter (the research cue) is clear of his sleeve
-person("C1-D.png", "Environmental researcher - penyelidikan", left_mm=-3, top_mm=92, height_mm=74)
-person("C1-E.png", "Youths planting - rakyat / anak muda", ground="assets/C1/C1-E_v4.png", left_mm=74, top_mm=94,
-       width_mm=84)
+# 9.5 push: both AI groups replaced by REAL photos Anaqi supplied (user_prep2.py; licences to confirm,
+# SOURCES.md). The researcher (lab coat, orange handheld meter) is mirrored to face into the cover, so
+# the noon sun in her photo falls from the upper right, as on this cover; head 16 mm, hijab top 103.7 mm.
+
+
+def clear_morning(ev):
+    def f(p):
+        p = p.copy()
+        p[..., :3] = C.exposure(p[..., :3], ev)
+        p[..., :3] = C.curves(p[..., :3], [(0, 0), (0.25, 0.23), (0.7, 0.69), (1, 0.97)])
+        p[..., :3] = C.tint_shadows_highlights(p[..., :3], shadow=(-0.008, 0.0, 0.012), highlight=(0.02, 0.012, -0.008))
+        return p
+    return f
+
+
+RS = 19 / 320                                    # mm per source px (hijab top 145 -> chin 465)
+RTOP = 98.0 - 145 * RS
+person("U-C1-RESEARCH.png", "Environmental researcher - penyelidikan (real photo)", prep=clear_morning(-0.2),
+       bottom=RTOP + 1080 * RS - 0.5, left_mm=17 - (1920 - 1100) * RS, top_mm=RTOP, width_mm=1920 * RS,
+       flip=True)
+# two young people planting a sapling (real), the sapling between them; they crouch on their own soil,
+# with hands and sapling clear of the roundel (head 10 mm, a step behind the soldier; soil at 129 mm,
+# just above the roundel; sapling at x 112)
+PS = 10 / 210
+PLANT = dict(left_mm=112 - 1000 * PS, top_mm=129 - 1060 * PS, width_mm=2000 * PS)
+person("U-C1-PLANTING.png", "Youths planting - rakyat / anak muda (real photo)", prep=clear_morning(-0.1), **PLANT)
 # REAL 10 Para officer saluting (photo supplied by Anaqi 28 Oct, pitch comp; user_prep.py). Head matched
 # to the soldier he replaces (beret top 94.5 mm, head 17 mm, face centre x 60.5); in front of the youths,
 # the photo's bottom edge sinks into the ferns
@@ -202,6 +229,7 @@ st.add("Rainforest base (real photo)", fo)
 f2 = C.place(fol, left_mm=48, top_mm=106.5, width_mm=160, flip=True)
 f2[..., :3] = C.exposure(f2[..., :3], -0.12)
 f2[..., 3] *= np.clip((xx - 62) / 8, 0, 1) * np.clip((174 - yy) / 12, 0, 1)   # melts into the first stand below
+f2[..., 3] *= 1 - C.radial(112, 120, 20, 2.4) * 0.95                             # the sapling and hands stay clear
 f2 = C.rim_light(f2, SUN, direction=(1, -0.8), width_px=3, strength=0.5)
 st.add("Ferns in front of the planting patch shadow", C.shadow_layer(f2, offset_mm=(0, -1.5), blur_mm=4, opacity=0.3, color="#06140E"))
 st.add("Ferns in front of the planting patch (real photo)", f2)

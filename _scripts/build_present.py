@@ -39,7 +39,7 @@ CONCEPTS = [
                "Kerajaan\", melambangkan dokumen rasmi kerajaan yang wajib dilindungi. "
                "Anggota PDRM dan ATM berkawal, pesawat "
                "Su-30MKM TUDM mengawal ruang udara, penyelidik keselamatan siber memantau ancaman digital, dan seorang "
-               "pelajar menunjukkan telefon berkunci: setiap rakyat bertanggungjawab tidak berkongsi maklumat rasmi."),
+               "pelajar dengan telefon pintarnya: setiap rakyat bertanggungjawab tidak berkongsi maklumat rasmi."),
          checks=["Istana Negara, Jalan Duta", "Pegawai keselamatan: PDRM + ATM + Su-30MKM TUDM",
                  "Rakyat / anak muda: pelajar universiti", "Penyelidikan: penyelidik keselamatan siber",
                  "Jalur Gemilang"]),

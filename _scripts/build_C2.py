@@ -256,12 +256,34 @@ def formal_light(p):
 
 person("U-PDRM-FORMAL.png", "Police - PDRM, formal (real photo)", fade=(142, 160), rim=0.3, prep=formal_light,
        left_mm=48.5, top_mm=89.4, width_mm=46.7)
-person("UNI-C2-ARMY_ins.png", "Soldier - ATM", fade=(130, 148), left_mm=65.74, top_mm=96.13, height_mm=62.14)
-person("C2-E.png", "Researcher - penyelidikan (siber)", rim_dir=(1, -0.2),
-       left_mm=121 - 0.541 * 78 * 1024 / 1536, top_mm=95 - 0.144 * 78, height_mm=78, flip=True)
-# the near-black PDRM uniform needs more separation from the navy base than the camouflage does:
-# a stronger warm floodlight edge, opened-up fabric shadows and a later fade
-person("C2-F.png", "Student - rakyat / anak muda", left_mm=8, top_mm=97, height_mm=82)
+# 9.5 push: the three AI figures replaced by REAL photos Anaqi supplied (user_prep2.py; licences to
+# confirm, SOURCES.md). Head sizes and positions matched to the figures they replace.
+
+
+def dusk_light(ev, sat=0.95):
+    """Daylight photo into C2's blue hour: down in exposure, cooler shadows, warm floodlit highlights."""
+    def f(p):
+        p = p.copy()
+        p[..., :3] = C.exposure(p[..., :3], ev)
+        p[..., :3] = C.saturation(p[..., :3], sat)
+        p[..., :3] = C.curves(p[..., :3], [(0, 0), (0.25, 0.2), (0.7, 0.68), (1, 0.96)])
+        p[..., :3] = C.tint_shadows_highlights(p[..., :3], shadow=(-0.012, -0.004, 0.035), highlight=(0.04, 0.018, -0.02))
+        return p
+    return f
+
+
+# 10 Para soldier (real; current digital camouflage, maroon beret). He carries a rifle in the photo:
+# he sinks into the night shade from mid-chest, above the weapon. Beret top 98 mm, 13.5 mm crown to chin.
+person("U-C2-SOLDIER.png", "Soldier - ATM, 10 Para (real photo)", fade=(116, 128), prep=dusk_light(-0.15, 0.95), rim=0.4,
+       left_mm=86 - 1100 * 13.5 / 160, top_mm=98 - 325 * 13.5 / 160, width_mm=2000 * 13.5 / 160)
+# cyber analyst (real; security-operations desk, tablet + phone, lanyard), flipped to face the centre;
+# already lit by her screens' blue, so only a small step into the dusk
+person("U-C2-ANALYST.png", "Researcher - penyelidikan (siber, real photo)", rim_dir=(1, -0.2), fade=(128, 142),
+       prep=dusk_light(-0.1, 1.0), left_mm=121 - 1310 * 17 / 505, top_mm=98.5 - 55 * 17 / 505, width_mm=2000 * 17 / 505,
+       flip=True)
+# student (real; grey hijab, phone and folder, smiling at the camera), front-left
+person("U-C2-STUDENT.png", "Student - rakyat / anak muda (real photo)", prep=dusk_light(-0.45, 0.95),
+       left_mm=35 - 620 * 17 / 390, top_mm=104.5 - 150 * 17 / 390, width_mm=2000 * 17 / 390)
 
 # ------------------------------------------------------------------ base + dossier
 shade = np.clip((yy - 128) / 70, 0, 1) ** 1.3 * 0.9
