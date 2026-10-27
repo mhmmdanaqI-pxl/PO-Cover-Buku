@@ -77,6 +77,8 @@ NOTA IMEJ
     ialah individu sebenar: gunakan foto rasmi dengan kebenaran.
   - Istana Negara ialah foto sebenar: CEphoto, Uwe Aranas (CC BY-SA 3.0). Untuk cetakan akhir,
     foto ini boleh diganti dengan foto rasmi atau foto berlesen.
+  - Konsep 3: langit ialah foto sebenar pesisir Malaysia waktu senja (dibekalkan untuk cadangan; lesen
+    perlu disahkan). Ladang solar di bahagian bawah masih visual cadangan (AI).
   - Konsep 3 (Tenaga): semua elemen tenaga ialah foto sebenar (Wikimedia Commons).
     Kapal tangki "Eagle San Diego" (Jordanroderick, CC0, nama kapal dipadam), menara TNB 275 kV
     dan padang lalang (Wiki Farazi, CC0), Stesen Janakuasa Sultan Salahuddin Abdul Aziz, Kapar

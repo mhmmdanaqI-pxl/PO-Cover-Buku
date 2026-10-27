@@ -81,3 +81,11 @@ licence them (or use official CGSO/ATM/PDRM photos) and get consent for identifi
 |---|---|---|---|---|
 | user_supplied/44_DVIDS_8439351_TigerStrike24_PD.jpg | Cpl. Aidan Hekker, USMC | [DVIDS 8439351](https://www.dvidshub.net/image/8439351) (2000 px preview; the original needs a DVIDS login) | Public domain | C2: Col. Mohd Azral Manan, 10th Parachute Brigade, standing at ease at the Tiger Strike 24 opening ceremony aboard USS Somerset, 29 May 2024. Identifiable senior officer: ATM approval still advised. |
 | C3_energy/RMN_KD_Kelantan_175_USNavy_PD.jpg | Oscar Sosa, US Navy | [Commons](https://commons.wikimedia.org/wiki/File:US_Navy_110126-N-6320L-821_The_Royal_Malaysian_Navy_corvette_KD_Kelantan_(175)_is_underway_in_the_Strait_of_Malacca.jpg) (960 px; Commons rate-limited the original) | Public domain | C3: RMN offshore patrol vessel KD Kelantan (175) escorting the tanker on the open sea. |
+
+## Supplied by Anaqi (28 Oct, real Malaysian skies and solar): source and licence NOT YET CONFIRMED, PITCH COMP ONLY
+| File | Use |
+|---|---|
+| user_supplied/47_Sky_islands_aerial_sunset.png | C3: the sky (replaces the AI plate C3-A_v1). Flipped; only the sky above its horizon, its sun hidden behind the power station under the cover's visible sun; a navy dawn gradient continues above its top edge. 2000 px over 210 mm (~240 ppi). |
+| 45, 46 | Reviewed, not used: 45 has only a 25 mm-tall sky band at cover width; 46, flipped to put its glow under the sun, puts its coastal hills behind the offshore platform. |
+| 48_Solar_lowangle_SMALL.png | Not used: 835 px wide, ~119 ppi at the base's 178 mm (the AI base stays at 219 ppi). A 2000 px+ version of this photo would replace the AI solar base. |
+| 49_Solar_aerial_Malaysia.png | Not used: an aerial view; the cover's base is a low-angle row of panels. |

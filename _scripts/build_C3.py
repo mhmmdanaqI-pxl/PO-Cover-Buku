@@ -11,6 +11,7 @@ the near bank with a TNB signboard; the gold chart dips and recovers over the sh
 the flag; an oil-and-gas crew stand in the lalang on the near shore (review 28 Oct: the four civilians
 removed), solar farm as the base.
 Positive: no conflict imagery, white steam only.
+Review 28 Oct: a real Malaysian sunset sky (supplied) replaces the AI plate; RMN KD Kelantan escorts the tanker.
 Run: venv python -I _scripts/build_C3.py <workspace> [fast]
 """
 import os
@@ -61,11 +62,22 @@ def backlit(rgba, ev, sat, shadow, haze=0.0, haze_col=HAZE):
 
 
 # ------------------------------------------------------------------ sky
-sky = C.place(as_rgba(C.load_rgb(os.path.join(ROOT, "assets/C3/C3-A_v1.png"))), left_mm=0, top_mm=-24,
-              width_mm=154)[..., :3]
-sky = C.curves(sky, [(0, 0), (0.5, 0.47), (1, 0.97)])
-sky = C.blend(sky, np.broadcast_to(C.hexf("#FFC27A"), sky.shape), C.radial(*SUN, 70, 2.4), "screen", 0.55)
-sky = C.blend(sky, np.broadcast_to(C.hexf("#FFF1D2"), sky.shape), C.radial(*SUN, 10, 2.0), "screen", 0.9)
+# REAL sky (review 28 Oct; replaces the AI plate): a Malaysian coast at sunset, supplied by Anaqi (photo 47),
+# flipped so its sun, on the horizon, sits under this cover's visible sun (hidden behind the power
+# station), only the sky above its horizon. 2000 px over 210 mm: ~240 ppi (the AI plate was 169 ppi).
+SKY_SRC, SKY_SUN_X, SKY_HZ, SKS = "47_Sky_islands_aerial_sunset.png", 1225, 618, 0.105      # flipped px, mm/px
+skyimg = C.load_rgb(os.path.join(ROOT, "assets/_reference/user_supplied", SKY_SRC))[:, ::-1]
+band_top = HZ - SKY_HZ * SKS
+skp = C.place(as_rgba(skyimg[:SKY_HZ + 3]), left_mm=111 - SKY_SUN_X * SKS, top_mm=band_top, width_mm=skyimg.shape[1] * SKS)
+# above the photo's top edge, the upper sky is a dawn gradient: deep navy at the top of the cover into
+# the photo's own top-row colour, column by column (so the seam has no colour step)
+row = cv2.GaussianBlur(skp[int(round(mm(band_top + 4)))][None, :, :3].astype(np.float32), (0, 0), mm(6))[0]
+t = np.clip(yy / (band_top + 10), 0, 1)[..., None] ** 1.4
+upper = C.hexf("#121E3C") * (1 - t) + row[None, :, :] * t
+fa = (skp[..., 3] * np.clip((yy - band_top - 2) / 14, 0, 1))[..., None]
+sky = upper * (1 - fa) + skp[..., :3] * fa
+sky = C.curves(sky, [(0, 0), (0.5, 0.48), (1, 0.98)])
+sky = C.blend(sky, np.broadcast_to(C.hexf("#FFC27A"), sky.shape), C.radial(*SUN, 70, 2.4), "screen", 0.25)
 st = C.Stack("Sky - sunrise", sky)
 # 9.5 review: the sunrise had no source. A visible sun just above the horizon, behind the tanker's
 # bridge, is the cover's focal point: a near-white core, a warm corona and a wide low glow
