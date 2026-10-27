@@ -72,10 +72,13 @@ st = C.Stack("Sky - sunrise", sky)
 # (in the clear gap between the bridge mast and the chimneys, a little above the light source used
 # for the sea's glitter path, which stays under the bridge)
 SD = (111.0, 82.5)
-sun_core = np.clip((1 - np.hypot(xx - SD[0], (yy - SD[1]) * 1.05) / 2.8) * 4, 0, 1)
-st.add("Sun - glow", full(np.broadcast_to(C.hexf("#FFB45E"), (H, W, 3)), C.radial(SD[0], SD[1], 26, 1.8) * 0.55),
+# review 28 Oct: the sun read as soft haze; a crisper, brighter disc and a tighter, hotter corona
+sun_core = np.clip((1 - np.hypot(xx - SD[0], (yy - SD[1]) * 1.05) / 3.0) * 6, 0, 1)
+# the halo warms the sky (amber, not white) so the near-white disc stands out against it
+st.add("Sun - warm halo", full(np.broadcast_to(C.hexf("#E9963C"), (H, W, 3)), C.radial(SD[0], SD[1], 30, 1.6) * 0.42))
+st.add("Sun - corona", full(np.broadcast_to(C.hexf("#FFC870"), (H, W, 3)), C.radial(SD[0], SD[1], 9, 1.6) * 0.75),
        mode="screen")
-st.add("Sun - corona", full(np.broadcast_to(C.hexf("#FFE3A8"), (H, W, 3)), C.radial(SD[0], SD[1], 8, 1.6)),
+st.add("Sun - corona core", full(np.broadcast_to(C.hexf("#FFF4D6"), (H, W, 3)), C.radial(SD[0], SD[1], 4.2, 1.8)),
        mode="screen")
 st.add("Sun - disc", full(np.broadcast_to(C.hexf("#FFF8E8"), (H, W, 3)), sun_core))
 
@@ -227,14 +230,42 @@ sg = C.rim_light(sg, AMBER, direction=(-1, -0.5), width_px=2, strength=0.7)
 st.add("TNB signboard shadow", C.shadow_layer(sg, offset_mm=(0.6, 0.4), blur_mm=0.8, opacity=0.35, color="#140D12"))
 st.add("TNB signboard (real board, official TNB logo)", sg)
 
+# ------------------------------------------------------------------ RMN escort on the open sea (review 28 Oct)
+# The open water left of the crew read as empty; a Royal Malaysian Navy offshore patrol vessel, KD Kelantan
+# (175), escorts the tanker: security on the energy route. REAL (US Navy 110126-N-6320L-821, PUBLIC
+# DOMAIN; user_prep2.py), nearer than the tanker, so a little larger than its true scale beside it.
+KEL = cut("R-RMN-KELANTAN.png")
+KS = 34.0 / 850                                  # mm per source px (hull 30 -> 880 px = 34 mm)
+WLK = 117.0                                      # waterline (canvas mm)
+kkw = dict(left_mm=5.0 - 30 * KS, top_mm=WLK - 276 * KS, width_mm=960 * KS)
+kk = C.place(KEL, **kkw)
+kk = backlit(kk, -1.05, 0.7, (0.0, 0.0, 0.035), haze=0.1)
+kk = C.rim_light(kk, AMBER, direction=(1, -0.6), width_px=2, strength=0.6)
+kk = C.light_wrap(kk, full(st.comp), width_px=3, strength=0.35)
+kref = np.zeros_like(kk)
+kwl = int(round(mm(WLK)))
+kspan = min(kwl, H - kwl)
+kref[kwl:kwl + kspan] = kk[kwl - kspan:kwl][::-1]
+kref = cv2.remap(kref, mx + ripple * 1.6, my + ripple * 0.5, cv2.INTER_LINEAR)
+kref[..., :3] *= 0.7
+kref[..., 3] *= np.clip(1 - (yy - WLK) / 3.5, 0, 1) * 0.5
+st.add("Patrol vessel reflection", kref)
+st.add("RMN patrol vessel KD Kelantan (real photo, US Navy, public domain)", kk)
+kbow = np.exp(-(((xx - 38.6) / 1.8) ** 2 + ((yy - WLK - 0.1) / 0.6) ** 2))
+kwash = np.exp(-((yy - WLK - 0.15) / 0.35) ** 2) * np.clip((xx - 5) / 2, 0, 1) * np.clip((39 - xx) / 3, 0, 1)
+kwake = np.exp(-((yy - WLK - 0.3) / 0.5) ** 2) * np.clip((5 - xx) / 1.0 + 1, 0, 1) * np.clip((xx + 6) / 6, 0, 1)
+kfoam = np.clip((kbow * 0.9 + kwash * 0.5 + kwake * 0.6) * (0.45 + crest_n), 0, 1)
+st.add("Patrol vessel bow wave + wake", full(np.broadcast_to(C.hexf("#FFE9CC"), (H, W, 3)), kfoam), mode="screen", opacity=0.75)
+
+
 # ------------------------------------------------------------------ rising line (in front of the scene, behind the people)
 rl = C.load_rgba(os.path.join(ROOT, "02_Vectors/C3_Growth/C3_rising_line_300ppi.png"))
 rlg = C.load_rgba(os.path.join(ROOT, "02_Vectors/C3_Growth/C3_rising_line_glow_300ppi.png"))
 office = C.text_burn(ROOT, "C3", feather_mm=1.0)                  # no linework behind the small type
 rl[..., 3] *= 1 - office
 rlg[..., 3] *= 1 - office
-# the line weaves behind the Dulang platform instead of scribbling across its steelwork
-plat = C.blur(cv2.dilate((dk[..., 3] > 0.3).astype(np.uint8), np.ones((5, 5), np.uint8)).astype(np.float32), 1.0)
+# the line weaves behind the Dulang platform and the patrol vessel instead of scribbling across them
+plat = C.blur(cv2.dilate((np.maximum(dk[..., 3], kk[..., 3]) > 0.3).astype(np.uint8), np.ones((5, 5), np.uint8)).astype(np.float32), 1.0)
 rl[..., 3] *= 1 - plat
 rlg[..., 3] *= 1 - plat * 0.85
 st.add("Rising line glow", rlg, mode="screen", opacity=0.7)
@@ -297,7 +328,7 @@ st.add("Shade - Jata + office text", full(np.broadcast_to(C.hexf("#0B1638"), (H,
 st.add("Shade - office text (soft burn)", full(np.broadcast_to(C.hexf("#0B1638"), (H, W, 3)),
                                                C.text_burn(ROOT, "C3") * 0.3))
 st.add("Shade - headline accent lines (soft burn)", full(np.broadcast_to(C.hexf(DUSK), (H, W, 3)),
-       C.text_burn(ROOT, "C3", "Headline", feather_mm=2.5, spread_mm=(2.0, 1.2), rows_mm=(140, 168)) * 0.5))
+       C.text_burn(ROOT, "C3", "Headline", feather_mm=2.5, spread_mm=(2.0, 1.2), rows_mm=(140, 168)) * 0.75))
 
 
 def grade(c):

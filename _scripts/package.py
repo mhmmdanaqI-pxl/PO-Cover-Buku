@@ -66,9 +66,11 @@ NOTA IMEJ
     (Pangalau, CC BY-SA 4.0) dan Su-30MKM (Tentera Udara AS, domain awam), jerebu KL (Renek78,
     CC0), hutan Taman Negara (Vyacheslav Argenberg, CC BY 4.0), pakis dan krew minyak & gas
     (Pexels), dan semua elemen tenaga Konsep 3.
+  - Domain awam (kerajaan AS): anggota ATM Konsep 2, Kol. Mohd Azral Manan, 10 Briged Para, pada
+    majlis pembukaan Latihan Tiger Strike 2024 (DVIDS 8439351, Kpl. Aidan Hekker, USMC), dan kapal
+    peronda TLDM KD Kelantan (175) di Selat Melaka, Konsep 3 (US Navy 110126-N-6320L-821, Oscar Sosa).
   - Semua individu pada ketiga-tiga kulit ialah foto sebenar (tiada lagi visual AI). Foto pelajar,
-    penganalisis siber, penyelidik, belia menanam pokok dan anggota ATM Konsep 2 dibekalkan untuk
-    cadangan sahaja: untuk cetakan akhir, lesen setiap foto perlu disahkan (atau diganti dengan foto
+    penganalisis siber, penyelidik dan belia menanam pokok dibekalkan untuk cadangan sahaja: untuk cetakan akhir, lesen setiap foto perlu disahkan (atau diganti dengan foto
     rasmi CGSO), dan individu yang boleh dikenal pasti memerlukan kebenaran. Pegawai PDRM dan ATM
     ialah individu sebenar: gunakan foto rasmi dengan kebenaran.
   - Istana Negara ialah foto sebenar: CEphoto, Uwe Aranas (CC BY-SA 3.0). Untuk cetakan akhir,

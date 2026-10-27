@@ -4,6 +4,12 @@ see SOURCES.md 'Supplied by Anaqi').
   U-C2-SOLDIER   10 Para soldier, maroon beret, current digital camouflage (photo 36). He carries a
                  rifle: the cut stops at mid-chest, above the weapon, and the build sinks him into the
                  navy base below that line
+  U-C2-SOLDIER2  Col. Mohd Azral Manan, 10 Para, at the Tiger Strike 24 opening ceremony aboard USS Somerset
+                 (DVIDS 8439351, Cpl. Aidan Hekker USMC, PUBLIC DOMAIN): standing at ease, hands clasped, no
+                 weapon; the officers either side of him excluded
+  R-RMN-KELANTAN Royal Malaysian Navy OPV KD Kelantan (175) underway in the Strait of Malacca (US Navy
+                 110126-N-6320L-821, MC Oscar Sosa, PUBLIC DOMAIN; Commons 960 px): C3 escort on the empty sea,
+                 cut at its waterline
   U-C2-STUDENT   student in a grey hijab, phone and folder, smiling at the camera (photo 37)
   U-C2-ANALYST   cyber analyst with tablet and phone, lanyard (photo 39): the chair and screens excluded
   U-C1-RESEARCH  researcher in a lab coat with an orange handheld meter (photo 40): the right-hand woman
@@ -125,8 +131,35 @@ def soldier(a):
     return a * (1 - cv2.GaussianBlur(rifle.astype(np.float32), (0, 0), 1.5))
 
 
+def azral(a):
+    """Col. Azral only: the matting also takes the flag behind him and slivers of the officers either
+    side, so it is limited to a trace of his own silhouette (beret, shoulders, arms, legs)."""
+    H, W = a.shape
+    poly = np.array([(776, 433), (858, 429), (869, 458), (864, 498), (869, 538), (894, 571), (945, 595), (966, 633),
+                     (972, 763), (959, 883), (934, 938), (939, 1068), (933, 1340), (677, 1340), (693, 1100),
+                     (693, 1000), (695, 945), (735, 912), (700, 880), (673, 833), (660, 800), (658, 773),
+                     (661, 660), (670, 640), (680, 626), (700, 614), (727, 603), (764, 590), (771, 556), (764, 507), (757, 470)], np.float64)
+    m = np.zeros((H, W), np.uint8)
+    cv2.fillPoly(m, [np.round(poly).astype(np.int32)], 1)
+    m = cv2.GaussianBlur(m.astype(np.float32), (0, 0), 1.5)
+    return largest(a * m)
+
+
+def kelantan(a):
+    """The ship only, cut along its waterline (the wake below stays in the sea of the cover)."""
+    H, W = a.shape
+    ys = np.arange(H, dtype=np.float64)[:, None]
+    a = a * np.clip((WATERLINE - ys) / 2.0, 0, 1)
+    return largest(a)
+
+
+WATERLINE = 276          # source px (960 x 402), checked on the mask
+
+
 JOBS = {
     "U-C2-SOLDIER": ("36_ATM_10Para_patrol_RIFLE.png", soldier),
+    "U-C2-SOLDIER2": ("44_DVIDS_8439351_TigerStrike24_PD.jpg", azral),
+    "R-RMN-KELANTAN": ("../C3_energy/RMN_KD_Kelantan_175_USNavy_PD.jpg", kelantan),
     "U-C2-STUDENT": ("37_Student_hijab_phone.png", box(40, 120, 1010, 1333)),
     "U-C2-ANALYST": ("39_Cyber_analyst_SOC.png", box(60, 30, 1460, 1333)),
     "U-C1-RESEARCH": ("40_Researchers_labcoat_meter_NAMETAG.png", research),

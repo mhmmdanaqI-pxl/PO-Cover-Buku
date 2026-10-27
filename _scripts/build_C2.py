@@ -272,10 +272,13 @@ def dusk_light(ev, sat=0.95):
     return f
 
 
-# 10 Para soldier (real; current digital camouflage, maroon beret). He carries a rifle in the photo:
-# he sinks into the night shade from mid-chest, above the weapon. Beret top 98 mm, 13.5 mm crown to chin.
-person("U-C2-SOLDIER.png", "Soldier - ATM, 10 Para (real photo)", fade=(116, 128), prep=dusk_light(-0.15, 0.95), rim=0.4,
-       left_mm=86 - 1100 * 13.5 / 160, top_mm=98 - 325 * 13.5 / 160, width_mm=2000 * 13.5 / 160)
+# 10 Para officer, Col. Mohd Azral Manan, at the Tiger Strike 24 opening ceremony aboard USS Somerset
+# (DVIDS 8439351, Cpl. Aidan Hekker USMC, PUBLIC DOMAIN; user_prep2.py). Review 28 Oct: a full-height
+# soldier standing at ease, hands clasped, no weapon, replaces the patrol photo (rifle, agency licence).
+# His pose answers the police officer's. Beret top 98 mm, 13.5 mm crown to chin (source 432 -> 610).
+AZ = 13.5 / 178
+person("U-C2-SOLDIER2.png", "Soldier - ATM, 10 Para (real photo, DVIDS public domain)", fade=(132, 150),
+       prep=dusk_light(-0.35, 0.95), rim=0.35, left_mm=86 - 812 * AZ, top_mm=98 - 432 * AZ, width_mm=2000 * AZ)
 # cyber analyst (real; security-operations desk, tablet + phone, lanyard), flipped to face the centre;
 # already lit by her screens' blue, so only a small step into the dusk
 person("U-C2-ANALYST.png", "Researcher - penyelidikan (siber, real photo)", rim_dir=(1, -0.2), fade=(128, 142),

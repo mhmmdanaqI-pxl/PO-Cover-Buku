@@ -69,9 +69,15 @@ or agency photos: before the pitch is sent, record each one's source URL and lic
 licence them (or use official CGSO/ATM/PDRM photos) and get consent for identifiable people.
 | File | Use |
 |---|---|
-| user_supplied/36_ATM_10Para_patrol_RIFLE.png | C2: 10 Para soldier (head and chest only). He carries a rifle in the photo: the rifle stock is cut out of the matte and he sinks into the navy base above the weapon. Likely a news-agency photo. |
+| user_supplied/36_ATM_10Para_patrol_RIFLE.png | No longer used (replaced 28 Oct by 44, public domain). Was C2: 10 Para soldier (head and chest only). He carries a rifle in the photo: the rifle stock is cut out of the matte and he sinks into the navy base above the weapon. Likely a news-agency photo. |
 | user_supplied/37_Student_hijab_phone.png | C2: student in a grey hijab with phone and folder. |
 | user_supplied/39_Cyber_analyst_SOC.png | C2: cyber analyst with tablet and phone (mirrored). |
 | user_supplied/40_Researchers_labcoat_meter_NAMETAG.png | C1: the right-hand researcher only, with the orange meter (mirrored). The other two women and the readable name tag are excluded; her sleeve logo is retouched out. |
 | user_supplied/43_Planting_pair_sapling.png | C1: two young people planting a sapling, with the photo's own soil as their ground. |
 | 38, 41, 42 | Reviewed, not used: 38 is an alternative student (orange folder clashes with C2); 41 is only 588 x 384 px (too small to print); 42 is an alternative planting group. |
+
+## Public domain (US government works), added 28 Oct for the review fixes
+| File | Author | Source | Licence | Use |
+|---|---|---|---|---|
+| user_supplied/44_DVIDS_8439351_TigerStrike24_PD.jpg | Cpl. Aidan Hekker, USMC | [DVIDS 8439351](https://www.dvidshub.net/image/8439351) (2000 px preview; the original needs a DVIDS login) | Public domain | C2: Col. Mohd Azral Manan, 10th Parachute Brigade, standing at ease at the Tiger Strike 24 opening ceremony aboard USS Somerset, 29 May 2024. Identifiable senior officer: ATM approval still advised. |
+| C3_energy/RMN_KD_Kelantan_175_USNavy_PD.jpg | Oscar Sosa, US Navy | [Commons](https://commons.wikimedia.org/wiki/File:US_Navy_110126-N-6320L-821_The_Royal_Malaysian_Navy_corvette_KD_Kelantan_(175)_is_underway_in_the_Strait_of_Malacca.jpg) (960 px; Commons rate-limited the original) | Public domain | C3: RMN offshore patrol vessel KD Kelantan (175) escorting the tanker on the open sea. |

@@ -51,10 +51,11 @@ CONCEPTS = [
                "dan stesen janakuasa arang batu TNB di pesisir. Menara grid TNB menyalurkan tenaga ke seluruh negara.\n\n"
                "Graf emas yang menurun seketika sebelum meningkat semula melambangkan ekonomi yang pulih melalui langkah "
                "berhemah. Pelantar minyak dan gas di luar pesisir, krew minyak dan gas yang memantau keselamatan bekalan, "
-               "ladang solar sebagai langkah penjimatan tenaga, dan Su-30MKM TUDM yang mengawal laluan tenaga negara. "
+               "ladang solar sebagai langkah penjimatan tenaga, kapal peronda TLDM KD Kelantan yang mengiringi kapal tangki, "
+               "dan Su-30MKM TUDM yang mengawal laluan tenaga negara. "
                "Semua elemen tenaga ialah foto sebenar."),
          checks=["Tenaga: kapal tangki, pelantar minyak & gas, tangki gas, arang batu, grid TNB",
-                 "Pegawai keselamatan: Su-30MKM TUDM",
+                 "Pegawai keselamatan: kapal peronda TLDM + Su-30MKM TUDM",
                  "Rakyat: krew minyak dan gas", "Penjimatan tenaga: ladang solar",
                  "Jalur Gemilang"]),
 ]

@@ -176,7 +176,8 @@ def person(name, layer_name, ground=None, bottom=None, prep=None, **kw):
 # researcher left and soldier right, so her air-quality meter (the research cue) is clear of his sleeve
 # 9.5 push: both AI groups replaced by REAL photos Anaqi supplied (user_prep2.py; licences to confirm,
 # SOURCES.md). The researcher (lab coat, orange handheld meter) is mirrored to face into the cover, so
-# the noon sun in her photo falls from the upper right, as on this cover; head 16 mm, hijab top 103.7 mm.
+# the noon sun in her photo falls from the upper right, as on this cover; review 28 Oct: moved 4.5 mm in
+# so her shoulder is no longer cut by the trim.
 
 
 def clear_morning(ev):
@@ -192,7 +193,7 @@ def clear_morning(ev):
 RS = 19 / 320                                    # mm per source px (hijab top 145 -> chin 465)
 RTOP = 98.0 - 145 * RS
 person("U-C1-RESEARCH.png", "Environmental researcher - penyelidikan (real photo)", prep=clear_morning(-0.2),
-       bottom=RTOP + 1080 * RS - 0.5, left_mm=17 - (1920 - 1100) * RS, top_mm=RTOP, width_mm=1920 * RS,
+       bottom=RTOP + 1080 * RS - 0.5, left_mm=21.5 - (1920 - 1100) * RS, top_mm=RTOP, width_mm=1920 * RS,
        flip=True)
 # two young people planting a sapling (real), the sapling between them; they crouch on their own soil,
 # with hands and sapling clear of the roundel (head 10 mm, a step behind the soldier; soil at 129 mm,
@@ -226,7 +227,9 @@ fo = C.rim_light(fo, SUN, direction=(1, -0.8), width_px=3, strength=0.55)
 st.add("Rainforest base (real photo)", fo)
 # the youths' planting patch ran out in mid-air: a second stand of the same real ferns rises in front
 # of its edge on the right, so the ground runs continuously into the forest floor
-f2 = C.place(fol, left_mm=48, top_mm=106.5, width_mm=160, flip=True)
+# review 28 Oct: this second stand climbed over the soldier and the planting pair (six layers fighting
+# for second place); it now starts lower, a foreground fringe that only hides the foot of their soil
+f2 = C.place(fol, left_mm=48, top_mm=121.0, width_mm=160, flip=True)
 f2[..., :3] = C.exposure(f2[..., :3], -0.12)
 f2[..., 3] *= np.clip((xx - 62) / 8, 0, 1) * np.clip((174 - yy) / 12, 0, 1)   # melts into the first stand below
 f2[..., 3] *= 1 - C.radial(112, 120, 20, 2.4) * 0.95                             # the sapling and hands stay clear
