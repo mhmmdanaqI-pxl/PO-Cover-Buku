@@ -182,6 +182,9 @@ def rising_line():
     xx = (np.arange(W_PX, dtype=np.float32)[None, :] + 0.5) / PXMM
     yl = np.interp(xx, P[:, 0], P[:, 1])
     area = np.clip(1 - (yy - yl) / 26, 0, 1) * (yy > yl + 0.6) * np.clip((xx - 44) / 26, 0, 1) * 0.30
+    # the fill ends with the chart (under the arrowhead): past it, interp would hold the last value and
+    # draw a flat, ruler-straight top edge across the open sky to the trim
+    area *= np.clip((P[-1][0] - xx) / 8, 0, 1)
     area_l = Image.fromarray((area * 255).astype(np.uint8), "L")
 
     gold = tuple(int(c) for c in hexrgb("#E6B44A"))
