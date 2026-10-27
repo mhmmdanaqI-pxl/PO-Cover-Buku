@@ -1,0 +1,209 @@
+[
+  {
+    "folder": "shared",
+    "id": "S-1",
+    "title": "Blank flag fabric",
+    "count": 2,
+    "pick": 2,
+    "status": "Candidate",
+    "note": "Broad billowing folds and clean contrast. Map the exact flag vector later."
+  },
+  {
+    "folder": "C2",
+    "id": "C2-A",
+    "title": "Palace at blue hour",
+    "count": 2,
+    "pick": null,
+    "status": "Replace with real photo",
+    "note": "Both variants alter architectural details. Neither passes the exact-reference gate. Use the real palace source; it crops the outer wings, so a wider source is still needed if the whole building must appear."
+  },
+  {
+    "folder": "C2",
+    "id": "C2-B",
+    "title": "Classified dossier",
+    "count": 2,
+    "pick": 2,
+    "status": "Candidate",
+    "note": "Better margins around folder, paper and ribbon. Blank emblem and label areas."
+  },
+  {
+    "folder": "C2",
+    "id": "C2-C",
+    "title": "Two security officers",
+    "count": 3,
+    "pick": 3,
+    "status": "Detail review",
+    "note": "v3 improves straight arms and side clearance. Framing is wider than head-to-knees. Badges, insignia and camouflage remain approximate; verify before use."
+  },
+  {
+    "folder": "C2",
+    "id": "C2-D",
+    "title": "Three Su-30MKM jets",
+    "count": 2,
+    "pick": 2,
+    "status": "Detail review",
+    "note": "v2 has three separated planes in a triangular V. v1 is an echelon rather than the requested V. Verify airframe and small markings against the reference."
+  },
+  {
+    "folder": "C2",
+    "id": "C2-E",
+    "title": "Cybersecurity researcher",
+    "count": 4,
+    "pick": 4,
+    "status": "Candidate",
+    "note": "v4 corrects tablet orientation and restores shoulder/elbow clearance. Earlier variants have awkward screen direction or cropped framing."
+  },
+  {
+    "folder": "C2",
+    "id": "C2-F",
+    "title": "Student using phone",
+    "count": 2,
+    "pick": 1,
+    "status": "Detail review",
+    "note": "v1 has the requested leftward orientation but little margin by the right shoulder. v2 has more space but turns the other way."
+  },
+  {
+    "folder": "C1",
+    "id": "C1-A1",
+    "title": "Clear sky",
+    "count": 2,
+    "pick": 2,
+    "status": "Candidate",
+    "note": "v2 has more clear blue space and fewer clouds."
+  },
+  {
+    "folder": "C1",
+    "id": "C1-A2",
+    "title": "Haze sky",
+    "count": 2,
+    "pick": 2,
+    "status": "Candidate",
+    "note": "Even haze plate without land or a distinct sun."
+  },
+  {
+    "folder": "C1",
+    "id": "C1-B",
+    "title": "Palace in daylight",
+    "count": 2,
+    "pick": null,
+    "status": "Replace with real photo",
+    "note": "Window, column and other architectural details drift from the reference. Use the real palace photograph and relight in Photoshop."
+  },
+  {
+    "folder": "C1",
+    "id": "C1-C",
+    "title": "Army soldier",
+    "count": 2,
+    "pick": 2,
+    "status": "Detail review",
+    "note": "v2 adds the beret badge and keeps hands within frame. Uniform details and insignia require verification; reference photos do not establish current uniform standards."
+  },
+  {
+    "folder": "C1",
+    "id": "C1-D",
+    "title": "Environmental researcher",
+    "count": 2,
+    "pick": 2,
+    "status": "Detail review",
+    "note": "Better framing and a clear abstract graph. Inspect tiny screen/button marks at final placement size and remove anything that reads as lettering."
+  },
+  {
+    "folder": "C1",
+    "id": "C1-E",
+    "title": "Youths planting a tree",
+    "count": 4,
+    "pick": 4,
+    "status": "Detail review",
+    "note": "v4 shows all six hands separately with whole-figure framing. Soil contact still obscures some finger detail, so the strict 30-finger check is not certified. v1/v2 overlap hands; v3 hides one hand."
+  },
+  {
+    "folder": "C1",
+    "id": "C1-F",
+    "title": "Rainforest foliage",
+    "count": 2,
+    "pick": 2,
+    "status": "Candidate",
+    "note": "Continuous bottom border with an irregular upper edge against dark forest."
+  },
+  {
+    "folder": "C1",
+    "id": "C1-G",
+    "title": "C-130H Hercules",
+    "count": 2,
+    "pick": 1,
+    "status": "Detail review",
+    "note": "v1 shows four engines/propellers more clearly; v2 obscures an engine. Verify livery, geometry and markings before final use."
+  },
+  {
+    "folder": "C3",
+    "id": "C3-A",
+    "title": "Sunrise sky",
+    "count": 2,
+    "pick": 1,
+    "status": "Candidate",
+    "note": "v1 has the cleaner sun shape. Both need restrained grading to match the composite."
+  },
+  {
+    "folder": "C3",
+    "id": "C3-A2",
+    "title": "KL skyline",
+    "count": 2,
+    "pick": null,
+    "status": "Replace with real photo",
+    "note": "Landmark ordering is broadly retained, but facade and smaller-building details change. Use the real skyline source; its night lighting still needs the planned sunrise treatment."
+  },
+  {
+    "folder": "C3",
+    "id": "C3-B",
+    "title": "Palace at sunrise",
+    "count": 2,
+    "pick": null,
+    "status": "Replace with real photo",
+    "note": "Both alter architecture. Use the real palace photograph with non-generative relighting."
+  },
+  {
+    "folder": "C3",
+    "id": "C3-C",
+    "title": "Solar farm",
+    "count": 2,
+    "pick": 2,
+    "status": "Candidate",
+    "note": "More restrained warmth and clearer rows than v1."
+  },
+  {
+    "folder": "C3",
+    "id": "C3-D",
+    "title": "Police officer at port",
+    "count": 2,
+    "pick": 2,
+    "status": "Detail review",
+    "note": "Less invented adornment than v1 and good framing. Badge/cap details remain approximate and need verification."
+  },
+  {
+    "folder": "C3",
+    "id": "C3-E",
+    "title": "Renewable-energy engineer",
+    "count": 2,
+    "pick": 2,
+    "status": "Candidate",
+    "note": "Both arms are within frame and the single solar cell reads clearly; v1 crops an arm."
+  },
+  {
+    "folder": "C3",
+    "id": "C3-F",
+    "title": "Young professionals",
+    "count": 2,
+    "pick": 2,
+    "status": "Candidate",
+    "note": "Full figures, natural stride and more forward-looking gaze than v1."
+  },
+  {
+    "folder": "C3",
+    "id": "C3-H",
+    "title": "Port at sunrise (optional)",
+    "count": 2,
+    "pick": 1,
+    "status": "Detail review",
+    "note": "Optional asset included. Inspect and retouch small hull markings that may read as invented text."
+  }
+]

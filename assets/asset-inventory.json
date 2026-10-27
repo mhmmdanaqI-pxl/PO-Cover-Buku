@@ -1,0 +1,410 @@
+[
+  {
+    "File": "C1-A1_v1.png",
+    "Folder": "C1",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 1905236,
+    "SHA256": "D7E57B1324B3E0919E840DCAE5EFFDA5FAAA2A22D54744EE68D68281E5BA9D51"
+  },
+  {
+    "File": "C1-A1_v2.png",
+    "Folder": "C1",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 1851759,
+    "SHA256": "29C452AA6ECBEC0A35B1ADE10C63C01AEE96C31461850B888251F447F5B6398C"
+  },
+  {
+    "File": "C1-A2_v1.png",
+    "Folder": "C1",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 1595982,
+    "SHA256": "B0634979BA6D3A0250A02E422B7EF6B3FFF8F6BAE3E7BD469808C754BC589AE8"
+  },
+  {
+    "File": "C1-A2_v2.png",
+    "Folder": "C1",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 1617672,
+    "SHA256": "82632C506D58A246C0A448D46296DC0CC919EDD510B4860DB8A9BB0DA7C761B9"
+  },
+  {
+    "File": "C1-B_v1.png",
+    "Folder": "C1",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2260591,
+    "SHA256": "0415BEB1B9B775DEAA00A547095EF934A1C4800EFB831CA3CCF02C68761C7B2B"
+  },
+  {
+    "File": "C1-B_v2.png",
+    "Folder": "C1",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2196106,
+    "SHA256": "86DED9A1DA600A3E45EC0B73D66051E524AAB082CF52BE5A98FB1FA5BC2E7004"
+  },
+  {
+    "File": "C1-C_v1.png",
+    "Folder": "C1",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 2441737,
+    "SHA256": "E473A2A3AE59F11A24B8F422BB3CE6CFAC6286F2CD65A8486D03BF79219D2909"
+  },
+  {
+    "File": "C1-C_v2.png",
+    "Folder": "C1",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 2434856,
+    "SHA256": "BEB4BB6AACDFADBB438E8C5B4B66E43C91604725E3D60D91DB5AA7D5CCAF9E32"
+  },
+  {
+    "File": "C1-D_v1.png",
+    "Folder": "C1",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 2024375,
+    "SHA256": "E71C919410D21F5E9B9DBA8910773BD03A3727D87645192A6BCCC285CEEBF940"
+  },
+  {
+    "File": "C1-D_v2.png",
+    "Folder": "C1",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 2046175,
+    "SHA256": "8BCCA1730E852EB820DFA410106150F386652E6642B2FE3686058A79634D04A8"
+  },
+  {
+    "File": "C1-E_v1.png",
+    "Folder": "C1",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2940099,
+    "SHA256": "E6C58468FCE049A586CB00C746A53F325EC1114CD5E9DC01133A8D65E5A2B0B7"
+  },
+  {
+    "File": "C1-E_v2.png",
+    "Folder": "C1",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2937720,
+    "SHA256": "41E5B7BF208E7B24981A44BB08BC84AFA16413CF2C0BFDEFB2893C79AC8AEACF"
+  },
+  {
+    "File": "C1-E_v3.png",
+    "Folder": "C1",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2982787,
+    "SHA256": "C5D9B8CBD9CFAB3BC8901CF34B79D7C5018EFCBC517360A73BEF2884FCC35712"
+  },
+  {
+    "File": "C1-E_v4.png",
+    "Folder": "C1",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2920568,
+    "SHA256": "DC2D117396498F4DFFAA897C05502216BA12CA3415F7FA82DF80DF62AC278C27"
+  },
+  {
+    "File": "C1-F_v1.png",
+    "Folder": "C1",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2780574,
+    "SHA256": "C85549D86BBCBF68822334CFEFCEA30964D2329E18A452E8B1679E9FCFA044EE"
+  },
+  {
+    "File": "C1-F_v2.png",
+    "Folder": "C1",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2718113,
+    "SHA256": "B52B2D77ED467BF2FE638F9C2D37CBD00CABB98BD128FA480A08BBF620648A9D"
+  },
+  {
+    "File": "C1-G_v1.png",
+    "Folder": "C1",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 1720435,
+    "SHA256": "7D836C5B007797AD020701CB8A0D736F9887B4B53E894EFA9A5016240F59C7FF"
+  },
+  {
+    "File": "C1-G_v2.png",
+    "Folder": "C1",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 1852937,
+    "SHA256": "2A31E8B3EBF1D5E40D5AE7BD19D8F621AE7B44FBE9C901FD4BA5D96D4B2C0A69"
+  },
+  {
+    "File": "C2-A_v1.png",
+    "Folder": "C2",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2163560,
+    "SHA256": "17B13C27214B4D74085D7AA5B691B131F78B272CA6AE69718701B95989DEE924"
+  },
+  {
+    "File": "C2-A_v2.png",
+    "Folder": "C2",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2092650,
+    "SHA256": "0779D28F68E214F83422FEE0870FB271A9402AB7D8A78B28E22144D2EA1F95A7"
+  },
+  {
+    "File": "C2-B_v1.png",
+    "Folder": "C2",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 3145135,
+    "SHA256": "702BF23352B6962E4328F91F227732DF10846CD104A523DD226041A9CD3D6E62"
+  },
+  {
+    "File": "C2-B_v2.png",
+    "Folder": "C2",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2773349,
+    "SHA256": "60C5141D908333764BE22D856C18FAAA864AA3718EE97EAA7A35708C780355E3"
+  },
+  {
+    "File": "C2-C_v1.png",
+    "Folder": "C2",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 2314199,
+    "SHA256": "3C2E9FFA5E84091900F7927A9F5AEF584E416767C581FAD548D2657F25332E5A"
+  },
+  {
+    "File": "C2-C_v2.png",
+    "Folder": "C2",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 2248450,
+    "SHA256": "BBE75E5F81FD1A0E81B4F023A7B30629D315E870964C8643C2D901E76EABF08B"
+  },
+  {
+    "File": "C2-C_v3.png",
+    "Folder": "C2",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 2279382,
+    "SHA256": "7DCE7809DC674C1679659DE85F70B45C82202831AF5F4935E8B13AA409F60F2D"
+  },
+  {
+    "File": "C2-D_v1.png",
+    "Folder": "C2",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 1723534,
+    "SHA256": "3092BD1F1987DAA466A370157FA3EC56A285CF2FBCDDB2AC56AEC62B4028FA80"
+  },
+  {
+    "File": "C2-D_v2.png",
+    "Folder": "C2",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 1824212,
+    "SHA256": "3D412CEECC3F730FED056767125B7DCB80789FBFF6C3E037EA66AF8C787C53A7"
+  },
+  {
+    "File": "C2-E_v1.png",
+    "Folder": "C2",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 1985985,
+    "SHA256": "20CE99DA8C16E7FA285CD7F7460A52442ABAED7819E1C5BD570A9EB3D253BAFD"
+  },
+  {
+    "File": "C2-E_v2.png",
+    "Folder": "C2",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 1945121,
+    "SHA256": "CAD43BA92C1E9ACCCFAA1CA5086A71999F3E391FC783A41F55D5DF6B24FC9791"
+  },
+  {
+    "File": "C2-E_v3.png",
+    "Folder": "C2",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 1978469,
+    "SHA256": "1364CC138EFC1DE8849BE3E03DC98A0DCBC342FA167C7B7295E7A7DC8C48FCD9"
+  },
+  {
+    "File": "C2-E_v4.png",
+    "Folder": "C2",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 1924746,
+    "SHA256": "D1E27238061D07DDAA82E84AE995EED331D849BA2A00E1E7C43CC8D551FC1A7B"
+  },
+  {
+    "File": "C2-F_v1.png",
+    "Folder": "C2",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 2494039,
+    "SHA256": "51DC6EE4FBBC789930654C33F39E8A36E5B205FCFCA40EF70AC1369BAB489A0B"
+  },
+  {
+    "File": "C2-F_v2.png",
+    "Folder": "C2",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 2421104,
+    "SHA256": "9384CC1651C637F0F139CAB6B21734511388D74DBCF7F6DCDECE9EDBAD655895"
+  },
+  {
+    "File": "C3-A_v1.png",
+    "Folder": "C3",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 1970349,
+    "SHA256": "E10D923263E9C157271890F0D25C3D7ACA9C31BF4681D08240DEC0469CEC8D46"
+  },
+  {
+    "File": "C3-A_v2.png",
+    "Folder": "C3",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 1778033,
+    "SHA256": "03430B714A99EBCEC698B7F5300391A3DA8F67A8A42E767782D9DEB2CCE58776"
+  },
+  {
+    "File": "C3-A2_v1.png",
+    "Folder": "C3",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 1912202,
+    "SHA256": "54C8AA4C3ADF4045DDFED91CCD67DE038694AD30C5091AE9EE68BEF9501D7C61"
+  },
+  {
+    "File": "C3-A2_v2.png",
+    "Folder": "C3",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 1903964,
+    "SHA256": "2D03CA4FCC7A0B2C041E185B7DF85FC5D4AE80AB96F2E44C59997389AFB3EFDB"
+  },
+  {
+    "File": "C3-B_v1.png",
+    "Folder": "C3",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2142374,
+    "SHA256": "741DC81F4A0C59C953231770F94956518ED1625086FF9A225EDFC92551BA9376"
+  },
+  {
+    "File": "C3-B_v2.png",
+    "Folder": "C3",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2112673,
+    "SHA256": "3830A270D582D74BD8884719F1FEAA5CB385439C6C3CEB40B1E45E83FC28F712"
+  },
+  {
+    "File": "C3-C_v1.png",
+    "Folder": "C3",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2520942,
+    "SHA256": "FB1B02AF8D9603952905887CDA58BDE35EBEB20B3E25E33C2513658199590B87"
+  },
+  {
+    "File": "C3-C_v2.png",
+    "Folder": "C3",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2502106,
+    "SHA256": "B14AF198685FC053D75C0396DA32A0F4F744EC3066FCB86951D534FECAE46CDA"
+  },
+  {
+    "File": "C3-D_v1.png",
+    "Folder": "C3",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 2107887,
+    "SHA256": "87BADC67B01D0878116607F9985BD899ACA396C28AF3D5EC82E04B92732AFBF2"
+  },
+  {
+    "File": "C3-D_v2.png",
+    "Folder": "C3",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 2032533,
+    "SHA256": "FECC2668679A225460590FF2FB615D646A72B9F1ED701B9A89F982527BDDAA4D"
+  },
+  {
+    "File": "C3-E_v1.png",
+    "Folder": "C3",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 2056209,
+    "SHA256": "F02D32ADCFD377E40CCF445D323E7FEDEA07BCA96BAE58BD3FC80F01420E6750"
+  },
+  {
+    "File": "C3-E_v2.png",
+    "Folder": "C3",
+    "Width": 1024,
+    "Height": 1536,
+    "Bytes": 1946602,
+    "SHA256": "1AA0414D4FA66603212A2EEDAAC682CF7977C883FE39AE3FEB86614398158EDB"
+  },
+  {
+    "File": "C3-F_v1.png",
+    "Folder": "C3",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2184015,
+    "SHA256": "26B0C22BC94A1D9C8B366406AA955FCCED015B5203620FE1DD9B1F7855B1FA9A"
+  },
+  {
+    "File": "C3-F_v2.png",
+    "Folder": "C3",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2405419,
+    "SHA256": "1CB3928DB02C9ABA0E4C9EF2D2179A5A93131780F2FB711A71615A6520A19D8F"
+  },
+  {
+    "File": "C3-H_v1.png",
+    "Folder": "C3",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2403668,
+    "SHA256": "3880D9A461C390E1FFC5087BB9934AF6814D8BCA794395DF941219659D740E37"
+  },
+  {
+    "File": "C3-H_v2.png",
+    "Folder": "C3",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 2466309,
+    "SHA256": "1EAC6BA753F62CF80B02614253DEC0A97CDD86BAB02055AAD374211288E6855B"
+  },
+  {
+    "File": "S-1_v1.png",
+    "Folder": "shared",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 1552776,
+    "SHA256": "F096C8FC2126263A0DC5B10CB0A4FF452668BC6B2555515C9F0DC69E4D3464ED"
+  },
+  {
+    "File": "S-1_v2.png",
+    "Folder": "shared",
+    "Width": 1536,
+    "Height": 1024,
+    "Bytes": 1395634,
+    "SHA256": "01F1505C728AE730A86FA963CA43FAEC46F635A6A939540B2BF909E7FC7E5221"
+  }
+]

@@ -1,0 +1,46 @@
+CGSO 2026 - CADANGAN REKA BENTUK KULIT BUKU (3 KONSEP)
+Pejabat Ketua Pegawai Keselamatan Kerajaan Malaysia, Jabatan Perdana Menteri
+Saiz A5 (148 x 210 mm)
+
+KONSEP
+  1. Alam Sekitar          - Langit Biru, Negara Terpelihara
+  2. Keselamatan Dokumen   - Daulat Terpelihara, Rahsia Terjaga
+  3. Ekonomi               - Berhemah Hari Ini, Teguh Esok
+
+KANDUNGAN FOLDER
+  01_Pembentangan       Deck cadangan (5 slaid): konsep, rasional, elemen wajib, spesifikasi.
+  02_Pratonton_JPG      Kulit penuh saiz A5 (dipotong pada garis potong), 300 ppi.
+                        Untuk dilihat di skrin atau dihantar melalui WhatsApp.
+  03_Mockup             Mockup buku A5 bagi setiap konsep, dan ketiga-tiga konsep bersama.
+  04_PDF_Cetakan_CMYK   Fail untuk pencetak: A5 + bleed 3 mm setiap sisi, CMYK FOGRA39, 300 ppi.
+                        Jata Negara, teks dan logo "Rahsiakan Rahsia Kerajaan" dalam bentuk vektor.
+  05_PSD_Berlapis       Fail Photoshop boleh sunting (RGB, 300 ppi, termasuk bleed).
+                        Setiap elemen pada lapisan sendiri dengan layer mask; Jata, teks dan logo
+                        dalam kumpulan berasingan; garis panduan bleed / potong / kawasan selamat
+                        pada lapisan tersembunyi.
+  06_Pruf_Warna         Pruf lembut FOGRA39 (rupa jangkaan di atas kertas bersalut) dan
+                        perbandingan skrin berbanding cetakan.
+
+NOTA UNTUK PENCETAK
+  - Fail dibina untuk FOGRA39 (offset, kertas bersalut). Jika pencetak menggunakan keadaan
+    cetakan lain (contohnya Japan Color 2001), fail boleh dibina semula.
+  - Had dakwat 300% (maksimum sebenar 285%). Hitam Jata Negara 100% K.
+  - Sudut buku bulat: dianggarkan ~6 mm. Semua elemen penting berada dalam kawasan selamat
+    10 mm dari garis potong.
+  - Teks putih kecil pada blok alamat (7.5 - 8.5 pt) adalah knockout empat warna; minta
+    pencetak menyemak registration.
+  - Pruf fizikal (contract proof atau press proof) disyorkan sebelum cetakan penuh.
+  - Fail dibina mengikut keperluan PDF/X-4 tetapi belum disahkan oleh alat preflight.
+
+NOTA IMEJ
+  - Figura manusia, pesawat dan kebanyakan latar dijana dengan AI sebagai visual cadangan.
+    Untuk produksi akhir, imej ini akan diganti dengan foto rasmi, foto berlesen atau sesi
+    fotografi.
+  - Istana Negara ialah foto sebenar: CEphoto, Uwe Aranas (CC BY-SA 3.0). Untuk cetakan akhir,
+    foto ini boleh diganti dengan foto rasmi atau foto berlesen.
+  - Jalur Gemilang dibina semula secara vektor mengikut ukuran rasmi.
+  - Lencana pada anggota keselamatan ialah lencana sebenar: lambang PDRM pada topi dan kolar
+    polis, dan lencana beret 10 Briged Para pada anggota beret merah marun. Untuk produksi akhir,
+    mohon CGSO sahkan atau bekalkan fail rasmi lencana ini.
+
+27 Oktober 2026

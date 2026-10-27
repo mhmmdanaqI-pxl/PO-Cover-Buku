@@ -1,0 +1,119 @@
+"""Delivery folder for Google Drive: everything the client and printer need, nothing internal
+(no scripts, generated assets, references, Team B drafts or archives). Re-run after any revision;
+files are overwritten in place.
+
+  CGSO2026_Cadangan_Kulit_Buku/
+    BACA_SAYA.txt                 contents + print and image notes (BM)
+    01_Pembentangan/              pitch deck
+    02_Pratonton_JPG/             full covers trimmed to A5, 300 ppi
+    03_Mockup/                    book mockups
+    04_PDF_Cetakan_CMYK/          press files (A5 + 3 mm bleed, FOGRA39)
+    05_PSD_Berlapis/              live layered PSDs
+    06_Pruf_Warna/                soft proofs
+
+Run: venv python -I _scripts/package.py <workspace>
+"""
+import hashlib
+import os
+import shutil
+import sys
+
+from PIL import Image
+
+ROOT = sys.argv[1]
+OUT = os.path.join(ROOT, "CGSO2026_Cadangan_Kulit_Buku")
+B = round(3 * 300 / 25.4)                         # 3 mm bleed at 300 ppi
+CONCEPTS = [("C1", "Konsep1_Alam_Sekitar", "CGSO2026_C1_Alam_Sekitar.psd"),
+            ("C2", "Konsep2_Keselamatan_Dokumen", "CGSO2026_C2_Keselamatan_Dokumen.psd"),
+            ("C3", "Konsep3_Ekonomi", "CGSO2026_C3_Ekonomi.psd")]
+
+README = """CGSO 2026 - CADANGAN REKA BENTUK KULIT BUKU (3 KONSEP)
+Pejabat Ketua Pegawai Keselamatan Kerajaan Malaysia, Jabatan Perdana Menteri
+Saiz A5 (148 x 210 mm)
+
+KONSEP
+  1. Alam Sekitar          - Langit Biru, Negara Terpelihara
+  2. Keselamatan Dokumen   - Daulat Terpelihara, Rahsia Terjaga
+  3. Ekonomi               - Berhemah Hari Ini, Teguh Esok
+
+KANDUNGAN FOLDER
+  01_Pembentangan       Deck cadangan (5 slaid): konsep, rasional, elemen wajib, spesifikasi.
+  02_Pratonton_JPG      Kulit penuh saiz A5 (dipotong pada garis potong), 300 ppi.
+                        Untuk dilihat di skrin atau dihantar melalui WhatsApp.
+  03_Mockup             Mockup buku A5 bagi setiap konsep, dan ketiga-tiga konsep bersama.
+  04_PDF_Cetakan_CMYK   Fail untuk pencetak: A5 + bleed 3 mm setiap sisi, CMYK FOGRA39, 300 ppi.
+                        Jata Negara, teks dan logo "Rahsiakan Rahsia Kerajaan" dalam bentuk vektor.
+  05_PSD_Berlapis       Fail Photoshop boleh sunting (RGB, 300 ppi, termasuk bleed).
+                        Setiap elemen pada lapisan sendiri dengan layer mask; Jata, teks dan logo
+                        dalam kumpulan berasingan; garis panduan bleed / potong / kawasan selamat
+                        pada lapisan tersembunyi.
+  06_Pruf_Warna         Pruf lembut FOGRA39 (rupa jangkaan di atas kertas bersalut) dan
+                        perbandingan skrin berbanding cetakan.
+
+NOTA UNTUK PENCETAK
+  - Fail dibina untuk FOGRA39 (offset, kertas bersalut). Jika pencetak menggunakan keadaan
+    cetakan lain (contohnya Japan Color 2001), fail boleh dibina semula.
+  - Had dakwat 300% (maksimum sebenar 285%). Hitam Jata Negara 100% K.
+  - Sudut buku bulat: dianggarkan ~6 mm. Semua elemen penting berada dalam kawasan selamat
+    10 mm dari garis potong.
+  - Teks putih kecil pada blok alamat (7.5 - 8.5 pt) adalah knockout empat warna; minta
+    pencetak menyemak registration.
+  - Pruf fizikal (contract proof atau press proof) disyorkan sebelum cetakan penuh.
+  - Fail dibina mengikut keperluan PDF/X-4 tetapi belum disahkan oleh alat preflight.
+
+NOTA IMEJ
+  - Figura manusia, pesawat dan kebanyakan latar dijana dengan AI sebagai visual cadangan.
+    Untuk produksi akhir, imej ini akan diganti dengan foto rasmi, foto berlesen atau sesi
+    fotografi.
+  - Istana Negara ialah foto sebenar: CEphoto, Uwe Aranas (CC BY-SA 3.0). Untuk cetakan akhir,
+    foto ini boleh diganti dengan foto rasmi atau foto berlesen.
+  - Jalur Gemilang dibina semula secara vektor mengikut ukuran rasmi.
+  - Lencana pada anggota keselamatan ialah lencana sebenar: lambang PDRM pada topi dan kolar
+    polis, dan lencana beret 10 Briged Para pada anggota beret merah marun. Untuk produksi akhir,
+    mohon CGSO sahkan atau bekalkan fail rasmi lencana ini.
+
+27 Oktober 2026
+"""
+
+
+def sha(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        for chunk in iter(lambda: f.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def put(src, folder, name):
+    d = os.path.join(OUT, folder)
+    os.makedirs(d, exist_ok=True)
+    dst = os.path.join(d, name)
+    shutil.copy2(os.path.join(ROOT, src), dst)
+    assert sha(os.path.join(ROOT, src)) == sha(dst), f"copy mismatch: {src}"
+
+
+os.makedirs(OUT, exist_ok=True)
+with open(os.path.join(OUT, "BACA_SAYA.txt"), "w", encoding="utf-8", newline="\r\n") as f:
+    f.write(README)
+
+put("05_Presentation/CGSO2026_Cadangan_Kulit_Buku.pdf", "01_Pembentangan", "CGSO2026_Cadangan_Kulit_Buku.pdf")
+put("05_Presentation/mockup_trio.jpg", "03_Mockup", "CGSO2026_Mockup_3_Konsep.jpg")
+for key, name, psd in CONCEPTS:
+    # preview trimmed to A5 (the bleed is only for the printer)
+    os.makedirs(os.path.join(OUT, "02_Pratonton_JPG"), exist_ok=True)
+    im = Image.open(os.path.join(ROOT, f"04_Final/{key}/CGSO2026_{key}_preview.jpg"))
+    im.crop((B, B, B + 1748, B + 2480)).save(os.path.join(OUT, "02_Pratonton_JPG", f"CGSO2026_{name}.jpg"),
+                                             quality=95, subsampling=0, dpi=(300, 300))
+    put(f"05_Presentation/mockup_{key}.jpg", "03_Mockup", f"CGSO2026_Mockup_{name}.jpg")
+    put(f"06_Print/CGSO2026_{key}_PRINT_CMYK_FOGRA39.pdf", "04_PDF_Cetakan_CMYK", f"CGSO2026_{name}_CETAK_CMYK.pdf")
+    put(f"04_Final/{key}/{psd}", "05_PSD_Berlapis", f"CGSO2026_{name}.psd")
+    put(f"06_Print/{key}_softproof_FOGRA39.jpg", "06_Pruf_Warna", f"{name}_Pruf_FOGRA39.jpg")
+    put(f"06_Print/{key}_screen_vs_print.jpg", "06_Pruf_Warna", f"{name}_Skrin_vs_Cetakan.jpg")
+
+total = 0
+for dp, _, fs in sorted(os.walk(OUT)):
+    for fn in sorted(fs):
+        p = os.path.join(dp, fn)
+        total += os.path.getsize(p)
+        print(f"{os.path.getsize(p) / 1e6:8.1f} MB  {os.path.relpath(p, OUT)}")
+print(f"{total / 1e6:8.1f} MB  total")
