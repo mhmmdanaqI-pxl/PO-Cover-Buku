@@ -67,8 +67,10 @@ CONCEPTS = {
                bg=[(0.00, "#B7A47E"), (0.38, "#5E9BD0"), (0.62, "#2C7FC4"), (1.00, "#0B3D2E")], bg_angle=-35),
     "C2": dict(title="Keselamatan Dokumen", accent="#E2BC4F", dark="#050D24",
                bg=[(0.00, "#0B1F4B"), (0.45, "#1D3F8F"), (1.00, "#050D24")], bg_angle=0),
-    "C3": dict(title="Ekonomi", accent="#FFB547", dark="#0B1430",
-               bg=[(0.00, "#0E1E44"), (0.50, "#2B3F73"), (0.66, "#E89A3A"), (0.74, "#6A4A4E"), (1.00, "#0B1430")], bg_angle=0),
+    # thumbnail test 28 Oct: amber + navy base read as a variant of C2's gold + navy at phone size;
+    # C3 is now the warm cover: sunrise orange accent over a dusk-plum base
+    "C3": dict(title="Ekonomi", accent="#FF8A3D", dark="#1E1218",
+               bg=[(0.00, "#0E1E44"), (0.50, "#2B3F73"), (0.66, "#E89A3A"), (0.74, "#6A4A4E"), (1.00, "#1E1218")], bg_angle=0),
 }
 
 

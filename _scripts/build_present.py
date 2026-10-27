@@ -44,7 +44,7 @@ CONCEPTS = [
                  "Rakyat / anak muda: pelajar universiti", "Penyelidikan: penyelidik keselamatan siber",
                  "Jalur Gemilang"]),
     dict(key="C3", no="KONSEP 3", theme="EKONOMI", title="Berhemah Hari Ini, Teguh Esok",
-         accent=(1.0, 0.71, 0.28),
+         accent=(1.0, 0.54, 0.24),
          body=("Konflik di Timur Tengah menjejaskan bekalan dan harga tenaga dunia. Bekalan minyak, gas asli, arang batu "
                "dan grid elektrik negara ialah aset yang mesti dilindungi, dan langkah penjimatan menjadi tanggungjawab "
                "bersama. Kapal tangki minyak belayar dengan selamat di bawah matahari terbit, dengan tangki simpanan gas "

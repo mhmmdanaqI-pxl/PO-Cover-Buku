@@ -31,6 +31,7 @@ cut = lambda n: C.load_rgba(os.path.join(ROOT, "03_Cutouts", n))
 REF = lambda n: os.path.join(ROOT, "assets/_reference/C3_energy", n)
 AMBER = "#FFB35A"
 HAZE = C.hexf("#C99682")
+DUSK = "#1E1218"                          # warm dusk-plum base (C2 owns navy)
 SUN = (101.0, 95.0)                       # canvas mm, just above the horizon, behind the tanker's bridge
 HZ = 104.0                                 # horizon (lifted 5 mm in the review: a taller energy band)
 yy = np.arange(H, dtype=np.float32)[:, None] / mm(1)
@@ -272,18 +273,21 @@ st.add("Solar farm base", so)
 
 shade = np.clip((yy - 140) / 56, 0, 1) ** 1.15 * 0.88
 shade = shade * np.clip((120 - xx) / 32, 0.5, 1)
-st.add("Shade - headline base", full(np.broadcast_to(C.hexf("#0B1430"), (H, W, 3)), shade))
-st.add("Shade - roundel backing", full(np.broadcast_to(C.hexf("#0B1430"), (H, W, 3)), C.radial(118, 151.8, 30, 1.6) * 0.5))
+st.add("Shade - headline base", full(np.broadcast_to(C.hexf(DUSK), (H, W, 3)), shade))
+st.add("Shade - roundel backing", full(np.broadcast_to(C.hexf(DUSK), (H, W, 3)), C.radial(118, 151.8, 30, 1.6) * 0.5))
 tr = np.clip(C.radial(120, 30, 46, 1.4) * 0.72 + C.radial(154, 0, 82, 1.7) * 0.4, 0, 0.82)
 st.add("Shade - Jata + office text", full(np.broadcast_to(C.hexf("#0B1638"), (H, W, 3)), tr))
 st.add("Shade - office text (soft burn)", full(np.broadcast_to(C.hexf("#0B1638"), (H, W, 3)),
                                                C.text_burn(ROOT, "C3") * 0.3))
-st.add("Shade - headline accent lines (soft burn)", full(np.broadcast_to(C.hexf("#0B1430"), (H, W, 3)),
+st.add("Shade - headline accent lines (soft burn)", full(np.broadcast_to(C.hexf(DUSK), (H, W, 3)),
        C.text_burn(ROOT, "C3", "Headline", feather_mm=2.5, spread_mm=(2.0, 1.2), rows_mm=(140, 168)) * 0.5))
 
 
 def grade(c):
     g = C.curves(c, [(0, 0.012), (0.25, 0.23), (0.6, 0.62), (1, 0.985)])
+    # thumbnail test: the energy scene (platform, tanker, plant) must out-read the flag at phone size
+    band = (np.clip((yy - 82) / 8, 0, 1) * np.clip((128 - yy) / 10, 0, 1))[..., None]
+    g = g * (1 + band * 0.1) + (g - 0.5) * band * 0.08
     g = C.tint_shadows_highlights(g, shadow=(-0.004, -0.002, 0.012), highlight=(0.014, 0.006, -0.01))
     vign = 1 - C.radial(96, 112, 150, 1.0)
     return g * (1 - vign[..., None] * 0.18)
