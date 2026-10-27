@@ -303,8 +303,28 @@ near = C.load_rgb(REF("Pylons_KelanaJaya.jpg"))[1450:2448]
 shore = C.place(as_rgba(near), left_mm=60, top_mm=120, width_mm=100)
 Lr = C.lum(shore[..., :3])
 tuft2 = np.clip((cv2.GaussianBlur(Lr, (0, 0), 1.4) - cv2.GaussianBlur(Lr, (0, 0), 7.0)) * 26, -1.4, 1.4)
-s_top = np.maximum(131.0 + 0.9 * np.sin(xx * 0.27 + 0.4) + 0.4 * np.sin(xx * 0.9), 150.0 - (xx - 68) * 0.8) - tuft2
-shore[..., 3] = np.clip((yy - s_top) * mm(1) / 1.6, 0, 1) * (shore[..., 3] > 0)
+# review 28 Oct: the bank ended in a straight, jagged diagonal into the sea and the panels' top edge met
+# the water directly. The bank now rounds down to a low grassy embankment that runs to the left edge,
+# 3 mm above the panels (they stand on land), with a wet waterline; blades shorter on the slope.
+pcol = so[..., 3] > 0.5
+pt_mm = np.where(pcol.any(0), pcol.argmax(0), H).astype(np.float32) / mm(1)          # panels' top edge, per column
+lvl = cv2.GaussianBlur(pt_mm[None, :], (0, 0), mm(4))[0] - 3.0
+ss = np.clip((94 - xx) / 28, 0, 1)
+ss = ss * ss * (3 - 2 * ss)
+crest_top = 131.0 + 0.9 * np.sin(xx * 0.27 + 0.4) + 0.4 * np.sin(xx * 0.9)
+s_top = crest_top * (1 - ss) + (lvl[None, :] + 0.5 * np.sin(xx * 0.35 + 0.7)) * ss
+s_top = s_top - tuft2 * (0.4 + 0.6 * np.clip((xx - 90) / 10, 0, 1))
+shore[..., 3] = np.clip((yy - s_top) * mm(1) / 2.4, 0, 1) * (shore[..., 3] > 0)
+
+emb = C.place(as_rgba(near), left_mm=-14, top_mm=134, width_mm=96)
+Le = C.lum(emb[..., :3])
+te = np.clip((cv2.GaussianBlur(Le, (0, 0), 1.2) - cv2.GaussianBlur(Le, (0, 0), 6.0)) * 18, -0.6, 0.6)
+e_line = lvl[None, :] + 0.5 * np.sin(xx * 0.35 + 0.7) + 0.25 * np.sin(xx * 1.1)
+emb[..., 3] = np.clip((yy - (e_line - te)) * mm(1) / 2.2, 0, 1) * (emb[..., 3] > 0) * np.clip((80 - xx) / 8, 0, 1)
+emb = backlit(emb, -1.45, 0.55, (0.0, 0.0, 0.035))
+emb[..., :3] *= (1 - np.clip((yy - 140) / 14, 0, 1) * 0.35)[..., None]
+emb = C.rim_light(emb, "#FFC27A", direction=(-0.6, -1), width_px=2, strength=0.45)
+wl_e = np.exp(-((yy - e_line - 0.35) / 0.4) ** 2) * np.clip((84 - xx) / 8, 0, 1)
 shore = backlit(shore, -1.25, 0.6, (0.0, 0.0, 0.035))
 shore[..., :3] *= (1 - np.clip((yy - 131) / 40, 0, 1) * 0.35)[..., None]
 shore = C.rim_light(shore, "#FFC27A", direction=(-0.6, -1), width_px=3, strength=0.6)
@@ -330,6 +350,10 @@ cw = C.rim_light(cw, "#FFC27A", direction=(-0.3, -1), width_px=5, strength=0.95)
 cw = C.light_wrap(cw, full(st.comp), width_px=6, strength=0.3)
 st.add("O&G crew shadow", C.shadow_layer(cw, offset_mm=(1.5, 1.0), blur_mm=4, opacity=0.25, color="#1A0F14"))
 st.add("Oil & gas crew (real photo)", cw)
+st.add("Embankment foam", full(np.broadcast_to(C.hexf("#FFE9CC"), (H, W, 3)),
+       np.exp(-((yy - e_line + 0.1) / 0.3) ** 2) * np.clip((84 - xx) / 8, 0, 1) * (0.3 + 0.5 * crest_n)), mode="screen", opacity=0.6)
+st.add("Embankment (real lalang)", emb)
+st.add("Embankment waterline", full(np.broadcast_to(C.hexf("#140D12"), (H, W, 3)), wl_e * 0.55))
 st.add("Foreground shore (real lalang, Kelana Jaya)", shore)
 st.add("Solar farm base", so)
 

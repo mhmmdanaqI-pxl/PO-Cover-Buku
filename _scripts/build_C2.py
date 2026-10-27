@@ -210,7 +210,8 @@ def person(cut_name, layer_name, fade=(146, 172), rim_dir=(-1, -0.2), prep=None,
     rows = np.where(pl[..., 3].max(axis=1) > 0.02)[0]        # photo's own bottom edge: never a hard line
     if len(rows):
         pl[..., 3] *= np.clip((rows.max() / mm(1) - yy) / 8, 0, 1)
-    sh = C.shadow_layer(pl, offset_mm=(1.2, 0.8), blur_mm=4, opacity=0.35, color="#050A1C")
+    # (review 28 Oct: a strong offset shadow on the far palace and flag read as a dark fringe; a faint one)
+    sh = C.shadow_layer(pl, offset_mm=(1.2, 0.8), blur_mm=4, opacity=0.12, color="#050A1C")
     st.add(layer_name + " shadow", sh)
     st.add(layer_name, pl, src=C.src_layer(ROOT, cut_name, **kw))
 
@@ -289,17 +290,32 @@ def dusk_light(ev, sat=0.95):
 # (DVIDS 8439351, Cpl. Aidan Hekker USMC, PUBLIC DOMAIN; user_prep2.py). Review 28 Oct: a full-height
 # soldier standing at ease, hands clasped, no weapon, replaces the patrol photo (rifle, agency licence).
 # His pose answers the police officer's. Beret top 98 mm, 13.5 mm crown to chin (source 432 -> 610).
-AZ = 13.5 / 178
-person("U-C2-SOLDIER2.png", "Soldier - ATM, 10 Para (real photo, DVIDS public domain)", fade=(132, 150),
-       prep=dusk_light(-0.12, 0.95), rim=0.35, left_mm=89 - 812 * AZ, top_mm=98 - 432 * AZ, width_mm=2000 * AZ)
+# review 28 Oct: he read ~12% smaller than the officer beside him and in warmer daylight; now the same
+# head size (15.1 mm crown to chin), the same dusk light, and the same fade into the night base
+AZ = 15.1 / 178
+
+
+def soldier_light(p):
+    p = dusk_light(-0.32, 0.86)(p)
+    p[..., :3] = C.tint_shadows_highlights(p[..., :3], shadow=(-0.006, -0.002, 0.02), highlight=(-0.01, -0.004, 0.01))
+    return p
+
+
+person("U-C2-SOLDIER2.png", "Soldier - ATM, 10 Para (real photo, DVIDS public domain)", fade=(142, 160),
+       prep=soldier_light, rim=0.3, left_mm=91 - 812 * AZ, top_mm=97.4 - 432 * AZ, width_mm=2000 * AZ)
 # cyber analyst (real; security-operations desk, tablet + phone, lanyard), flipped to face the centre;
 # already lit by her screens' blue, so only a small step into the dusk
 # review 28 Oct: her hands and tablet crowded the roundel; she stands a step further back (8% smaller)
 # and 4 mm higher, so the tablet clears the roundel's top
 AN = 17 * 0.92 / 505
-person("U-C2-ANALYST.png", "Researcher - penyelidikan (siber, real photo)", rim_dir=(1, -0.2), fade=(124, 138),
-       prep=dusk_light(-0.05, 1.0), left_mm=122 - 1310 * AN, top_mm=95.0 - 55 * AN, width_mm=2000 * AN,
+person("U-C2-ANALYST.png", "Researcher - penyelidikan (siber, real photo)", rim_dir=(1, -0.2), fade=(114, 128),
+       prep=dusk_light(-0.05, 1.0), left_mm=123.5 - 1310 * AN, top_mm=95.0 - 55 * AN, width_mm=2000 * AN,
        flip=True)
+# her photo ends at the waist (seated at a desk): the night pools under the right of the row, so she and
+# the soldier sink into the dark like the student and the officer on the left (she floated over the
+# lit palace)
+st.add("Shade - night pools under the row", full(np.broadcast_to(C.hexf("#070F28"), (H, W, 3)),
+       np.clip((yy - 120) / 18, 0, 1) * (0.7 + 0.2 * np.clip((xx - 84) / 20, 0, 1))))
 # student, front-left: review 28 Oct, a Malaysian Indian student (AI-generated placeholder, made for this
 # cover's blue hour; to be replaced by a licensed or official photo for print) so the set shows all
 # three main communities; her phone's padlock screen is the cover's message. She replaces the stock
