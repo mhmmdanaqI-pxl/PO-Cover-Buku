@@ -99,11 +99,15 @@ def save_preview(layers, stem):
 # dip (the energy shock), then a prudent recovery and steady growth to the upper right, above the
 # tanker's bridge, the power station and the TNB tower. Straight segments, nodes, drop lines and a
 # faint area fill are what make it read as a chart rather than a light streak.
+# 9.5 review: the line used to run off the top-right edge behind the address block and never visibly
+# ended, so it could read as "prices rising". It now ends below the address block in an arrowhead:
+# a dip, a recovery, and growth that lands, unambiguously positive.
 CHART = [(-2.0, 112.0), (20.0, 104.0), (36.0, 84.0), (50.0, 89.0), (68.0, 75.0), (100.0, 68.0),
-         (128.0, 64.0), (156.0, 52.0)]
-NODE_IDX = (2, 3, 4, 5, 6)                       # visible points (0-1 sit behind the engineer, 7 is in the bleed)
+         (124.0, 62.5)]
+NODE_IDX = (2, 3, 4, 5)                          # visible points (0-1 sit behind the platform); the last is the arrow
+ARROW_LEN, ARROW_W = 6.0, 5.4                    # mm
 # C3 heads (canvas mm); nodes must stay clear of faces
-HEADS = [(90, 114), (113, 113)]                         # the oil-and-gas crew (review 28 Oct)
+HEADS = [(88, 111), (114, 110)]                         # the oil-and-gas crew (review 28 Oct)
 KEEP_CLEAR = [(78, 80, 108, 100), (118, 74, 150, 95)]   # tanker bridge + mast, tower top + chimneys (x0, y0, x1, y1)
 
 
@@ -149,6 +153,14 @@ def rising_line():
                           core.point(lambda v: int(v * 0.45)))
     mask = canvas(mode="L")
     stroke(ImageDraw.Draw(mask), fill=255)
+    # arrowhead on the last segment: the chart lands, pointing up and on
+    u = (P[-1] - P[-2]) / np.linalg.norm(P[-1] - P[-2])
+    n = np.array([-u[1], u[0]])
+    tip = P[-1] + u * ARROW_LEN * 0.75
+    back = P[-1] - u * ARROW_LEN * 0.25
+    tri = to_px([tuple(tip), tuple(back + n * ARROW_W / 2), tuple(back - n * ARROW_W / 2)])
+    ImageDraw.Draw(rgb).polygon(tri, fill=tuple(int(c) for c in hexrgb(GOLD_STOPS[-1][1])))
+    ImageDraw.Draw(mask).polygon(tri, fill=255)
 
     # --- nodes (dot + ring) and drop lines to the baseline (hairline, fading down)
     node_mask = canvas(mode="L")

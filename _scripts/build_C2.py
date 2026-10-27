@@ -98,6 +98,11 @@ key[..., 3] = np.clip(C.blur(rs[..., 3], 2.2) * 1.4, 0, 1) * 0.42
 stripe = np.clip(fl[..., 3] * 1.2, 0, 1) * np.clip((DOME_CX - 18 - xx) / 14 + 1, 0, 1) * np.clip((DOME_CY + 2 - yy) / 6, 0, 1)
 rs[..., 3] *= 1 - stripe * 0.4
 key[..., 3] *= 1 - stripe * 0.4
+# 9.5 review: the engraving competed with the dome. Ease it back close around the dome (the outer
+# rings and rim stay at full strength), so the gold dome reads first and the seal second
+near = C.radial(DOME_CX, DOME_CY + 4, 34, 2.0)
+rs[..., 3] *= 1 - near * 0.4
+key[..., 3] *= 1 - near * 0.4
 st.add("Guilloche halo keyline", key)
 st.add("Guilloche halo", rs, opacity=0.85)
 halo = C.radial(DOME_CX, HALO_CY, 70, 2.2)

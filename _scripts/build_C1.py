@@ -50,6 +50,8 @@ haze = C.place(np.dstack([hreal, np.ones(hreal.shape[:2], np.float32)]), left_mm
 haze = haze * 0.45 + C.lum(haze)[..., None] * C.hexf("#EAD2AE") * 0.62
 # keep the plate's own smoky brown-grey (desaturating it to beige read as plain background at thumbnail)
 haze = C.saturation(C.exposure(haze, 0.06), 0.95)
+# 9.5 review: the before/after must be unmistakable: the smog a step denser and more amber-brown
+haze = haze * 0.88 + C.hexf("#B58E62") * 0.12
 clear = C.curves(clear, [(0, 0), (0.5, 0.48), (1, 0.98)])
 rng = np.random.default_rng(11)
 n1 = C.blur(rng.normal(0, 1, (H, W)).astype(np.float32), 55)
@@ -86,7 +88,7 @@ flag[..., :3] = C.curves(flag[..., :3], [(0, 0.02), (0.5, 0.52), (1, 1)])
 # the smog is distant atmosphere: it sits behind the flag, which stays clean and vivid
 drift = np.clip(hz * 1.15 - 0.15, 0, 1) ** 1.3 * (0.75 + 0.25 * np.clip(n1, -1, 1)) * 0.6
 st.add("Haze drift (behind the flag)", full(haze, np.clip(drift, 0, 1)))
-fl = C.place(flag, left_mm=-26, top_mm=-8, width_mm=190, rotate=3)
+fl = C.place(flag, left_mm=-24, top_mm=-7, width_mm=176, rotate=3)          # 9.5 review: ~7% smaller, palace leads
 fl[..., 3] *= np.clip(1 - (xx - 98) / 62, 0.22, 1) * np.clip((100 - yy) / 30, 0, 1)
 fl[..., 3] *= np.clip((58 + 0.30 * xx - yy) / 16 + 0.5, 0, 1)        # lower-left edge dissolves into the haze (clear sky for the C-130)
 fl = C.rim_light(fl, SUN, direction=(1, -1), width_px=5, strength=0.3)

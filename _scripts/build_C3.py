@@ -67,13 +67,26 @@ sky = C.curves(sky, [(0, 0), (0.5, 0.47), (1, 0.97)])
 sky = C.blend(sky, np.broadcast_to(C.hexf("#FFC27A"), sky.shape), C.radial(*SUN, 70, 2.4), "screen", 0.55)
 sky = C.blend(sky, np.broadcast_to(C.hexf("#FFF1D2"), sky.shape), C.radial(*SUN, 10, 2.0), "screen", 0.9)
 st = C.Stack("Sky - sunrise", sky)
+# 9.5 review: the sunrise had no source. A visible sun just above the horizon, behind the tanker's
+# bridge, is the cover's focal point: a near-white core, a warm corona and a wide low glow
+# (in the clear gap between the bridge mast and the chimneys, a little above the light source used
+# for the sea's glitter path, which stays under the bridge)
+SD = (111.0, 82.5)
+sun_core = np.clip((1 - np.hypot(xx - SD[0], (yy - SD[1]) * 1.05) / 2.8) * 4, 0, 1)
+st.add("Sun - glow", full(np.broadcast_to(C.hexf("#FFB45E"), (H, W, 3)), C.radial(SD[0], SD[1], 26, 1.8) * 0.55),
+       mode="screen")
+st.add("Sun - corona", full(np.broadcast_to(C.hexf("#FFE3A8"), (H, W, 3)), C.radial(SD[0], SD[1], 8, 1.6)),
+       mode="screen")
+st.add("Sun - disc", full(np.broadcast_to(C.hexf("#FFF8E8"), (H, W, 3)), sun_core))
 
 # ------------------------------------------------------------------ big flag (as 2025), fading out above the dawn band
 flag = cut("FLAG_waving.png")
 flag[..., :3] = C.exposure(flag[..., :3], -0.3)
 flag[..., :3] = C.tint_shadows_highlights(flag[..., :3], shadow=(0.0, -0.01, 0.03), highlight=(0.06, 0.03, -0.02))
-fl = C.place(flag, left_mm=-26, top_mm=-8, width_mm=190, rotate=3)
-fl[..., 3] *= np.clip(1 - (xx - 96) / 64, 0.22, 1) * np.clip((90 - yy) / 24, 0, 1) * 0.94
+# 9.5 review: the flag owned the top third and out-read the energy scene; smaller, and it clears
+# the sky ~12 mm higher so the dawn band and sun carry the middle of the cover
+fl = C.place(flag, left_mm=-24, top_mm=-7, width_mm=168, rotate=3)
+fl[..., 3] *= np.clip(1 - (xx - 90) / 60, 0.2, 1) * np.clip((78 - yy) / 22, 0, 1) * 0.94
 fl = C.rim_light(fl, AMBER, direction=(1, -0.5), width_px=6, strength=0.4)
 st.add("Jalur Gemilang (exact vector on fabric)", fl)
 
@@ -265,8 +278,8 @@ st.add("Promontory under the crew (real lalang)", back)
 crew = cut("R-OG-CREW.png")                   # REAL (Pexels 28247164; real_prep2.py)
 # they face the sunrise, so the backs we see are in shade; the coveralls stay orange, the sun rims hats and shoulders
 crew = backlit(crew, -1.05, 0.85, (-0.005, 0.0, 0.035))
-CW = 40.0
-ckw = dict(left_mm=80, top_mm=112.0 - 0.063 * CW * crew.shape[0] / crew.shape[1], width_mm=CW)
+CW = 46.0                                     # 9.5 review: larger and closer, a clear human anchor
+ckw = dict(left_mm=76, top_mm=110.0 - 0.063 * CW * crew.shape[0] / crew.shape[1], width_mm=CW)
 cw = C.place(crew, **ckw)
 cw = C.rim_light(cw, "#FFC27A", direction=(-0.3, -1), width_px=5, strength=0.95)
 cw = C.light_wrap(cw, full(st.comp), width_px=6, strength=0.3)
