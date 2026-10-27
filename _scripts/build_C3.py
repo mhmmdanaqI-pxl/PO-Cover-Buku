@@ -117,8 +117,10 @@ st.add("Shoreline haze", full(np.broadcast_to(HAZE, (H, W, 3)), np.clip(1 - np.a
 # ------------------------------------------------------------------ offshore: PETRONAS Dulang B platform (REAL, supplied; user_prep.py)
 dul = cut("U-DULANG.png")
 dk = C.place(dul, left_mm=-1, top_mm=HZ + 0.6 - 0.64 * 35, width_mm=35)
-dk = backlit(dk, -0.4, 0.88, (0.0, 0.0, 0.03), haze=0.12)
-dk = C.rim_light(dk, AMBER, direction=(1, -0.5), width_px=2, strength=0.45)
+# asset review: the supplied photo is front-lit noon daylight; at sunrise it stands against the dawn,
+# so its sea-facing side falls into a cool, hazed shadow and only the edges toward the sun catch light
+dk = backlit(dk, -1.05, 0.6, (0.0, 0.0, 0.04), haze=0.26)
+dk = C.rim_light(dk, AMBER, direction=(1, -0.5), width_px=2, strength=0.65)
 dref = np.zeros_like(dk)
 dwl = int(round(mm(HZ + 0.6)))
 span_d = min(dwl, H - dwl)
@@ -206,8 +208,9 @@ st.add("Bank waterline", wet)
 sign = cut("E_SIGN.png")
 skw = dict(left_mm=124.0, top_mm=99.6, width_mm=14.4)
 sg = C.place(sign, **skw)
-sg = backlit(sg, -0.75, 0.9, (0.0, 0.0, 0.025))
-sg = C.rim_light(sg, AMBER, direction=(-0.6, -1), width_px=2, strength=0.4)
+# the board faces the camera with the sun behind it: its face is in shade (logo still legible), lit edges only
+sg = backlit(sg, -1.45, 0.75, (0.0, 0.0, 0.035), haze=0.04)
+sg = C.rim_light(sg, AMBER, direction=(-1, -0.5), width_px=2, strength=0.7)
 st.add("TNB signboard shadow", C.shadow_layer(sg, offset_mm=(0.6, 0.4), blur_mm=0.8, opacity=0.35, color="#140D12"))
 st.add("TNB signboard (real board, official TNB logo)", sg)
 
@@ -260,11 +263,12 @@ back = C.rim_light(back, "#FFC27A", direction=(-0.6, -1), width_px=2, strength=0
 st.add("Promontory under the crew (real lalang)", back)
 
 crew = cut("R-OG-CREW.png")                   # REAL (Pexels 28247164; real_prep2.py)
-crew = backlit(crew, -0.45, 1.0, (-0.005, 0.0, 0.025))
+# they face the sunrise, so the backs we see are in shade; the coveralls stay orange, the sun rims hats and shoulders
+crew = backlit(crew, -1.05, 0.85, (-0.005, 0.0, 0.035))
 CW = 40.0
 ckw = dict(left_mm=80, top_mm=112.0 - 0.063 * CW * crew.shape[0] / crew.shape[1], width_mm=CW)
 cw = C.place(crew, **ckw)
-cw = C.rim_light(cw, "#FFC27A", direction=(-1, -0.6), width_px=4, strength=0.6)
+cw = C.rim_light(cw, "#FFC27A", direction=(-0.3, -1), width_px=5, strength=0.95)
 cw = C.light_wrap(cw, full(st.comp), width_px=6, strength=0.3)
 st.add("O&G crew shadow", C.shadow_layer(cw, offset_mm=(1.5, 1.0), blur_mm=4, opacity=0.25, color="#1A0F14"))
 st.add("Oil & gas crew (real photo)", cw)
