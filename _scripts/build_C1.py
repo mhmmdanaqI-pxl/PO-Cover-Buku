@@ -207,6 +207,10 @@ st.add("Ferns in front of the planting patch (real photo)", f2)
 shade = np.clip((yy - 136) / 52, 0, 1) ** 1.1 * 0.9
 shade = shade * np.clip((118 - xx) / 30, 0.45, 1)
 st.add("Shade - headline base", full(np.broadcast_to(C.hexf("#04190F"), (H, W, 3)), shade))
+# bright fronds and the lab coat sit behind the light-blue accent lines (3.5:1 measured): a soft burn
+# shaped to the lines (no box), as on C3, lifts every letter above 4.5:1
+st.add("Shade - headline accent lines (soft burn)", full(np.broadcast_to(C.hexf("#04190F"), (H, W, 3)),
+       C.text_burn(ROOT, "C1", "Headline", feather_mm=2.5, spread_mm=(2.0, 1.2), rows_mm=(146, 176)) * 0.6))
 
 # Jata + office block: a soft deep-blue pad so the emblem pops over sky and flag
 st.add("Shade - roundel backing", full(np.broadcast_to(C.hexf("#04190F"), (H, W, 3)), C.radial(118, 151.8, 30, 1.6) * 0.5))
