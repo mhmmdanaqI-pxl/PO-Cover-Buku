@@ -1,0 +1,13 @@
+# Python dependencies for _scripts/ (originally run on Python 3.10).
+# Setup:  python -m venv venv && venv/bin/pip install -r requirements.txt
+# Run:    venv/bin/python -I _scripts/build_C2.py .
+numpy
+opencv-python-headless   # imported as cv2
+Pillow
+PyMuPDF                  # imported as pymupdf
+psd-tools
+rembg[cpu]               # cutout.py only; downloads the BiRefNet model on first run
+pymatting                # cutout.py only
+uharfbuzz
+fonttools
+font-roboto              # Roboto TTFs used by typeset.py
