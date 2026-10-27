@@ -295,8 +295,38 @@ def dusk_light(ev, sat=0.95):
 AZ = 15.1 / 178
 
 
+def soldier_fix(p):
+    """Two flaws in the DVIDS photo (review 28 Oct): (1) the flag behind him (saturated blue) clings to
+    his outline at the beret and left shoulder; camouflage, beret and skin hold no blue, so strong blue
+    within 14 px of the edge is cut, and the rest of the edge band takes the colour of his own interior.
+    (2) the face is over-saturated (orange-red skin) and crunchy from the source's own sharpening: a gentle
+    edge-preserving smooth and saturation down to a natural skin tone, on the face only."""
+    p = p.copy()
+    rgb, a = p[..., :3], p[..., 3]
+    solid = (a > 0.5).astype(np.uint8)
+    inner = cv2.erode(solid, np.ones((29, 29), np.uint8)).astype(bool)
+    band = (a > 0.02) & ~inner
+    blue = (rgb[..., 2] - np.maximum(rgb[..., 0], rgb[..., 1])) > 0.06
+    a = np.where(band & blue, 0.0, a)
+    core = cv2.erode(solid, np.ones((9, 9), np.uint8)).astype(np.float32)
+    num = cv2.GaussianBlur(rgb * core[..., None], (0, 0), 6)
+    den = cv2.GaussianBlur(core, (0, 0), 6)[..., None] + 1e-6
+    fill = num / den
+    edge = (band & ~cv2.erode(solid, np.ones((9, 9), np.uint8)).astype(bool)).astype(np.float32)
+    edge = cv2.GaussianBlur(edge, (0, 0), 1.0)[..., None]
+    tint = np.clip((rgb[..., 2:3] - np.maximum(rgb[..., 0:1], rgb[..., 1:2])) * 8 + 0.4, 0, 1)
+    rgb = rgb * (1 - edge * tint) + fill * edge * tint
+    hy, hx = np.mgrid[0:rgb.shape[0], 0:rgb.shape[1]].astype(np.float32)
+    face = np.clip(1.6 - np.hypot((hx - 816) / 54, (hy - 556) / 64) * 1.6, 0, 1)[..., None]
+    sm = cv2.bilateralFilter(rgb.astype(np.float32), 7, 0.06, 4)
+    skin = C.saturation(sm, 0.62)
+    rgb = rgb * (1 - face * 0.85) + skin * face * 0.85
+    p[..., :3], p[..., 3] = np.clip(rgb, 0, 1), a
+    return p
+
+
 def soldier_light(p):
-    p = dusk_light(-0.32, 0.86)(p)
+    p = dusk_light(-0.32, 0.86)(soldier_fix(p))
     p[..., :3] = C.tint_shadows_highlights(p[..., :3], shadow=(-0.006, -0.002, 0.02), highlight=(-0.01, -0.004, 0.01))
     return p
 
