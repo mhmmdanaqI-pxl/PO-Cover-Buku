@@ -1,10 +1,16 @@
-"""Cover C3 - Ekonomi: 'Berhemah Hari Ini, Teguh Esok'.
+"""Cover C3 - Ekonomi: 'Berhemah Hari Ini, Teguh Esok' (Tenaga, revised 27-28 Oct).
 
-Sunrise behind-right. Big Jalur Gemilang across the top (as 2025), a thin
-protective arc above the dome, the rising gold growth line over the Istana,
-port cranes on the horizon, Su-30MKM formation (C2 plate, flipped + warmed),
-engineer / young professionals / police in front, solar farm as the base.
-Positive: no conflict imagery.
+Zharief, 27 Oct 21:27: an oil-and-gas ship, coal, natural gas and a little TNB; police and Istana
+removed. Then "jgn versi AI": every new energy element is a REAL photograph (sources and licences in
+assets/_reference/SOURCES.md, cut-outs by _scripts/energy_prep.py). Layout = the approved blockout.
+
+Sunrise low behind the tanker's bridge. The big Jalur Gemilang fades out above a clean dawn band;
+on the far shore storage tanks (left) and TNB's Kapar coal power station with its pylons (right);
+the oil tanker crosses in front, backlit, with its reflection; a red-and-white TNB tower stands on
+the near bank with a TNB signboard; the gold chart dips and recovers over the ship; Su-30MKMs over
+the flag; an oil-and-gas crew stand in the lalang on the near shore (review 28 Oct: the four civilians
+removed), solar farm as the base.
+Positive: no conflict imagery, white steam only.
 Run: venv python -I _scripts/build_C3.py <workspace> [fast]
 """
 import os
@@ -13,7 +19,6 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import cv2
 import numpy as np
-from PIL import Image
 
 import comp as C
 from comp import W, H, mm
@@ -23,7 +28,11 @@ FAST = len(sys.argv) > 2
 OUT = os.path.join(ROOT, "04_Final", "C3")
 os.makedirs(OUT, exist_ok=True)
 cut = lambda n: C.load_rgba(os.path.join(ROOT, "03_Cutouts", n))
+REF = lambda n: os.path.join(ROOT, "assets/_reference/C3_energy", n)
 AMBER = "#FFB35A"
+HAZE = C.hexf("#C99682")
+SUN = (101.0, 95.0)                       # canvas mm, just above the horizon, behind the tanker's bridge
+HZ = 104.0                                 # horizon (lifted 5 mm in the review: a taller energy band)
 yy = np.arange(H, dtype=np.float32)[:, None] / mm(1)
 xx = np.arange(W, dtype=np.float32)[None, :] / mm(1)
 
@@ -39,130 +48,232 @@ def as_rgba(rgb):
     return np.dstack([rgb, np.ones(rgb.shape[:2], np.float32)])
 
 
+def backlit(rgba, ev, sat, shadow, haze=0.0, haze_col=HAZE):
+    """A real daylight photo relit as backlit at sunrise: darker, cooler, less saturated, hazed."""
+    rgb = C.exposure(rgba[..., :3], ev)
+    rgb = C.saturation(rgb, sat)
+    rgb = C.tint_shadows_highlights(rgb, shadow=shadow, highlight=(0.02, 0.008, -0.012))
+    rgb = rgb * (1 - haze) + haze_col * haze
+    out = rgba.copy()
+    out[..., :3] = np.clip(rgb, 0, 1)
+    return out
+
+
 # ------------------------------------------------------------------ sky
 sky = C.place(as_rgba(C.load_rgb(os.path.join(ROOT, "assets/C3/C3-A_v1.png"))), left_mm=0, top_mm=-24,
               width_mm=154)[..., :3]
 sky = C.curves(sky, [(0, 0), (0.5, 0.47), (1, 0.97)])
-sun = C.radial(122, 120, 70, 2.4)
-sky = C.blend(sky, np.broadcast_to(C.hexf("#FFC27A"), sky.shape), sun, "screen", 0.55)
-core = C.radial(122, 120, 14, 2.0)
-sky = C.blend(sky, np.broadcast_to(C.hexf("#FFF1D2"), sky.shape), core, "screen", 0.8)
+sky = C.blend(sky, np.broadcast_to(C.hexf("#FFC27A"), sky.shape), C.radial(*SUN, 70, 2.4), "screen", 0.55)
+sky = C.blend(sky, np.broadcast_to(C.hexf("#FFF1D2"), sky.shape), C.radial(*SUN, 10, 2.0), "screen", 0.9)
 st = C.Stack("Sky - sunrise", sky)
 
-# ------------------------------------------------------------------ port cranes on the horizon (darken)
-port = C.load_rgb(os.path.join(ROOT, "assets/C3/C3-H_v1.png"))
-pt_ = C.place(as_rgba(port), left_mm=-34, top_mm=72, width_mm=210, crop=(0.08, 0.25, 1, 0.78))
-pt_[..., :3] = C.blur(pt_[..., :3], 1.0) * 0.85 + C.hexf("#5B4A63") * 0.15
-band = np.clip((yy - 78) / 12, 0, 1) * np.clip((140 - yy) / 8, 0, 1) * pt_[..., 3]
-st.add("Port cranes on the horizon", full(np.minimum(st.comp, pt_[..., :3]), band * 0.6))
-
-# ------------------------------------------------------------------ big flag (as 2025)
+# ------------------------------------------------------------------ big flag (as 2025), fading out above the dawn band
 flag = cut("FLAG_waving.png")
 flag[..., :3] = C.exposure(flag[..., :3], -0.3)
 flag[..., :3] = C.tint_shadows_highlights(flag[..., :3], shadow=(0.0, -0.01, 0.03), highlight=(0.06, 0.03, -0.02))
 fl = C.place(flag, left_mm=-26, top_mm=-8, width_mm=190, rotate=3)
-fl[..., 3] *= np.clip(1 - (xx - 96) / 64, 0.22, 1) * np.clip((126 - yy) / 26, 0, 1) * 0.94
+fl[..., 3] *= np.clip(1 - (xx - 96) / 64, 0.22, 1) * np.clip((90 - yy) / 24, 0, 1) * 0.94
 fl = C.rim_light(fl, AMBER, direction=(1, -0.5), width_px=6, strength=0.4)
 st.add("Jalur Gemilang (exact vector on fabric)", fl)
 
-# ------------------------------------------------------------------ protective arc over the dome
-arc = C.load_rgba(os.path.join(ROOT, "02_Vectors/C3_Growth/C3_protective_arc_300ppi.png"))
-arcg = C.load_rgba(os.path.join(ROOT, "02_Vectors/C3_Growth/C3_protective_arc_glow_300ppi.png"))
-shift = np.float32([[1, 0, 0], [0, 1, -mm(24)]])
-arc = cv2.warpAffine(arc, shift, (W, H))
-arcg = cv2.warpAffine(arcg, shift, (W, H))
-arc[..., 3] *= 1 - C.radial(124, 36, 34, 1.2)
-arcg[..., 3] *= 1 - C.radial(124, 36, 34, 1.2)
-office = C.text_burn(ROOT, "C3", feather_mm=1.0)                  # no linework behind the small type
-arc[..., 3] *= 1 - office
-arcg[..., 3] *= 1 - office
-st.add("Protective arc glow", arcg, mode="screen", opacity=0.6)
-st.add("Protective arc", arc, opacity=0.9)
-
 # ------------------------------------------------------------------ jets (over the stripes, clear of the star)
-jets = cut("C2-D.png")
-jets[..., :3] = C.exposure(jets[..., :3], -0.25) * C.hexf("#FFE2C2")
-jkw = dict(cx_mm=86, cy_mm=20, width_mm=44, rotate=7, flip=True)
-jt = C.place(jets, **jkw)
-jt = C.rim_light(jt, AMBER, direction=(1, -0.3), width_px=4, strength=0.5)
-st.add("Su-30MKM formation", jt, src=C.src_layer(ROOT, "C2-D.png", **jkw))
+jets = cut("R-SU30.png")                     # REAL RMAF Su-30MKMs (USAF photo, public domain; real_prep.py)
+jets[..., :3] = C.exposure(jets[..., :3], -0.1) * C.hexf("#FFE2C2")
+jkw = dict(cx_mm=86, cy_mm=23, width_mm=45, rotate=0)
+jt = C.rim_light(C.place(jets, **jkw), AMBER, direction=(1, -0.3), width_px=4, strength=0.5)
+st.add("Su-30MKM formation (real photo)", jt)
 
-# ------------------------------------------------------------------ istana, backlit at sunrise
-IST_W_MM = 192.0
-ist = cut("ISTANA_base.png")
-sc = mm(IST_W_MM) / ist.shape[1]
-IST_LEFT = 77 - 1813.6 * sc / mm(1)
-IST_TOP = 47 - 171 * sc / mm(1)
-rgb = ist[..., :3]
-dreg = C.dome_region(rgb, ist[..., 3])                 # full dome silhouettes (overcast tiles included)
-rgb = C.goldify(rgb, dreg)                             # retouch desaturated tiles back to the dome's gold
-hsv = cv2.cvtColor(np.clip(rgb, 0, 1), cv2.COLOR_RGB2HSV)
-gold = dreg[..., None]
-iw = rgb.shape[1]
-gx = (np.arange(iw, dtype=np.float32)[None, :] / iw)[..., None]
-lit = C.exposure(rgb, -0.55)
-lit = C.tint_shadows_highlights(lit, shadow=(-0.01, 0.0, 0.03), highlight=(0.03, 0.01, -0.01))
-warm = C.exposure(rgb, 0.05) * C.hexf("#FFC98C")
-lit = lit * (1 - gx * 0.45) + warm * gx * 0.45                               # sun side (right) warmer
-dome = C.curves(rgb * C.hexf("#FFD9A0"), [(0, 0), (0.3, 0.22), (0.7, 0.74), (1, 1)]) * (0.8 + 0.35 * gx)
-lit = lit * (1 - gold * 0.8) + dome * gold * 0.8
-bgm = np.asarray(Image.open(os.path.join(ROOT, "03_Cutouts/ISTANA_bgmask.png")), np.float32) / 255
-lit = lit * (1 - bgm[..., None] * 0.85) + (lit * 0.25 + C.hexf("#C9967E") * 0.75) * bgm[..., None] * 0.85
-ist[..., :3] = np.clip(lit, 0, 1)
-ikw = dict(left_mm=IST_LEFT, top_mm=IST_TOP, width_mm=IST_W_MM)
-it = C.place(ist, **ikw)
-it = C.rim_light(it, "#FFC070", direction=(1, -0.4), width_px=5, strength=0.65)
-it = C.light_wrap(it, full(st.comp), width_px=6, strength=0.35)
-it = C.melt_background(ist, bgm, ikw, it, st.comp, top=1.0, bottom=0.9)
-st.add("Istana Negara (real photo, sunrise backlight)", it)
+# ------------------------------------------------------------------ sea (real open water, Tinos)
+seaimg = C.load_rgb(REF("Sea_Tinos.jpg"))
+water = seaimg[1832:2752]
+sea = C.place(as_rgba(water), left_mm=-33, top_mm=HZ - 0.2, width_mm=220)        # down past the solar row
+srgb = C.saturation(sea[..., :3], 0.75)
+t = np.clip((yy - HZ) / 44, 0, 1)[..., None]
+srgb = srgb * (0.95 - 0.35 * t) + (HAZE * 0.6 + C.hexf("#5B4A66") * 0.4) * 0.18 * (1 - t)
+# the sun's glitter path: the ripples' own highlights, warmed, in a column under the sun
+L = C.lum(srgb)
+crest = np.clip((L - cv2.GaussianBlur(L, (0, 0), 6)) * 6, 0, 1)
+col = np.exp(-((xx - SUN[0]) / (2.5 + (yy - HZ) * 0.42)) ** 2) * np.clip((yy - HZ) / 1.5, 0, 1) * np.clip((142 - yy) / 22, 0, 1)
+srgb = C.blend(srgb, np.broadcast_to(C.hexf("#FFD49A"), srgb.shape), np.clip(col * (0.35 + crest), 0, 1), "screen", 0.85)
+sea[..., :3] = srgb
+st.add("Sea (real photo)", sea)
 
-mist = np.clip((yy - 112) / 26, 0, 1) * np.clip((172 - yy) / 26, 0, 1) * 0.5
-st.add("Morning haze", full(np.broadcast_to(C.hexf("#C98E6E"), (H, W, 3)), mist))
 
-# ------------------------------------------------------------------ rising line (in front of the palace)
+# ------------------------------------------------------------------ far shore: storage tanks (left), TNB Kapar coal plant (right)
+tanks = cut("E_TANKS.png")
+tk = C.place(tanks, left_mm=50, top_mm=HZ + 0.3 - 13.3, width_mm=48, crop=(0, 0, 0.80, 1))
+tk = backlit(tk, -0.5, 0.65, (0.0, 0.0, 0.03), haze=0.14)
+tk = C.rim_light(tk, AMBER, direction=(1, -0.6), width_px=2, strength=0.35)
+st.add("Storage tanks - gas (real photo, Pengerang)", tk)
+
+coal = cut("E_COAL.png")
+ch = 46 * coal.shape[0] / coal.shape[1]
+co = C.place(coal, left_mm=106, top_mm=HZ + 0.4 - ch * 1023 / 1037, width_mm=46)
+co = backlit(co, -1.1, 0.45, (0.0, 0.0, 0.03), haze=0.48)
+st.add("Coal power station + TNB pylons (real photo, Kapar)", co)
+st.add("Shoreline haze", full(np.broadcast_to(HAZE, (H, W, 3)), np.clip(1 - np.abs(yy - HZ + 1) / 7, 0, 1) * 0.38))
+
+# ------------------------------------------------------------------ offshore: PETRONAS Dulang B platform (REAL, supplied; user_prep.py)
+dul = cut("U-DULANG.png")
+dk = C.place(dul, left_mm=-1, top_mm=HZ + 0.6 - 0.64 * 35, width_mm=35)
+dk = backlit(dk, -0.4, 0.88, (0.0, 0.0, 0.03), haze=0.12)
+dk = C.rim_light(dk, AMBER, direction=(1, -0.5), width_px=2, strength=0.45)
+dref = np.zeros_like(dk)
+dwl = int(round(mm(HZ + 0.6)))
+span_d = min(dwl, H - dwl)
+dref[dwl:dwl + span_d] = dk[dwl - span_d:dwl][::-1]
+dref[..., :3] *= 0.6
+dref[..., 3] = C.blur(dref[..., 3], 2) * np.clip(1 - (yy - HZ) / 4, 0, 1) * 0.4
+st.add("Platform reflection", dref)
+st.add("PETRONAS Dulang B offshore platform (real photo)", dk)
+
+# ------------------------------------------------------------------ oil tanker (hero), backlit, with its reflection
+TW = 75.0
+tan = cut("E_TANKER.png")
+th = TW * tan.shape[0] / tan.shape[1]
+ttop = HZ + 3.2 - th * 928 / 938
+tkw = dict(left_mm=34, top_mm=ttop, width_mm=TW)
+sh = C.place(tan, **tkw)
+sh = backlit(sh, -0.95, 0.95, (-0.005, -0.005, 0.03), haze=0.04)
+sh[..., :3] = C.curves(sh[..., :3], [(0, 0), (0.25, 0.2), (0.6, 0.63), (1, 1)])          # backlit contrast, hull stays red-orange
+sh = C.rim_light(sh, "#FFC27A", direction=(0.2, -1.0), width_px=3, strength=0.75)
+sh = C.light_wrap(sh, full(st.comp), width_px=5, strength=0.45)
+# reflection: mirrored about the waterline, broken by the sea's own ripples, fading down
+wl = int(round(mm(HZ + 3.2)))
+ref = np.zeros_like(sh)
+span = min(wl, H - wl)
+ref[wl:wl + span] = sh[wl - span:wl][::-1]
+ripple = (L - cv2.GaussianBlur(L, (0, 0), 3)) * 40
+mx, my = np.meshgrid(np.arange(W, dtype=np.float32), np.arange(H, dtype=np.float32))
+ref = cv2.remap(ref, mx + ripple * 2.2, my + ripple * 0.6, cv2.INTER_LINEAR)
+ref = np.dstack([cv2.GaussianBlur(ref[..., :3], (0, 0), 1.2), cv2.GaussianBlur(ref[..., 3], (0, 0), 1.2)])
+ref[..., 3] *= np.clip(1 - (yy - HZ - 3.2) / 7, 0, 1) * 0.55
+ref[..., :3] = ref[..., :3] * 0.8
+st.add("Tanker reflection", ref)
+st.add("Oil tanker (real photo, Eagle San Diego)", sh)
+# bow wave + wake from the sea's own crests: white water folding off the bow, a thin wash along the
+# hull, and a dark wet contact line where the hull meets the water
+wly = HZ + 3.2
+crest_n = np.clip(crest * 1.6, 0, 1)
+bow = np.exp(-(((xx - 35.5) / 3.2) ** 2 + ((yy - wly - 0.2) / 0.9) ** 2))
+wash = np.exp(-((yy - wly - 0.25) / 0.45) ** 2) * np.clip((xx - 34) / 3, 0, 1) * np.clip((74 - xx) / 30, 0, 1)
+foam = np.clip((bow * 0.9 + wash * 0.55) * (0.45 + crest_n), 0, 1)
+st.add("Bow wave + wake (sea's own crests)", full(np.broadcast_to(C.hexf("#FFE9CC"), (H, W, 3)), foam), mode="screen", opacity=0.8)
+hull_x = ((xx > 34.5) & (xx < 108.5)).astype(np.float32)
+contact = np.exp(-((yy - wly + 0.05) / 0.22) ** 2) * hull_x
+st.add("Waterline contact", full(np.broadcast_to(C.hexf("#120A0E"), (H, W, 3)), contact * 0.7))
+st.add("Sun flare behind the bridge", full(np.broadcast_to(C.hexf("#FFE2B0"), (H, W, 3)), C.radial(SUN[0], SUN[1] + 1, 7, 2.2) * 0.55),
+       mode="screen")
+
+# ------------------------------------------------------------------ near bank (real grass from the Kapar photo), TNB tower + sign
+field = C.load_rgb(REF("Pylons_KelanaJaya.jpg"))[1600:2448]                     # real lalang field under TNB lines (CC0)
+bank = C.place(as_rgba(field), left_mm=98, top_mm=106.5, width_mm=60)
+# a low grassy spit rising to the right: a ragged top edge cut from the grass's own blade texture,
+# a darker wet foot at the waterline
+top = np.maximum(111.6 - (xx - 108) * 0.07 + 1.1 * np.sin(xx * 0.31 + 1.3) + 0.5 * np.sin(xx * 0.83),
+                 120.5 - (xx - 98) * 0.55)                                           # rolling top, long taper into the water
+Lg = C.lum(bank[..., :3])
+tuft = (cv2.GaussianBlur(Lg, (0, 0), 1.2) - cv2.GaussianBlur(Lg, (0, 0), 6.0)) * 22
+edge = top - np.clip(tuft, -1.0, 1.0)
+bank[..., 3] = np.clip((yy - edge) * mm(1) / 1.8, 0, 1) * np.clip((xx - 98) / 7, 0, 1) * (bank[..., 3] > 0)
+bank = backlit(bank, -1.35, 0.55, (0.0, 0.0, 0.035))
+bank[..., :3] *= (1 - np.clip((yy - edge) / 9, 0, 1) * 0.45)[..., None]           # darker toward the water
+bank = C.rim_light(bank, AMBER, direction=(-0.5, -1), width_px=3, strength=0.55)
+foot = np.exp(-((yy - 119.6) / 0.7) ** 2) * np.clip((xx - 104) / 8, 0, 1)
+wl_b = 120.6 + np.clip(tuft, -1, 1) * 0.35 + np.sin(xx * 1.7) * 0.15               # an uneven waterline
+bank[..., 3] *= np.clip((wl_b - yy) / 0.6, 0, 1)
+wet = full(np.broadcast_to(C.hexf("#1C1620"), (H, W, 3)), foot * 0.6)
+
+pyl = cut("E_PYLON.png")
+pkw = dict(left_mm=118.5, top_mm=74.4, width_mm=33.0)
+py = C.place(pyl, **pkw)
+py = backlit(py, -1.7, 0.6, (0.0, 0.0, 0.03), haze=0.06)
+py = C.rim_light(py, "#FFC27A", direction=(-1, -0.4), width_px=2, strength=0.7)
+st.add("TNB 275 kV tower (real photo, Kapar)", py)
+# the bank's reflection: mirrored about the waterline, dark, broken by the ripples
+bref = np.zeros_like(bank)
+wl_px = int(round(mm(120.6)))
+span = min(wl_px, H - wl_px)
+bref[wl_px:wl_px + span] = bank[wl_px - span:wl_px][::-1]
+bref = cv2.remap(bref, mx + ripple * 2.0, my + ripple * 0.5, cv2.INTER_LINEAR)
+bref[..., :3] *= 0.45
+bref[..., 3] *= np.clip(1 - (yy - 120.6) / 5, 0, 1) * 0.6
+st.add("Bank reflection", bref)
+st.add("Near bank (real grass, Kelana Jaya)", bank)
+st.add("Bank waterline", wet)
+
+sign = cut("E_SIGN.png")
+skw = dict(left_mm=124.0, top_mm=99.6, width_mm=14.4)
+sg = C.place(sign, **skw)
+sg = backlit(sg, -0.75, 0.9, (0.0, 0.0, 0.025))
+sg = C.rim_light(sg, AMBER, direction=(-0.6, -1), width_px=2, strength=0.4)
+st.add("TNB signboard shadow", C.shadow_layer(sg, offset_mm=(0.6, 0.4), blur_mm=0.8, opacity=0.35, color="#140D12"))
+st.add("TNB signboard (real board, official TNB logo)", sg)
+
+# ------------------------------------------------------------------ rising line (in front of the scene, behind the people)
 rl = C.load_rgba(os.path.join(ROOT, "02_Vectors/C3_Growth/C3_rising_line_300ppi.png"))
 rlg = C.load_rgba(os.path.join(ROOT, "02_Vectors/C3_Growth/C3_rising_line_glow_300ppi.png"))
+office = C.text_burn(ROOT, "C3", feather_mm=1.0)                  # no linework behind the small type
+rl[..., 3] *= 1 - office
+rlg[..., 3] *= 1 - office
 st.add("Rising line glow", rlg, mode="screen", opacity=0.7)
 st.add("Rising line", rl)
 
 
-# ------------------------------------------------------------------ people
-# no opacity fades: everyone stands behind the front panel row, which hides legs and feet
-def person(name, layer_name, **kw):
-    p = cut(name)
-    pl = C.place(p, **kw)
-    pl = C.rim_light(pl, AMBER, direction=(1, -0.5), width_px=5, strength=0.4)
-    pl = C.light_wrap(pl, full(st.comp), width_px=6, strength=0.3)
-    st.add(layer_name + " shadow", C.shadow_layer(pl, offset_mm=(-1.5, 1.0), blur_mm=4, opacity=0.3, color="#1A0F14"))
-    st.add(layer_name, pl, src=C.src_layer(ROOT, name, **kw))
-
-
-person("C3-E.png", "Renewable-energy engineer - penyelidikan", left_mm=-2, top_mm=94, height_mm=80)
-person("C3-F.png", "Young professionals - rakyat / anak muda", left_mm=27, top_mm=110, width_mm=86)
-person("UNI-C3-PDRM2_ins.png", "Police officer - PDRM", left_mm=90.62, top_mm=85.05, height_mm=104.44)
-
 # ------------------------------------------------------------------ solar farm base
 sol = C.load_rgb(os.path.join(ROOT, "assets/C3/C3-C_v2.png"))
-# matte = everything below the front panel row's top edge (measured per column in the photo);
-# a crisp edge, so the row reads as a real foreground object in front of the people
 edge = np.interp(np.arange(sol.shape[1]), [0, 192, 384, 576, 864, 960, 1248, 1340, 1536],
                  [390, 406, 423, 437, 461, 463, 469, 472, 476]).astype(np.float32)
 sm = np.clip(np.arange(sol.shape[0], dtype=np.float32)[:, None] - edge[None, :] + 0.5, 0, 1)
-skw = dict(left_mm=-4, top_mm=141, width_mm=162, crop=(0, 0.30, 1, 1))     # full width: ~1.2x, was 2.2x
-so = C.place(np.dstack([sol, sm]), **skw)
+skw2 = dict(left_mm=-12, top_mm=133, width_mm=178, crop=(0, 0.30, 1, 1))
+so = C.place(np.dstack([sol, sm]), **skw2)
 so[..., :3] = C.exposure(so[..., :3], -0.35)
+
+# ------------------------------------------------------------------ foreground shore + oil-and-gas crew
+# Review 28 Oct: the four civilians removed; the crew are the people of this cover. They stand
+# waist-deep in real lalang on a shore that runs off the right edge, watching over the tanker; the
+# roundel covers only grass. Field: Kelana Jaya under the TNB lines (CC0), its near part.
+near = C.load_rgb(REF("Pylons_KelanaJaya.jpg"))[1450:2448]
+shore = C.place(as_rgba(near), left_mm=60, top_mm=120, width_mm=100)
+Lr = C.lum(shore[..., :3])
+tuft2 = np.clip((cv2.GaussianBlur(Lr, (0, 0), 1.4) - cv2.GaussianBlur(Lr, (0, 0), 7.0)) * 26, -1.4, 1.4)
+s_top = np.maximum(131.0 + 0.9 * np.sin(xx * 0.27 + 0.4) + 0.4 * np.sin(xx * 0.9), 150.0 - (xx - 68) * 0.8) - tuft2
+shore[..., 3] = np.clip((yy - s_top) * mm(1) / 1.6, 0, 1) * (shore[..., 3] > 0)
+shore = backlit(shore, -1.25, 0.6, (0.0, 0.0, 0.035))
+shore[..., :3] *= (1 - np.clip((yy - 131) / 40, 0, 1) * 0.35)[..., None]
+shore = C.rim_light(shore, "#FFC27A", direction=(-0.6, -1), width_px=3, strength=0.6)
+
+# the land they stand on: a receding grass flat behind them that joins the TNB bank (so they read as
+# on a promontory, not in the water); the taller near lalang (shore) hides their waists
+back = C.place(as_rgba(near), left_mm=64, top_mm=116, width_mm=94)
+Lb = C.lum(back[..., :3])
+tb = np.clip((cv2.GaussianBlur(Lb, (0, 0), 1.2) - cv2.GaussianBlur(Lb, (0, 0), 6.0)) * 20, -0.8, 0.8)
+b_top = np.maximum(121.2 + 0.4 * np.sin(xx * 0.5 + 1.0), 142.0 - (xx - 70) * 0.75) - tb
+back[..., 3] = np.clip((yy - b_top) * mm(1) / 1.4, 0, 1) * (back[..., 3] > 0)
+back = backlit(back, -1.45, 0.55, (0.0, 0.0, 0.035), haze=0.08)
+back = C.rim_light(back, "#FFC27A", direction=(-0.6, -1), width_px=2, strength=0.5)
+st.add("Promontory under the crew (real lalang)", back)
+
+crew = cut("R-OG-CREW.png")                   # REAL (Pexels 28247164; real_prep2.py)
+crew = backlit(crew, -0.45, 1.0, (-0.005, 0.0, 0.025))
+CW = 40.0
+ckw = dict(left_mm=80, top_mm=112.0 - 0.063 * CW * crew.shape[0] / crew.shape[1], width_mm=CW)
+cw = C.place(crew, **ckw)
+cw = C.rim_light(cw, "#FFC27A", direction=(-1, -0.6), width_px=4, strength=0.6)
+cw = C.light_wrap(cw, full(st.comp), width_px=6, strength=0.3)
+st.add("O&G crew shadow", C.shadow_layer(cw, offset_mm=(1.5, 1.0), blur_mm=4, opacity=0.25, color="#1A0F14"))
+st.add("Oil & gas crew (real photo)", cw)
+st.add("Foreground shore (real lalang, Kelana Jaya)", shore)
 st.add("Solar farm base", so)
 
 shade = np.clip((yy - 140) / 56, 0, 1) ** 1.15 * 0.88
 shade = shade * np.clip((120 - xx) / 32, 0.5, 1)
 st.add("Shade - headline base", full(np.broadcast_to(C.hexf("#0B1430"), (H, W, 3)), shade))
-
-# Jata + office block: a soft dark pad so the emblem pops over the flag
+st.add("Shade - roundel backing", full(np.broadcast_to(C.hexf("#0B1430"), (H, W, 3)), C.radial(118, 151.8, 30, 1.6) * 0.5))
 tr = np.clip(C.radial(120, 30, 46, 1.4) * 0.72 + C.radial(154, 0, 82, 1.7) * 0.4, 0, 0.82)
 st.add("Shade - Jata + office text", full(np.broadcast_to(C.hexf("#0B1638"), (H, W, 3)), tr))
 st.add("Shade - office text (soft burn)", full(np.broadcast_to(C.hexf("#0B1638"), (H, W, 3)),
                                                C.text_burn(ROOT, "C3") * 0.3))
-# amber LINDUNGI / ASET NEGARA cross the engineer's white coat and the lit panel row: burn behind them
 st.add("Shade - headline accent lines (soft burn)", full(np.broadcast_to(C.hexf("#0B1430"), (H, W, 3)),
        C.text_burn(ROOT, "C3", "Headline", feather_mm=2.5, spread_mm=(2.0, 1.2), rows_mm=(140, 168)) * 0.5))
 
