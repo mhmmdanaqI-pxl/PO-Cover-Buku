@@ -94,13 +94,15 @@ RIGHT = TRIM_W - MARGIN
 JATA_RECT_MM = (RIGHT - JATA_W, MARGIN, RIGHT, MARGIN + JATA_H)
 
 # Office block (right-aligned on the ink edge), following the 2024/2025 hierarchy
-OFFICE_SIZE, WWW_SIZE, OFFICE_LEAD = 8.5, 7.5, 4.1
+# Client revision 29 Oct: ALL CAPS, as on the 2024 printed sample. At 7 pt Roboto caps the three lines are
+# 30.0 / 42.8 / 33.4 mm of ink, matching the sample's 31.6 / 42 / 33.5 mm: the sample's footprint.
+OFFICE_SIZE, WWW_SIZE, OFFICE_LEAD = 7.0, 7.0, 3.6
 cap = 0.711 * OFFICE_SIZE / MM
 b1 = JATA_RECT_MM[3] + 2.8 + cap
 OFFICE_LINES = [
-    ("Pejabat Ketua Pegawai", "Bold", OFFICE_SIZE, b1),
-    ("Keselamatan Kerajaan Malaysia", "Regular", OFFICE_SIZE, b1 + OFFICE_LEAD),
-    ("Jabatan Perdana Menteri", "Regular", OFFICE_SIZE, b1 + 2 * OFFICE_LEAD),
+    ("PEJABAT KETUA PEGAWAI", "Bold", OFFICE_SIZE, b1),
+    ("KESELAMATAN KERAJAAN MALAYSIA", "Medium", OFFICE_SIZE, b1 + OFFICE_LEAD),
+    ("JABATAN PERDANA MENTERI", "Medium", OFFICE_SIZE, b1 + 2 * OFFICE_LEAD),
     ("www.cgso.gov.my", "Regular", WWW_SIZE, b1 + 3 * OFFICE_LEAD + 1.4),
 ]
 
