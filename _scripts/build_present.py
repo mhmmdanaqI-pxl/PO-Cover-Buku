@@ -146,25 +146,28 @@ specs = [
     ("Saiz", "A5 (148 × 210 mm) + bleed 3 mm setiap sisi, resolusi 300 ppi."),
     ("Fail diserahkan", "PDF cetakan CMYK (logo Jata Negara, teks dan logo \"Rahsiakan Rahsia Kerajaan\" dalam bentuk vektor), "
                         "PSD berlapis boleh sunting, JPG pratonton, pruf warna dan mockup."),
-    ("Tipografi", "Roboto. Tajuk utama Roboto Black, blok alamat mengikut susunan kulit 2024–2025."),
+    ("Tipografi & logo", "Roboto; tajuk utama Roboto Black. Saiz teks mengikut sampel kulit 2024. Jata Negara 33 mm, logo "
+                         "\"Rahsiakan Rahsia Kerajaan\" 29 mm (lebih kecil daripada Jata), sejajar dengan tajuk."),
+    ("Ciri keselamatan", "Setiap konsep: corak guilloche (teknik keselamatan wang kertas dan pasport) dan teks mikro "
+                         "\"Rahsiakan Rahsia Kerajaan\" di sekeliling kulit. K2: lingkaran guilloche dan Jata kerajang emas pada fail sulit."),
     ("Jalur Gemilang", "Dibina semula secara vektor mengikut ukuran rasmi (14 jalur, bintang 14 bucu, kanton 8 jalur)."),
     ("Warna", "CMYK FOGRA39 (offset, kertas bersalut), had dakwat 300% (maks. sebenar 285%). Jata: hitam 100% K, warna pepejal bersih; "
               "merah logo kekal CMYK asal (M90.5 Y96.1). Pruf lembut disertakan; pruf fizikal disyorkan bersama pencetak."),
     ("Sudut buku", "Elemen penting berada dalam kawasan selamat 10 mm untuk sudut bulat (~6 mm, tertakluk kepada pencetak)."),
-    ("Kredit foto", "Istana Negara: CEphoto, Uwe Aranas (CC BY-SA 3.0). C-130H: "
-                    "Pangalau (CC BY-SA 4.0). Su-30MKM: Tentera Udara AS (domain awam). Jerebu KL: Renek78 (CC0). Hutan "
-                    "Taman Negara: Vyacheslav Argenberg (CC BY 4.0). Pakis dan krew minyak & gas: Pexels. K3: Stesen Janakuasa "
-                    "Sultan Salahuddin Abdul Aziz: Chongkian; tangki: Encik Tekateki; laut: Jules Verne Times Two (CC BY-SA 4.0); "
-                    "kapal tangki dan menara TNB: CC0. Logo TNB ialah tanda dagangan TNB; kelulusan diperlukan untuk cetakan akhir."),
-    ("Sumber imej", "Foto sebenar: Istana Negara, pegawai ATM (K1) dan PDRM (K2), pesawat TUDM, jerebu, hutan, semua elemen tenaga dan krew "
-                    "minyak & gas. Anggota ATM (K2) dan orang awam masih visual cadangan (AI) dan akan diganti dengan foto rasmi CGSO "
-                    "atau sesi fotografi berlesen untuk produksi akhir. Jalur Gemilang dibina secara vektor."),
+    ("Kredit foto", "Istana Negara: CEphoto, Uwe Aranas (CC BY-SA 3.0). C-130H: Pangalau (CC BY-SA 4.0). Su-30MKM: Tentera Udara AS; "
+                    "Kol. Mohd Azral Manan (K2): DVIDS 8439351, Kpl. Aidan Hekker, USMC; KD Kelantan (K3): Tentera Laut AS, Oscar Sosa "
+                    "(domain awam). Jerebu KL: Renek78 (CC0). Hutan Taman Negara: Vyacheslav Argenberg (CC BY 4.0). Pakis dan krew minyak "
+                    "& gas: Pexels. K3: Stesen Janakuasa Sultan Salahuddin Abdul Aziz: Chongkian; tangki: Encik Tekateki; laut: Jules "
+                    "Verne Times Two (CC BY-SA 4.0); kapal tangki dan menara TNB: CC0."),
+    ("Sumber imej", "Semua individu ialah foto sebenar kecuali pelajar K2 (visual cadangan AI). Foto yang dibekalkan (penganalisis siber, "
+                    "penyelidik, belia menanam pokok, langit K3, pelantar PETRONAS) serta pegawai PDRM dan ATM: lesen dan kebenaran perlu "
+                    "disahkan sebelum cetakan. Ladang solar K3 masih visual cadangan (AI). Logo TNB dan PETRONAS memerlukan kelulusan."),
 ]
-y = 190
+y = 176
 for k, v in specs:
-    text(pg, (110, y, 400, y + 60), k.upper(), 15, "Bold", GOLD)
-    text(pg, (400, y - 2, 1500, y + 70), v, 18, "Regular", WHITE, lh=1.35)
-    y += 84
+    text(pg, (110, y, 400, y + 24), k.upper(), 14, "Bold", GOLD)
+    y = max(text(pg, (400, y - 2, 1500, y + 24), v, 16, "Regular", WHITE, lh=1.3), y + 26) + 14   # wrapped items push down
+assert y < PH - 20, f"specs overflow the slide: {y}"
 
 path = os.path.join(OUT, "CGSO2026_Cadangan_Kulit_Buku.pdf")
 doc.save(path, garbage=3, deflate=True)

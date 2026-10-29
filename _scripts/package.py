@@ -50,6 +50,15 @@ KANDUNGAN FOLDER
   06_Pruf_Warna         Pruf lembut FOGRA39 (rupa jangkaan di atas kertas bersalut) dan
                         perbandingan skrin berbanding cetakan.
 
+LOGO DAN CIRI KESELAMATAN (semakan 29 Oktober 2026)
+  - Jata Negara 33 mm; logo "Rahsiakan Rahsia Kerajaan" 29 mm, lebih kecil daripada Jata dan
+    sejajar dengan tajuk. Saiz teks mengikut sampel kulit 2024.
+  - Setiap konsep: corak guilloche (teknik keselamatan wang kertas dan pasport) dan teks mikro
+    "RAHSIAKAN RAHSIA KERAJAAN" di sekeliling kulit, 8 mm dari garis potong. Konsep 2: lingkaran
+    guilloche di belakang Istana Negara dan Jata kerajang emas pada fail sulit.
+  - Teks mikro dan garisan guilloche sangat halus (0.07 - 0.15 mm); minta pencetak menyemak
+    pada pruf fizikal.
+
 NOTA UNTUK PENCETAK
   - Fail dibina untuk FOGRA39 (offset, kertas bersalut). Jika pencetak menggunakan keadaan
     cetakan lain (contohnya Japan Color 2001), fail boleh dibina semula.
@@ -72,8 +81,9 @@ NOTA IMEJ
   - Pelajar Konsep 2 (wanita India Malaysia dengan telefon berkunci) ialah visual cadangan (AI),
     dipilih supaya ketiga-tiga kaum utama diwakili. Untuk cetakan akhir, gantikan dengan foto rasmi
     CGSO atau foto berlesen. Individu lain ialah foto sebenar.
-  - Foto penganalisis siber, penyelidik dan belia menanam pokok dibekalkan untuk cadangan sahaja: untuk cetakan akhir, lesen setiap foto perlu disahkan (atau diganti dengan foto
-    rasmi CGSO), dan individu yang boleh dikenal pasti memerlukan kebenaran. Pegawai PDRM dan ATM
+  - Foto penganalisis siber, penyelidik dan belia menanam pokok dibekalkan untuk cadangan sahaja:
+    untuk cetakan akhir, lesen setiap foto perlu disahkan (atau diganti dengan foto rasmi CGSO),
+    dan individu yang boleh dikenal pasti memerlukan kebenaran. Pegawai PDRM dan ATM
     ialah individu sebenar: gunakan foto rasmi dengan kebenaran.
   - Istana Negara ialah foto sebenar: CEphoto, Uwe Aranas (CC BY-SA 3.0). Untuk cetakan akhir,
     foto ini boleh diganti dengan foto rasmi atau foto berlesen.
@@ -95,7 +105,7 @@ NOTA IMEJ
     polis, dan lencana beret 10 Briged Para pada anggota beret merah marun. Untuk produksi akhir,
     mohon CGSO sahkan atau bekalkan fail rasmi lencana ini.
 
-27 Oktober 2026
+29 Oktober 2026
 """
 
 
