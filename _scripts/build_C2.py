@@ -94,7 +94,7 @@ rs[..., :3] = C.hexf("#E2BC4F")
 # blend vanished), and the seal reads as one darker, finely textured disc at thumbnail
 key = np.zeros((H, W, 4), np.float32)
 key[..., :3] = C.hexf("#081634")
-key[..., 3] = np.clip(C.blur(rs[..., 3], 2.2) * 1.4, 0, 1) * 0.42
+key[..., 3] = np.clip(C.blur(rs[..., 3], 2.2) * 1.4, 0, 1) * 0.3
 stripe = np.clip(fl[..., 3] * 1.2, 0, 1) * np.clip((DOME_CX - 18 - xx) / 14 + 1, 0, 1) * np.clip((DOME_CY + 2 - yy) / 6, 0, 1)
 rs[..., 3] *= 1 - stripe * 0.4
 key[..., 3] *= 1 - stripe * 0.4
@@ -108,7 +108,7 @@ tl = C.radial(18, 40, 48, 1.6)
 rs[..., 3] *= 1 - tl * 0.45
 key[..., 3] *= 1 - tl * 0.45
 st.add("Guilloche halo keyline", key)
-st.add("Guilloche halo", rs, opacity=0.85)
+st.add("Guilloche halo", rs, opacity=0.6)               # Zharief 29 Oct 20:42 "dah ok. tone down sikit"
 halo = C.radial(DOME_CX, HALO_CY, 70, 2.2)
 st.add("Halo glow", full(np.broadcast_to(C.hexf("#C99A3E"), (H, W, 3)), halo), mode="screen", opacity=0.18)
 

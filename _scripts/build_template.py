@@ -145,7 +145,7 @@ head_right = {t: b[1] / MM - BLEED for (t, _, _), (_, _, b) in zip(HEAD_LINES, H
 # Roundel as on the 2024 sample: 37 mm, right edge on the margin, centred 5.4 mm below LINDUNGI's cap top
 # (measured on the sample in headline units), beside LINDUNGI / ASET NEGARA; TANGGUNGJAWAB passes under
 # its curve, so the clearance is checked against the circle, not its box.
-ROUND_W = 37.0
+ROUND_W = 30.0          # Zharief 29 Oct 19:21 "scale down" (from the sample's 37 mm; still > the 22 mm Jata)
 ROUND_H = ROUND_W * ROUNDEL_ART.height / ROUNDEL_ART.width
 round_left = RIGHT - ROUND_W
 gap = 3.0

@@ -375,8 +375,8 @@ st.add("Shade - headline accent lines (soft burn)", full(np.broadcast_to(C.hexf(
 # engraving; a calmer, softer, darker field there lets the security underprint read
 calm = C.saturation(C.blur(st.comp, C.mm(2.2)), 0.6) * 0.86 + C.hexf("#1E1218") * 0.06
 st.add("Calm - headline field", full(calm, np.clip((yy - 152) / 14, 0, 1) * 0.5))
-C.add_security(ROOT, "C3", st, "#DA9A4C", base_top_mm=141, field_opacity=0.36, frame_opacity=0.8,
-               band_mm=(150, 200), band_opacity=0.62)
+C.add_security(ROOT, "C3", st, "#DA9A4C", base_top_mm=141, field_opacity=0.26, frame_opacity=0.65,
+               band_mm=(150, 200), band_opacity=0.44, style="medallion", petals=20, border_y=146.5)
 C.add_security_thread(ROOT, st)
 
 

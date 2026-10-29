@@ -29,7 +29,7 @@ CONCEPTS = [
                "\"Rahsiakan Rahsia Kerajaan\" di sekeliling kulit ialah ciri keselamatan dokumen."),
          checks=["Istana Negara, Jalan Duta", "Pegawai keselamatan: anggota ATM + pesawat C-130H TUDM",
                  "Rakyat / anak muda: belia menanam pokok", "Penyelidikan: penyelidik kualiti udara",
-                 "Jalur Gemilang", "Ciri keselamatan: guilloche, teks mikro, benang keselamatan"]),
+                 "Jalur Gemilang", "Ciri keselamatan: medalion guilloche, teks mikro, benang keselamatan"]),
     dict(key="C2", no="KONSEP 2", theme="KESELAMATAN DOKUMEN", title="Daulat Terpelihara, Rahsia Terjaga",
          accent=(0.886, 0.737, 0.31),
          body=("Kedaulatan negara bermula dengan maklumat yang terpelihara. Corak guilloche keemasan, iaitu teknik "
@@ -58,7 +58,7 @@ CONCEPTS = [
          checks=["Tenaga: kapal tangki, pelantar minyak & gas, tangki gas, arang batu, grid TNB",
                  "Pegawai keselamatan: kapal peronda TLDM + Su-30MKM TUDM",
                  "Rakyat: krew minyak dan gas", "Penjimatan tenaga: ladang solar",
-                 "Jalur Gemilang", "Ciri keselamatan: guilloche, teks mikro, benang keselamatan"]),
+                 "Jalur Gemilang", "Ciri keselamatan: medalion guilloche, teks mikro, benang keselamatan"]),
 ]
 
 
@@ -147,7 +147,7 @@ specs = [
     ("Fail diserahkan", "PDF cetakan CMYK (logo Jata Negara, teks dan logo \"Rahsiakan Rahsia Kerajaan\" dalam bentuk vektor), "
                         "PSD berlapis boleh sunting, JPG pratonton, pruf warna dan mockup."),
     ("Tipografi & logo", "Roboto; tajuk utama Roboto Black. Saiz teks dan logo mengikut sampel kulit 2024: Jata Negara 22 mm, logo "
-                         "\"Rahsiakan Rahsia Kerajaan\" 37 mm di sebelah tajuk. Blok alamat huruf besar: Jabatan Perdana Menteri (tebal), "
+                         "\"Rahsiakan Rahsia Kerajaan\" 30 mm di sebelah tajuk. Blok alamat huruf besar: Jabatan Perdana Menteri (tebal), "
                          "Pejabat Ketua Pegawai, Keselamatan Kerajaan Malaysia."),
     ("Ciri keselamatan", "Setiap konsep: corak guilloche (teknik keselamatan wang kertas dan pasport), teks mikro "
                          "\"Rahsiakan Rahsia Kerajaan\" di sekeliling kulit, dan benang keselamatan emas bertingkap (teks mikro) "

@@ -382,6 +382,54 @@ def layout(root):
         return json.load(fh)
 
 
+def _draw_curves(curves, sw_px=1.0, ss=2):
+    """Anti-aliased guilloche linework on the canvas: curves are (N, 2) arrays in canvas mm."""
+    m = np.zeros((H * ss, W * ss), np.uint8)
+    pts = [np.round(c * PXMM * ss * 16).astype(np.int32).reshape(-1, 1, 2) for c in curves]
+    cv2.polylines(m, pts, False, 255, max(1, int(round(sw_px * ss))), cv2.LINE_AA, shift=4)
+    return cv2.resize(m, (W, H), interpolation=cv2.INTER_AREA).astype(np.float32) / 255
+
+
+def _ring_band(cx, cy, r1, r2, k, copies, n=5000):
+    """k-lobed lattice between two radius envelopes r1(t), r2(t): copies phase-shifted, as engraved."""
+    t = np.linspace(0, 2 * np.pi, n)
+    out = []
+    for j in range(copies):
+        ph = j * 2 * np.pi / copies
+        a, b = r1(t), r2(t)
+        r = a + (b - a) * (0.5 + 0.5 * np.sin(k * t + ph))
+        out.append(np.stack([cx + r * np.cos(t), cy + r * np.sin(t)], 1))
+    return out
+
+
+def _circle(cx, cy, r, n=3000):
+    t = np.linspace(0, 2 * np.pi, n)
+    return np.stack([cx + r * np.cos(t), cy + r * np.sin(t)], 1)
+
+
+def guilloche_medallion(cx, cy, r0, petals=18):
+    """A banknote-style rosette seal around the "Rahsiakan Rahsia Kerajaan" stamp (29 Oct, "explore pattern
+    guilloche"): rope ring, petal band, scalloped border, hairlines. r0 = the stamp's radius (mm)."""
+    c = []
+    c += _ring_band(cx, cy, lambda t: r0 + 1.0 + 0 * t, lambda t: r0 + 2.8 + 0 * t, 64, 4)
+    c.append(_circle(cx, cy, r0 + 3.4))
+    c += _ring_band(cx, cy, lambda t: r0 + 3.9 + 0 * t, lambda t: r0 + 7.6 + 1.1 * np.cos(petals * t), petals * 3, 5)
+    c.append(_circle(cx, cy, r0 + 9.2))
+    c += _ring_band(cx, cy, lambda t: r0 + 9.7 + 0.5 * np.sin(2 * petals * t),
+                    lambda t: r0 + 11.6 + 0.5 * np.sin(2 * petals * t + np.pi), petals * 4, 4)
+    c.append(_circle(cx, cy, r0 + 12.2))
+    return _draw_curves(c)
+
+
+def guilloche_band(y_mm, half_mm=2.8, wavelength=6.5, copies=6):
+    """A banknote border: a woven lozenge lattice across the cover between two hairlines."""
+    x = np.linspace(-3, 157, 4000)
+    c = [np.stack([x, y_mm + half_mm * 0.92 * np.sin(2 * np.pi * x / wavelength + j * 2 * np.pi / copies)], 1)
+         for j in range(copies)]
+    c += [np.stack([x, np.full_like(x, y_mm - half_mm - 0.35)], 1), np.stack([x, np.full_like(x, y_mm + half_mm + 0.35)], 1)]
+    return _draw_curves(c)
+
+
 def add_security_thread(root, st, x_mm=146.2, y_mm=(18.0, 198.0), width_mm=2.2, gold="#C9A227"):        # 2.2 mm: holds at thumbnail
     """Windowed security thread, as on a banknote (review 29 Oct: the client must SEE the security features).
     A metallic gold ribbon on the fore-edge, 5 mm inside the trim, clear of the Jata, text and corners:
@@ -424,7 +472,7 @@ def add_security_thread(root, st, x_mm=146.2, y_mm=(18.0, 198.0), width_mm=2.2, 
 
 
 def add_security(root, key, st, color, base_top_mm, field_opacity=0.55, frame_opacity=0.5,
-                 band_mm=None, band_opacity=None):
+                 band_mm=None, band_opacity=None, style=None, petals=18, border_y=None):
     """Client revision 29 Oct: every concept carries document-security features, in C2's language.
     (1) a guilloche underprint (the C2 interference line field, lines one pixel heavier so they hold in
     print) over the dark base, fading in from base_top_mm, knocked back behind the headline and roundel;
@@ -446,6 +494,21 @@ def add_security(root, key, st, color, base_top_mm, field_opacity=0.55, frame_op
     wf[..., 3] *= 1 - text_burn(root, key, "Headline", feather_mm=1.2, spread_mm=(1.2, 0.8)) * 0.9
     wf[..., 3] *= 1 - radial(*lay["roundel_c"], lay["roundel_r"] + 2.5, 3.0)
     st.add("Security - guilloche underprint", wf)
+    # style (29 Oct "cuba explore pattern guilloche"): "field" (the underprint only), "medallion" (+ a rosette
+    # seal around the stamp), "medallion+band" (+ a woven border band). CGSO_GUILLOCHE overrides it, for the
+    # exploration sheets only.
+    style = os.environ.get("CGSO_GUILLOCHE", style or "field")
+    knock = 1 - text_burn(root, key, "Headline", feather_mm=1.2, spread_mm=(1.4, 1.0)) * 0.95
+    if "medallion" in style:
+        md = guilloche_medallion(lay["roundel_c"][0], lay["roundel_c"][1], lay["roundel_r"], petals) * knock
+        st.add("Security - guilloche medallion (stamp seal)",
+               np.dstack([np.broadcast_to(np.clip(hexf(color) * 1.08, 0, 1), (H, W, 3)), md * 0.7]).astype(np.float32))
+    if "band" in style and border_y:
+        bd = guilloche_band(border_y) * knock
+        if "medallion" in style:
+            bd *= 1 - radial(*lay["roundel_c"], lay["roundel_r"] + 13.0, 2.5)
+        st.add("Security - guilloche border band",
+               np.dstack([np.broadcast_to(np.clip(hexf(color) * 1.08, 0, 1), (H, W, 3)), bd * 0.8]).astype(np.float32))
     mf = place(load_rgba(os.path.join(sec, "C2_microtext_frame_300ppi.png")), left_mm=0, top_mm=0, width_mm=154)
     mf[..., :3] = hexf(color)
     st.add("Security - microtext frame", mf, opacity=frame_opacity)
