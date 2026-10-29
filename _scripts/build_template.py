@@ -136,9 +136,10 @@ head_right = {t: b[1] / MM - BLEED for (t, _, _), (_, _, b) in zip(HEAD_LINES, H
 
 # Roundel: white brushed disc 27 mm wide (smaller than the Jata, client revision 29 Oct), right edge on
 # the margin line, sitting beside LINDUNGI / ASET NEGARA and clear of TANGGUNGJAWAB.
-# 29 Oct review: at 27 mm, floating above the headline, it read as a sticker. 29 mm (still smaller than the
-# 33 mm Jata) with its top on LINDUNGI's cap line: the headline and the roundel read as one lockup.
-ROUND_W = 29.0
+# 29 Oct review: at 27 mm, floating above the headline, it read as a sticker; it now has its top on LINDUNGI's
+# cap line, so the headline and the roundel read as one lockup. 25 mm: smaller than the Jata in width AND
+# height (33 x 25.5 mm); at 29 mm the disc was taller than the Jata, with 50% more inked area.
+ROUND_W = 25.0
 ROUND_H = ROUND_W * ROUNDEL_ART.height / ROUNDEL_ART.width
 round_left = RIGHT - ROUND_W
 gap = 3.0
