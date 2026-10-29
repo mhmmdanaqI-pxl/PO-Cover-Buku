@@ -278,7 +278,13 @@ st.add("Shade - office text (soft burn)", full(np.broadcast_to(C.hexf("#0B2B56")
                                                C.text_burn(ROOT, "C1") * 0.75))
 
 # client revision 29 Oct: security features on every concept (guilloche underprint + microtext frame)
-C.add_security(ROOT, "C1", st, "#BDAE5E", base_top_mm=140, field_opacity=0.36)
+# review 29 Oct: the base under the headline was a busy field (fronds / panel grid) that hid the
+# engraving; a calmer, softer, darker field there lets the security underprint read
+calm = C.saturation(C.blur(st.comp, C.mm(2.2)), 0.6) * 0.86 + C.hexf("#06180F") * 0.06
+st.add("Calm - headline field", full(calm, np.clip((yy - 152) / 14, 0, 1) * 0.5))
+C.add_security(ROOT, "C1", st, "#C9B866", base_top_mm=140, field_opacity=0.36, frame_opacity=0.8,
+               band_mm=(150, 200), band_opacity=0.62)
+C.add_security_thread(ROOT, st)
 
 
 def grade(c):

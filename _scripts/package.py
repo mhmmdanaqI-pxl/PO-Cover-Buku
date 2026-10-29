@@ -54,8 +54,10 @@ LOGO DAN CIRI KESELAMATAN (semakan 29 Oktober 2026)
   - Jata Negara 33 mm; logo "Rahsiakan Rahsia Kerajaan" 29 mm, lebih kecil daripada Jata dan
     sejajar dengan tajuk. Saiz teks mengikut sampel kulit 2024.
   - Setiap konsep: corak guilloche (teknik keselamatan wang kertas dan pasport) dan teks mikro
-    "RAHSIAKAN RAHSIA KERAJAAN" di sekeliling kulit, 8 mm dari garis potong. Konsep 2: lingkaran
-    guilloche di belakang Istana Negara dan Jata kerajang emas pada fail sulit.
+    "RAHSIAKAN RAHSIA KERAJAAN" di sekeliling kulit, 8 mm dari garis potong, dan benang keselamatan
+    emas bertingkap (dengan teks mikro) di tepi kanan, 5 mm dari garis potong (boleh dicetak dengan
+    kerajang emas atau hologram jika bajet membenarkan). Konsep 2: lingkaran guilloche di belakang
+    Istana Negara dan Jata kerajang emas pada fail sulit.
   - Teks mikro dan garisan guilloche sangat halus (0.07 - 0.15 mm); minta pencetak menyemak
     pada pruf fizikal.
 

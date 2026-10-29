@@ -382,7 +382,49 @@ def layout(root):
         return json.load(fh)
 
 
-def add_security(root, key, st, color, base_top_mm, field_opacity=0.55, frame_opacity=0.5):
+def add_security_thread(root, st, x_mm=146.5, y_mm=(18.0, 198.0), width_mm=1.5, gold="#C9A227"):
+    """Windowed security thread, as on a banknote (review 29 Oct: the client must SEE the security features).
+    A metallic gold ribbon on the fore-edge, 5 mm inside the trim, clear of the Jata, text and corners:
+    9 mm windows where it surfaces, 4 mm where it dips into the paper (a faint trace), negative microtext
+    "RAHSIAKAN RAHSIA KERAJAAN" running down it. Same on every concept: one security system for the set."""
+    from PIL import ImageDraw, ImageFont
+    yy = np.arange(H, dtype=np.float32)[:, None] / PXMM
+    xx = np.arange(W, dtype=np.float32)[None, :] / PXMM
+    u = (xx - x_mm) / (width_mm / 2)                                     # -1..1 across the ribbon
+    body = np.clip((1 - np.abs(u)) * width_mm * PXMM / 2, 0, 1)          # 1 px soft edges
+    span = np.clip((yy - y_mm[0]) / 0.6, 0, 1) * np.clip((y_mm[1] - yy) / 0.6, 0, 1)
+    ph = np.mod(yy - y_mm[0], 13.0)
+    win = np.clip(np.minimum(ph, 9.0 - ph) / 0.35, 0, 1) * (ph < 9.0)    # 9 mm windows, rounded ends
+    alpha = body * span * (0.22 + 0.78 * win)
+    g = hexf(gold)
+    cyl = np.clip(1 - np.abs(u + 0.3), 0, 1) ** 1.5                      # cylindrical highlight, light from upper left
+    sheen = 0.5 + 0.5 * np.sin(yy / 6.5)
+    irid = 0.5 + 0.5 * np.sin(yy / 23.0 + 1.1)                            # slight holographic shift
+    rgb = g * (0.55 + 0.25 * sheen)[..., None] + (hexf("#FFF1C4") - g * 0.55) * (cyl * 0.75)[..., None]
+    rgb = rgb * (1 - 0.12 * irid[..., None]) + hexf("#BFE3D6") * (0.12 * irid)[..., None]
+    rgb = np.broadcast_to(np.clip(rgb, 0, 1), (H, W, 3)).copy()
+    # negative microtext down the ribbon (reads top to bottom), only in the windows
+    L = int((y_mm[1] - y_mm[0]) * PXMM)
+    strip = Image.new("L", (L, int(width_mm * PXMM)), 0)
+    font = ImageFont.truetype(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "01_Template", "fonts",
+                                           "Roboto-Bold.ttf"), int(round(0.95 * PXMM / 0.711 * 0.72)))
+    phrase, d = "RAHSIAKAN RAHSIA KERAJAAN \u2022 ", ImageDraw.Draw(strip)
+    x, pw = 0, d.textlength(phrase, font=font)
+    while x < L:
+        d.text((x, strip.height / 2), phrase, fill=255, font=font, anchor="lm")
+        x += pw
+    txt = np.zeros((H, W), np.float32)
+    t = np.asarray(strip.rotate(-90, expand=True), np.float32) / 255
+    x0, y0 = int(round((x_mm - width_mm / 2) * PXMM)), int(round(y_mm[0] * PXMM))
+    txt[y0:y0 + t.shape[0], x0:x0 + t.shape[1]] = t[:H - y0, :W - x0]
+    rgb = rgb * (1 - (txt * win * 0.85)[..., None]) + hexf("#1B2238") * (txt * win * 0.85)[..., None]
+    edge = np.clip(1 - np.abs(np.abs(u) - 0.92) / 0.08, 0, 1) * win
+    rgb = rgb * (1 - (edge * 0.5)[..., None])
+    st.add("Security - windowed thread (gold, microtext)", np.dstack([rgb, alpha]).astype(np.float32))
+
+
+def add_security(root, key, st, color, base_top_mm, field_opacity=0.55, frame_opacity=0.5,
+                 band_mm=None, band_opacity=None):
     """Client revision 29 Oct: every concept carries document-security features, in C2's language.
     (1) a guilloche underprint (the C2 interference line field, lines one pixel heavier so they hold in
     print) over the dark base, fading in from base_top_mm, knocked back behind the headline and roundel;
@@ -392,11 +434,18 @@ def add_security(root, key, st, color, base_top_mm, field_opacity=0.55, frame_op
     lay = layout(root)
     wf = place(load_rgba(os.path.join(sec, "C2_guilloche_wavefield_300ppi.png")), left_mm=0, top_mm=0, width_mm=154)
     wf[..., 3] = cv2.dilate(wf[..., 3], np.ones((2, 2), np.uint8))
-    wf[..., :3] = hexf(color)
+    xx = np.arange(W, dtype=np.float32)[None, :] / PXMM
+    sheen = 0.5 + 0.5 * np.sin((xx * 0.6 + yy) / 9.0)                    # a metallic glint across the engraving
+    wf[..., :3] = np.clip(hexf(color) * (0.82 + 0.38 * sheen)[..., None], 0, 1)
     wf[..., 3] *= np.clip((yy - base_top_mm) / 14, 0, 1)
+    op = np.full((H, 1), field_opacity, np.float32)
+    if band_mm:                                                            # stronger band behind the headline
+        b = np.clip((yy - band_mm[0]) / 6, 0, 1) * np.clip((band_mm[1] - yy) / 6, 0, 1)
+        op = field_opacity + (band_opacity - field_opacity) * b
+    wf[..., 3] *= op
     wf[..., 3] *= 1 - text_burn(root, key, "Headline", feather_mm=1.2, spread_mm=(1.2, 0.8)) * 0.9
     wf[..., 3] *= 1 - radial(*lay["roundel_c"], lay["roundel_r"] + 2.5, 3.0)
-    st.add("Security - guilloche underprint", wf, opacity=field_opacity)
+    st.add("Security - guilloche underprint", wf)
     mf = place(load_rgba(os.path.join(sec, "C2_microtext_frame_300ppi.png")), left_mm=0, top_mm=0, width_mm=154)
     mf[..., :3] = hexf(color)
     st.add("Security - microtext frame", mf, opacity=frame_opacity)

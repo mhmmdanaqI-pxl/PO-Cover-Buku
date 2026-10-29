@@ -29,7 +29,7 @@ CONCEPTS = [
                "\"Rahsiakan Rahsia Kerajaan\" di sekeliling kulit ialah ciri keselamatan dokumen."),
          checks=["Istana Negara, Jalan Duta", "Pegawai keselamatan: anggota ATM + pesawat C-130H TUDM",
                  "Rakyat / anak muda: belia menanam pokok", "Penyelidikan: penyelidik kualiti udara",
-                 "Jalur Gemilang", "Ciri keselamatan: corak guilloche + teks mikro"]),
+                 "Jalur Gemilang", "Ciri keselamatan: guilloche, teks mikro, benang keselamatan"]),
     dict(key="C2", no="KONSEP 2", theme="KESELAMATAN DOKUMEN", title="Daulat Terpelihara, Rahsia Terjaga",
          accent=(0.886, 0.737, 0.31),
          body=("Kedaulatan negara bermula dengan maklumat yang terpelihara. Corak guilloche keemasan, iaitu teknik "
@@ -43,7 +43,7 @@ CONCEPTS = [
                "pelajar menunjukkan telefon berkunci: setiap rakyat bertanggungjawab tidak berkongsi maklumat rasmi."),
          checks=["Istana Negara, Jalan Duta", "Pegawai keselamatan: PDRM + ATM + Su-30MKM TUDM",
                  "Rakyat / anak muda: pelajar universiti", "Penyelidikan: penyelidik keselamatan siber",
-                 "Jalur Gemilang", "Ciri keselamatan: guilloche, teks mikro, Jata kerajang emas"]),
+                 "Jalur Gemilang", "Ciri keselamatan: guilloche, teks mikro, benang, Jata kerajang emas"]),
     dict(key="C3", no="KONSEP 3", theme="EKONOMI", title="Berhemah Hari Ini, Teguh Esok",
          accent=(1.0, 0.54, 0.24),
          body=("Konflik di Timur Tengah menjejaskan bekalan dan harga tenaga dunia. Bekalan minyak, gas asli, arang batu "
@@ -58,7 +58,7 @@ CONCEPTS = [
          checks=["Tenaga: kapal tangki, pelantar minyak & gas, tangki gas, arang batu, grid TNB",
                  "Pegawai keselamatan: kapal peronda TLDM + Su-30MKM TUDM",
                  "Rakyat: krew minyak dan gas", "Penjimatan tenaga: ladang solar",
-                 "Jalur Gemilang", "Ciri keselamatan: corak guilloche + teks mikro"]),
+                 "Jalur Gemilang", "Ciri keselamatan: guilloche, teks mikro, benang keselamatan"]),
 ]
 
 
@@ -148,8 +148,9 @@ specs = [
                         "PSD berlapis boleh sunting, JPG pratonton, pruf warna dan mockup."),
     ("Tipografi & logo", "Roboto; tajuk utama Roboto Black. Saiz teks mengikut sampel kulit 2024. Jata Negara 33 mm, logo "
                          "\"Rahsiakan Rahsia Kerajaan\" 29 mm (lebih kecil daripada Jata), sejajar dengan tajuk."),
-    ("Ciri keselamatan", "Setiap konsep: corak guilloche (teknik keselamatan wang kertas dan pasport) dan teks mikro "
-                         "\"Rahsiakan Rahsia Kerajaan\" di sekeliling kulit. K2: lingkaran guilloche dan Jata kerajang emas pada fail sulit."),
+    ("Ciri keselamatan", "Setiap konsep: corak guilloche (teknik keselamatan wang kertas dan pasport), teks mikro "
+                         "\"Rahsiakan Rahsia Kerajaan\" di sekeliling kulit, dan benang keselamatan emas bertingkap (teks mikro) "
+                         "di tepi kanan. K2: lingkaran guilloche dan Jata kerajang emas pada fail sulit."),
     ("Jalur Gemilang", "Dibina semula secara vektor mengikut ukuran rasmi (14 jalur, bintang 14 bucu, kanton 8 jalur)."),
     ("Warna", "CMYK FOGRA39 (offset, kertas bersalut), had dakwat 300% (maks. sebenar 285%). Jata: hitam 100% K, warna pepejal bersih; "
               "merah logo kekal CMYK asal (M90.5 Y96.1). Pruf lembut disertakan; pruf fizikal disyorkan bersama pencetak."),

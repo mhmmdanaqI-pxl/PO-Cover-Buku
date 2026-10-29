@@ -371,7 +371,13 @@ st.add("Shade - headline accent lines (soft burn)", full(np.broadcast_to(C.hexf(
        C.text_burn(ROOT, "C3", "Headline", feather_mm=2.5, spread_mm=(2.0, 1.2), rows_mm=(140, 168)) * 0.75))
 
 # client revision 29 Oct: security features on every concept (guilloche underprint + microtext frame)
-C.add_security(ROOT, "C3", st, "#D39246", base_top_mm=141, field_opacity=0.36)
+# review 29 Oct: the base under the headline was a busy field (fronds / panel grid) that hid the
+# engraving; a calmer, softer, darker field there lets the security underprint read
+calm = C.saturation(C.blur(st.comp, C.mm(2.2)), 0.6) * 0.86 + C.hexf("#1E1218") * 0.06
+st.add("Calm - headline field", full(calm, np.clip((yy - 152) / 14, 0, 1) * 0.5))
+C.add_security(ROOT, "C3", st, "#DA9A4C", base_top_mm=141, field_opacity=0.36, frame_opacity=0.8,
+               band_mm=(150, 200), band_opacity=0.62)
+C.add_security_thread(ROOT, st)
 
 
 def grade(c):

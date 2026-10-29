@@ -412,7 +412,7 @@ dos = foil_jata(dos)
 # lower right, clear of the headline: the roundel overlaps the file like an official chop
 # review 28 Oct: its gold border ran under the headline's "AB" and the foil Jata sat half under the
 # roundel; moved right and down so the headline clears the file and the Jata sits below the roundel, whole
-dkw = dict(left_mm=66, top_mm=158, width_mm=128, rotate=8)       # 29 Oct: below the lowered roundel
+dkw = dict(left_mm=66, top_mm=153.5, width_mm=128, rotate=8)     # 29 Oct: under the 25 mm roundel, ribbon showing
 dl = C.place(dos, **dkw)
 dl = C.rim_light(dl, WARM, direction=(-1, -1), width_px=4, strength=0.45)
 # a warm desk-lamp pool across the cover so the foil and gold frame catch light
@@ -432,6 +432,8 @@ st.add("Microtext frame", mf, opacity=0.45)
 # Jata + office block: a soft dark pad so the emblem pops over the flag
 tr = np.clip(C.radial(120, 30, 46, 1.4) * 0.78 + C.radial(154, 0, 84, 1.8) * 0.4, 0, 0.85)
 st.add("Shade - Jata + office text", full(np.broadcast_to(C.hexf("#050D24"), (H, W, 3)), tr))
+
+C.add_security_thread(ROOT, st)                                    # review 29 Oct: one security system on all three
 
 
 def grade(c):
