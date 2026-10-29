@@ -136,13 +136,16 @@ head_right = {t: b[1] / MM - BLEED for (t, _, _), (_, _, b) in zip(HEAD_LINES, H
 
 # Roundel: white brushed disc 27 mm wide (smaller than the Jata, client revision 29 Oct), right edge on
 # the margin line, sitting beside LINDUNGI / ASET NEGARA and clear of TANGGUNGJAWAB.
-ROUND_W = 27.0
+# 29 Oct review: at 27 mm, floating above the headline, it read as a sticker. 29 mm (still smaller than the
+# 33 mm Jata) with its top on LINDUNGI's cap line: the headline and the roundel read as one lockup.
+ROUND_W = 29.0
 ROUND_H = ROUND_W * ROUNDEL_ART.height / ROUNDEL_ART.width
 round_left = RIGHT - ROUND_W
 gap = 3.0
-round_bottom = head_cap_top["TANGGUNGJAWAB"] - gap
-ROUND_RECT_MM = (round_left, round_bottom - ROUND_H, RIGHT, round_bottom)
-assert head_right["ASET NEGARA"] < round_left - gap, "ASET NEGARA collides with roundel"
+round_top = head_cap_top["LINDUNGI"]
+ROUND_RECT_MM = (round_left, round_top, RIGHT, round_top + ROUND_H)
+assert head_right["TANGGUNGJAWAB"] < round_left - gap, "TANGGUNGJAWAB collides with roundel"
+assert ROUND_RECT_MM[3] < TRIM_H - SAFE, "roundel outside the safe area"
 
 
 def rect_pt(r):

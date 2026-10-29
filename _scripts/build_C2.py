@@ -412,7 +412,7 @@ dos = foil_jata(dos)
 # lower right, clear of the headline: the roundel overlaps the file like an official chop
 # review 28 Oct: its gold border ran under the headline's "AB" and the foil Jata sat half under the
 # roundel; moved right and down so the headline clears the file and the Jata sits below the roundel, whole
-dkw = dict(left_mm=66, top_mm=143, width_mm=128, rotate=8)
+dkw = dict(left_mm=66, top_mm=158, width_mm=128, rotate=8)       # 29 Oct: below the lowered roundel
 dl = C.place(dos, **dkw)
 dl = C.rim_light(dl, WARM, direction=(-1, -1), width_px=4, strength=0.45)
 # a warm desk-lamp pool across the cover so the foil and gold frame catch light
