@@ -382,7 +382,7 @@ def layout(root):
         return json.load(fh)
 
 
-def add_security_thread(root, st, x_mm=146.5, y_mm=(18.0, 198.0), width_mm=1.5, gold="#C9A227"):
+def add_security_thread(root, st, x_mm=146.2, y_mm=(18.0, 198.0), width_mm=2.2, gold="#C9A227"):        # 2.2 mm: holds at thumbnail
     """Windowed security thread, as on a banknote (review 29 Oct: the client must SEE the security features).
     A metallic gold ribbon on the fore-edge, 5 mm inside the trim, clear of the Jata, text and corners:
     9 mm windows where it surfaces, 4 mm where it dips into the paper (a faint trace), negative microtext

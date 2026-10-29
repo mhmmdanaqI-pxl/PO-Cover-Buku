@@ -102,7 +102,7 @@ flag[..., :3] = C.tint_shadows_highlights(flag[..., :3], shadow=(0.0, -0.01, 0.0
 # 9.5 review: the flag owned the top third and out-read the energy scene; smaller, and it clears
 # the sky ~12 mm higher so the dawn band and sun carry the middle of the cover
 fl = C.place(flag, left_mm=-24, top_mm=-7, width_mm=168, rotate=3)
-fl[..., 3] *= np.clip(1 - (xx - 90) / 60, 0.2, 1) * np.clip((78 - yy) / 22, 0, 1) * 0.94
+fl[..., 3] *= np.clip(1 - (xx - 90) / 60, 0.2, 1) * np.clip((74 - yy) / 22, 0, 1) * 0.86      # 29 Oct: the scene leads, not the flag
 fl = C.rim_light(fl, AMBER, direction=(1, -0.5), width_px=6, strength=0.4)
 st.add("Jalur Gemilang (exact vector on fabric)", fl)
 
@@ -139,7 +139,7 @@ st.add("Storage tanks - gas (real photo, Pengerang)", tk)
 coal = cut("E_COAL.png")
 ch = 46 * coal.shape[0] / coal.shape[1]
 co = C.place(coal, left_mm=106, top_mm=HZ + 0.4 - ch * 1023 / 1037, width_mm=46)
-co = backlit(co, -1.1, 0.45, (0.0, 0.0, 0.03), haze=0.48)
+co = backlit(co, -1.1, 0.45, (0.0, 0.0, 0.03), haze=0.6)            # 29 Oct: further back, a calmer middle band
 st.add("Coal power station + TNB pylons (real photo, Kapar)", co)
 st.add("Shoreline haze", full(np.broadcast_to(HAZE, (H, W, 3)), np.clip(1 - np.abs(yy - HZ + 1) / 7, 0, 1) * 0.38))
 

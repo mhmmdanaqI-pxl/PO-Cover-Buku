@@ -256,6 +256,10 @@ f2[..., 3] *= np.clip((xx - 62) / 8, 0, 1) * np.clip((174 - yy) / 12, 0, 1)   # 
 f2[..., 3] *= 1 - C.radial(112, 120, 20, 2.4) * 0.95                             # the sapling and hands stay clear
 f2 = C.rim_light(f2, SUN, direction=(1, -0.8), width_px=3, strength=0.5)
 st.add("Ferns in front of the planting patch shadow", C.shadow_layer(f2, offset_mm=(0, -1.5), blur_mm=4, opacity=0.3, color="#06140E"))
+# the planting photo's own bottom edge faded into a pale band under the soil (it read as a raised bed):
+# the soil runs on into shaded ground, so the pair crouch on the same earth the ferns grow from
+gshade = np.clip((yy - 131.5) / 3.5, 0, 1) * np.clip((146 - yy) / 4, 0, 1) * np.clip((xx - 92) / 8, 0, 1)
+st.add("Ground under the planting (shade)", full(np.broadcast_to(C.hexf("#1E2414"), (H, W, 3)), gshade * 0.8))
 st.add("Ferns in front of the planting patch (real photo)", f2)
 
 shade = np.clip((yy - 136) / 52, 0, 1) ** 1.1 * 0.9
@@ -281,7 +285,7 @@ st.add("Shade - office text (soft burn)", full(np.broadcast_to(C.hexf("#0B2B56")
 # review 29 Oct: the base under the headline was a busy field (fronds / panel grid) that hid the
 # engraving; a calmer, softer, darker field there lets the security underprint read
 calm = C.saturation(C.blur(st.comp, C.mm(2.2)), 0.6) * 0.86 + C.hexf("#06180F") * 0.06
-st.add("Calm - headline field", full(calm, np.clip((yy - 152) / 14, 0, 1) * 0.5))
+st.add("Calm - headline field", full(calm, np.clip((yy - 148) / 12, 0, 1) * 0.72))      # 29 Oct: fronds were fighting the engraving
 C.add_security(ROOT, "C1", st, "#C9B866", base_top_mm=140, field_opacity=0.36, frame_opacity=0.8,
                band_mm=(150, 200), band_opacity=0.62)
 C.add_security_thread(ROOT, st)
