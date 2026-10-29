@@ -88,7 +88,10 @@ def hex2rgb255(h):
 # must be the most prominent mark on the cover and the "Rahsiakan Rahsia Kerajaan" roundel a little
 # smaller than it (hierarchy: Jata Negara > Jabatan Perdana Menteri > CGSO > its campaign mark), so the
 # Jata goes 28 -> 33 mm and the roundel 38 -> 27 mm. Text sizes follow the 2024 printed sample.
-JATA_W = 33.0
+# Zharief, 29 Oct 17:23 ("follow yang ini / logo rahsiakan tu besar lagi / kecikkan lagi logo jata tu"): sizes
+# follow the 2024 printed sample, measured on its photo (4.46 px/mm, checked on TANGGUNGJAWAB = 84.8 mm):
+# Jata 22 mm wide, roundel 37 mm (1.7x the Jata).
+JATA_W = 22.0
 JATA_H = JATA_W * JATA_ART.height / JATA_ART.width
 RIGHT = TRIM_W - MARGIN
 JATA_RECT_MM = (RIGHT - JATA_W, MARGIN, RIGHT, MARGIN + JATA_H)
@@ -99,10 +102,11 @@ JATA_RECT_MM = (RIGHT - JATA_W, MARGIN, RIGHT, MARGIN + JATA_H)
 OFFICE_SIZE, WWW_SIZE, OFFICE_LEAD = 7.0, 7.0, 3.6
 cap = 0.711 * OFFICE_SIZE / MM
 b1 = JATA_RECT_MM[3] + 2.8 + cap
+# order (Anaqi, 29 Oct): the ministry first, in bold, under the Jata; then the office
 OFFICE_LINES = [
-    ("PEJABAT KETUA PEGAWAI", "Bold", OFFICE_SIZE, b1),
-    ("KESELAMATAN KERAJAAN MALAYSIA", "Medium", OFFICE_SIZE, b1 + OFFICE_LEAD),
-    ("JABATAN PERDANA MENTERI", "Medium", OFFICE_SIZE, b1 + 2 * OFFICE_LEAD),
+    ("JABATAN PERDANA MENTERI", "Bold", OFFICE_SIZE, b1),
+    ("PEJABAT KETUA PEGAWAI", "Medium", OFFICE_SIZE, b1 + OFFICE_LEAD),
+    ("KESELAMATAN KERAJAAN MALAYSIA", "Medium", OFFICE_SIZE, b1 + 2 * OFFICE_LEAD),
     ("www.cgso.gov.my", "Regular", WWW_SIZE, b1 + 3 * OFFICE_LEAD + 1.4),
 ]
 
@@ -138,16 +142,21 @@ head_right = {t: b[1] / MM - BLEED for (t, _, _), (_, _, b) in zip(HEAD_LINES, H
 
 # Roundel: white brushed disc 27 mm wide (smaller than the Jata, client revision 29 Oct), right edge on
 # the margin line, sitting beside LINDUNGI / ASET NEGARA and clear of TANGGUNGJAWAB.
-# 29 Oct review: at 27 mm, floating above the headline, it read as a sticker; it now has its top on LINDUNGI's
-# cap line, so the headline and the roundel read as one lockup. 25 mm: smaller than the Jata in width AND
-# height (33 x 25.5 mm); at 29 mm the disc was taller than the Jata, with 50% more inked area.
-ROUND_W = 25.0
+# Roundel as on the 2024 sample: 37 mm, right edge on the margin, centred 5.4 mm below LINDUNGI's cap top
+# (measured on the sample in headline units), beside LINDUNGI / ASET NEGARA; TANGGUNGJAWAB passes under
+# its curve, so the clearance is checked against the circle, not its box.
+ROUND_W = 37.0
 ROUND_H = ROUND_W * ROUNDEL_ART.height / ROUNDEL_ART.width
 round_left = RIGHT - ROUND_W
 gap = 3.0
-round_top = head_cap_top["LINDUNGI"]
-ROUND_RECT_MM = (round_left, round_top, RIGHT, round_top + ROUND_H)
-assert head_right["TANGGUNGJAWAB"] < round_left - gap, "TANGGUNGJAWAB collides with roundel"
+_rc = head_cap_top["LINDUNGI"] + 5.4
+ROUND_RECT_MM = (round_left, _rc - ROUND_H / 2, RIGHT, _rc + ROUND_H / 2)
+_cx, _r = (round_left + RIGHT) / 2, ROUND_W / 2
+for _t in ("LINDUNGI", "ASET NEGARA", "TANGGUNGJAWAB", "BERSAMA"):
+    _top = head_cap_top[_t]
+    _dy = max(0.0, min(abs(_top - _rc), abs(_top + 0.711 * HEAD_SIZE / MM - _rc)) if not (_top <= _rc <= _top + 0.711 * HEAD_SIZE / MM) else 0.0)
+    _half = (max(_r * _r - _dy * _dy, 0.0)) ** 0.5
+    assert head_right[_t] < _cx - _half - gap, f"{_t} collides with roundel"
 assert ROUND_RECT_MM[3] < TRIM_H - SAFE, "roundel outside the safe area"
 
 

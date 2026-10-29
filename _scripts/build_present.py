@@ -146,8 +146,9 @@ specs = [
     ("Saiz", "A5 (148 × 210 mm) + bleed 3 mm setiap sisi, resolusi 300 ppi."),
     ("Fail diserahkan", "PDF cetakan CMYK (logo Jata Negara, teks dan logo \"Rahsiakan Rahsia Kerajaan\" dalam bentuk vektor), "
                         "PSD berlapis boleh sunting, JPG pratonton, pruf warna dan mockup."),
-    ("Tipografi & logo", "Roboto; tajuk utama Roboto Black. Saiz teks mengikut sampel kulit 2024; blok alamat huruf besar. Jata Negara 33 mm, logo "
-                         "\"Rahsiakan Rahsia Kerajaan\" 29 mm (lebih kecil daripada Jata), sejajar dengan tajuk."),
+    ("Tipografi & logo", "Roboto; tajuk utama Roboto Black. Saiz teks dan logo mengikut sampel kulit 2024: Jata Negara 22 mm, logo "
+                         "\"Rahsiakan Rahsia Kerajaan\" 37 mm di sebelah tajuk. Blok alamat huruf besar: Jabatan Perdana Menteri (tebal), "
+                         "Pejabat Ketua Pegawai, Keselamatan Kerajaan Malaysia."),
     ("Ciri keselamatan", "Setiap konsep: corak guilloche (teknik keselamatan wang kertas dan pasport), teks mikro "
                          "\"Rahsiakan Rahsia Kerajaan\" di sekeliling kulit, dan benang keselamatan emas bertingkap (teks mikro) "
                          "di tepi kanan. K2: lingkaran guilloche dan Jata kerajang emas pada fail sulit."),

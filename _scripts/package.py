@@ -51,9 +51,9 @@ KANDUNGAN FOLDER
                         perbandingan skrin berbanding cetakan.
 
 LOGO DAN CIRI KESELAMATAN (semakan 29 Oktober 2026)
-  - Jata Negara 33 mm; logo "Rahsiakan Rahsia Kerajaan" 29 mm, lebih kecil daripada Jata dan
-    sejajar dengan tajuk. Saiz teks mengikut sampel kulit 2024; blok alamat dalam huruf besar
-    seperti sampel.
+  - Saiz teks dan logo mengikut sampel kulit 2024: Jata Negara 22 mm, logo "Rahsiakan Rahsia
+    Kerajaan" 37 mm di sebelah tajuk. Blok alamat dalam huruf besar: JABATAN PERDANA MENTERI
+    (tebal), PEJABAT KETUA PEGAWAI, KESELAMATAN KERAJAAN MALAYSIA, www.cgso.gov.my.
   - Setiap konsep: corak guilloche (teknik keselamatan wang kertas dan pasport) dan teks mikro
     "RAHSIAKAN RAHSIA KERAJAAN" di sekeliling kulit, 8 mm dari garis potong, dan benang keselamatan
     emas bertingkap (dengan teks mikro) di tepi kanan, 5 mm dari garis potong (boleh dicetak dengan
