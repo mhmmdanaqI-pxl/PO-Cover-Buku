@@ -23,10 +23,13 @@ KANDUNGAN FOLDER
 
 LOGO DAN CIRI KESELAMATAN (semakan 29 Oktober 2026)
   - Jata Negara 33 mm; logo "Rahsiakan Rahsia Kerajaan" 29 mm, lebih kecil daripada Jata dan
-    sejajar dengan tajuk. Saiz teks mengikut sampel kulit 2024.
+    sejajar dengan tajuk. Saiz teks mengikut sampel kulit 2024; blok alamat dalam huruf besar
+    seperti sampel.
   - Setiap konsep: corak guilloche (teknik keselamatan wang kertas dan pasport) dan teks mikro
-    "RAHSIAKAN RAHSIA KERAJAAN" di sekeliling kulit, 8 mm dari garis potong. Konsep 2: lingkaran
-    guilloche di belakang Istana Negara dan Jata kerajang emas pada fail sulit.
+    "RAHSIAKAN RAHSIA KERAJAAN" di sekeliling kulit, 8 mm dari garis potong, dan benang keselamatan
+    emas bertingkap (dengan teks mikro) di tepi kanan, 5 mm dari garis potong (boleh dicetak dengan
+    kerajang emas atau hologram jika bajet membenarkan). Konsep 2: lingkaran guilloche di belakang
+    Istana Negara dan Jata kerajang emas pada fail sulit.
   - Teks mikro dan garisan guilloche sangat halus (0.07 - 0.15 mm); minta pencetak menyemak
     pada pruf fizikal.
 
@@ -36,7 +39,7 @@ NOTA UNTUK PENCETAK
   - Had dakwat 300% (maksimum sebenar 285%). Hitam Jata Negara 100% K.
   - Sudut buku bulat: dianggarkan ~6 mm. Semua elemen penting berada dalam kawasan selamat
     10 mm dari garis potong.
-  - Teks putih kecil pada blok alamat (7.5 - 8.5 pt) adalah knockout empat warna; minta
+  - Teks putih kecil pada blok alamat (7 pt, huruf besar) adalah knockout empat warna; minta
     pencetak menyemak registration.
   - Pruf fizikal (contract proof atau press proof) disyorkan sebelum cetakan penuh.
   - Fail dibina mengikut keperluan PDF/X-4 tetapi belum disahkan oleh alat preflight.
