@@ -360,13 +360,18 @@ st.add("Solar farm base", so)
 shade = np.clip((yy - 140) / 56, 0, 1) ** 1.15 * 0.88
 shade = shade * np.clip((120 - xx) / 32, 0.5, 1)
 st.add("Shade - headline base", full(np.broadcast_to(C.hexf(DUSK), (H, W, 3)), shade))
-st.add("Shade - roundel backing", full(np.broadcast_to(C.hexf(DUSK), (H, W, 3)), C.radial(118, 151.8, 30, 1.6) * 0.5))
+LAY = C.layout(ROOT)
+st.add("Shade - roundel backing", full(np.broadcast_to(C.hexf(DUSK), (H, W, 3)),
+       C.radial(*LAY["roundel_c"], LAY["roundel_r"] * 1.6, 1.6) * 0.5))
 tr = np.clip(C.radial(120, 30, 46, 1.4) * 0.72 + C.radial(154, 0, 82, 1.7) * 0.4, 0, 0.82)
 st.add("Shade - Jata + office text", full(np.broadcast_to(C.hexf("#0B1638"), (H, W, 3)), tr))
 st.add("Shade - office text (soft burn)", full(np.broadcast_to(C.hexf("#0B1638"), (H, W, 3)),
                                                C.text_burn(ROOT, "C3") * 0.3))
 st.add("Shade - headline accent lines (soft burn)", full(np.broadcast_to(C.hexf(DUSK), (H, W, 3)),
        C.text_burn(ROOT, "C3", "Headline", feather_mm=2.5, spread_mm=(2.0, 1.2), rows_mm=(140, 168)) * 0.75))
+
+# client revision 29 Oct: security features on every concept (guilloche underprint + microtext frame)
+C.add_security(ROOT, "C3", st, "#D39246", base_top_mm=141, field_opacity=0.36)
 
 
 def grade(c):

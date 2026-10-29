@@ -84,8 +84,11 @@ def hex2rgb255(h):
 
 
 # ---------------------------------------------------------------- layout
-# Jata: 25 mm wide, top-right, right edge on the margin line
-JATA_W = 28.0
+# Jata: top-right, right edge on the margin line. Client revision 29 Oct (via Zharief): the Jata Negara
+# must be the most prominent mark on the cover and the "Rahsiakan Rahsia Kerajaan" roundel a little
+# smaller than it (hierarchy: Jata Negara > Jabatan Perdana Menteri > CGSO > its campaign mark), so the
+# Jata goes 28 -> 33 mm and the roundel 38 -> 27 mm. Text sizes follow the 2024 printed sample.
+JATA_W = 33.0
 JATA_H = JATA_W * JATA_ART.height / JATA_ART.width
 RIGHT = TRIM_W - MARGIN
 JATA_RECT_MM = (RIGHT - JATA_W, MARGIN, RIGHT, MARGIN + JATA_H)
@@ -101,11 +104,13 @@ OFFICE_LINES = [
     ("www.cgso.gov.my", "Regular", WWW_SIZE, b1 + 3 * OFFICE_LEAD + 1.4),
 ]
 
-# Headline: Roboto Black, sized so TANGGUNGJAWAB is 88 mm of ink, tracking -10
+# Headline: Roboto Black, tracking -10, cap height 6.9 mm as on the 2024 printed sample
+# (TANGGUNGJAWAB then measures 83 mm of ink, as on the sample)
 HEAD_TRACK = -0.01
+HEAD_CAP = 6.9
 g, s, _ = shape_line("TANGGUNGJAWAB", "Black", 10, HEAD_TRACK)
-x0, x1, _, _ = outline_bounds(g, s)
-HEAD_SIZE = 10 * (88.0 * MM) / (x1 - x0)
+_, _, yt, _ = outline_bounds(g, s)
+HEAD_SIZE = 10 * (HEAD_CAP * MM) / (-yt)
 HEAD_PITCH = 0.93 * HEAD_SIZE / MM          # mm between baselines
 LAST_BASE = 188.0
 HEAD_LINES = [
@@ -129,9 +134,9 @@ HEAD = head_contours()
 head_cap_top = {t: b[2] / MM - BLEED for (t, _, _), (_, _, b) in zip(HEAD_LINES, HEAD)}
 head_right = {t: b[1] / MM - BLEED for (t, _, _), (_, _, b) in zip(HEAD_LINES, HEAD)}
 
-# Roundel: white brushed disc 38 mm wide, right edge on the margin line,
-# sitting beside LINDUNGI / ASET NEGARA and clear of TANGGUNGJAWAB.
-ROUND_W = 38.0
+# Roundel: white brushed disc 27 mm wide (smaller than the Jata, client revision 29 Oct), right edge on
+# the margin line, sitting beside LINDUNGI / ASET NEGARA and clear of TANGGUNGJAWAB.
+ROUND_W = 27.0
 ROUND_H = ROUND_W * ROUNDEL_ART.height / ROUNDEL_ART.width
 round_left = RIGHT - ROUND_W
 gap = 3.0
@@ -389,3 +394,11 @@ print("cap tops:", {k: round(v, 1) for k, v in head_cap_top.items()})
 print("right ink:", {k: round(v, 1) for k, v in head_right.items()})
 print("jata mm:", [round(v, 2) for v in JATA_RECT_MM], "roundel mm:", [round(v, 2) for v in ROUND_RECT_MM])
 print("office baselines:", [round(l[3], 2) for l in OFFICE_LINES])
+# geometry for the cover builds (canvas mm, i.e. trim + 3 mm bleed): no hard-coded logo positions there
+import json
+rr, jr = ROUND_RECT_MM, JATA_RECT_MM
+with open(os.path.join(OUT, "CGSO2026_layout.json"), "w") as fh:
+    json.dump(dict(roundel_c=[(rr[0] + rr[2]) / 2 + BLEED, (rr[1] + rr[3]) / 2 + BLEED], roundel_r=(rr[2] - rr[0]) / 2,
+                   jata=[jr[0] + BLEED, jr[1] + BLEED, jr[2] + BLEED, jr[3] + BLEED],
+                   head_cap_top={k: v + BLEED for k, v in head_cap_top.items()},
+                   head_right={k: v + BLEED for k, v in head_right.items()}), fh, indent=1)

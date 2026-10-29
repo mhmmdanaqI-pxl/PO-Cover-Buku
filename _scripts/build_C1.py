@@ -267,13 +267,18 @@ st.add("Shade - headline accent lines (soft burn)", full(np.broadcast_to(C.hexf(
        C.text_burn(ROOT, "C1", "Headline", feather_mm=2.5, spread_mm=(2.0, 1.2), rows_mm=(146, 176)) * 0.6))
 
 # Jata + office block: a soft deep-blue pad so the emblem pops over sky and flag
-st.add("Shade - roundel backing", full(np.broadcast_to(C.hexf("#04190F"), (H, W, 3)), C.radial(118, 151.8, 30, 1.6) * 0.5))
+LAY = C.layout(ROOT)
+st.add("Shade - roundel backing", full(np.broadcast_to(C.hexf("#04190F"), (H, W, 3)),
+       C.radial(*LAY["roundel_c"], LAY["roundel_r"] * 1.6, 1.6) * 0.5))
 tr = np.clip(C.radial(120, 30, 46, 1.4) * 0.62 + C.radial(154, 0, 82, 1.7) * 0.35, 0, 0.75)
 st.add("Shade - Jata + office text", full(np.broadcast_to(C.hexf("#0B2B56"), (H, W, 3)), tr))
 # the 7.5-8.5 pt white office lines cross the flag's white stripes and bright cloud: a soft burn
 # shaped to the lines (no box) keeps every line above 4.5:1
 st.add("Shade - office text (soft burn)", full(np.broadcast_to(C.hexf("#0B2B56"), (H, W, 3)),
                                                C.text_burn(ROOT, "C1") * 0.75))
+
+# client revision 29 Oct: security features on every concept (guilloche underprint + microtext frame)
+C.add_security(ROOT, "C1", st, "#BDAE5E", base_top_mm=140, field_opacity=0.36)
 
 
 def grade(c):

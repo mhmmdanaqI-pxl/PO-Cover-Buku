@@ -29,7 +29,10 @@ NODE = "#FFE7B0"
 ARC = "#D9B24C"
 
 # roundel (canvas mm) from the template, used for a clearance check
-ROUNDEL_C, ROUNDEL_R = (118.0, 151.8), 19.3
+import json
+with open(os.path.join(ROOT, "01_Template", "CGSO2026_layout.json")) as _fh:
+    _lay = json.load(_fh)
+ROUNDEL_C, ROUNDEL_R = tuple(_lay["roundel_c"]), _lay["roundel_r"] + 0.3
 
 
 def hexrgb(h):
@@ -102,8 +105,9 @@ def save_preview(layers, stem):
 # 9.5 review: the line used to run off the top-right edge behind the address block and never visibly
 # ended, so it could read as "prices rising". It now ends below the address block in an arrowhead:
 # a dip, a recovery, and growth that lands, unambiguously positive.
-CHART = [(-2.0, 112.0), (20.0, 104.0), (36.0, 84.0), (50.0, 89.0), (68.0, 75.0), (100.0, 68.0),
-         (124.0, 62.5)]
+# (29 Oct: the larger Jata moved the address block 4 mm down; the arrow now lands 4 mm below "www")
+CHART = [(-2.0, 112.0), (20.0, 104.0), (36.0, 84.0), (50.0, 89.0), (68.0, 75.5), (100.0, 69.5),
+         (119.0, 66.8)]
 NODE_IDX = (2, 3, 4, 5)                          # visible points (0-1 sit behind the platform); the last is the arrow
 ARROW_LEN, ARROW_W = 6.0, 5.4                    # mm
 # C3 heads (canvas mm); nodes must stay clear of faces

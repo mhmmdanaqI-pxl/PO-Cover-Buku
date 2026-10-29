@@ -375,6 +375,33 @@ def text_burn(root, key, layer="Office block", feather_mm=1.6, spread_mm=(1.2, 0
 _fixed_cache = {}
 
 
+def layout(root):
+    """Template geometry (canvas mm) written by build_template.py: roundel centre/radius, Jata box, headline."""
+    import json
+    with open(os.path.join(root, "01_Template", "CGSO2026_layout.json")) as fh:
+        return json.load(fh)
+
+
+def add_security(root, key, st, color, base_top_mm, field_opacity=0.55, frame_opacity=0.5):
+    """Client revision 29 Oct: every concept carries document-security features, in C2's language.
+    (1) a guilloche underprint (the C2 interference line field, lines one pixel heavier so they hold in
+    print) over the dark base, fading in from base_top_mm, knocked back behind the headline and roundel;
+    (2) the "RAHSIAKAN RAHSIA KERAJAAN" microtext frame 8 mm inside the trim."""
+    sec = os.path.join(root, "02_Vectors", "C2_Security")
+    yy = np.arange(H, dtype=np.float32)[:, None] / PXMM
+    lay = layout(root)
+    wf = place(load_rgba(os.path.join(sec, "C2_guilloche_wavefield_300ppi.png")), left_mm=0, top_mm=0, width_mm=154)
+    wf[..., 3] = cv2.dilate(wf[..., 3], np.ones((2, 2), np.uint8))
+    wf[..., :3] = hexf(color)
+    wf[..., 3] *= np.clip((yy - base_top_mm) / 14, 0, 1)
+    wf[..., 3] *= 1 - text_burn(root, key, "Headline", feather_mm=1.2, spread_mm=(1.2, 0.8)) * 0.9
+    wf[..., 3] *= 1 - radial(*lay["roundel_c"], lay["roundel_r"] + 2.5, 3.0)
+    st.add("Security - guilloche underprint", wf, opacity=field_opacity)
+    mf = place(load_rgba(os.path.join(sec, "C2_microtext_frame_300ppi.png")), left_mm=0, top_mm=0, width_mm=154)
+    mf[..., :3] = hexf(color)
+    st.add("Security - microtext frame", mf, opacity=frame_opacity)
+
+
 def fixed_layers(root, key):
     if (root, key) not in _fixed_cache:
         _fixed_cache[(root, key)] = _fixed_layers(root, key)

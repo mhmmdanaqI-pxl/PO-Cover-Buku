@@ -25,10 +25,11 @@ CONCEPTS = [
                "menembusi jerebu, dan anggota ATM yang memberi tabik hormat mewakili pasukan keselamatan. Penyelidik dengan alat pemantau kualiti udara mewakili penyelidikan, "
                "manakala anak muda "
                "yang menanam pokok melambangkan tanggungjawab rakyat. Hutan hujan tropika menjadi asas: alam yang "
-               "dilindungi hari ini ialah warisan generasi akan datang."),
+               "dilindungi hari ini ialah warisan generasi akan datang. Corak guilloche dan teks mikro "
+               "\"Rahsiakan Rahsia Kerajaan\" di sekeliling kulit ialah ciri keselamatan dokumen."),
          checks=["Istana Negara, Jalan Duta", "Pegawai keselamatan: anggota ATM + pesawat C-130H TUDM",
                  "Rakyat / anak muda: belia menanam pokok", "Penyelidikan: penyelidik kualiti udara",
-                 "Jalur Gemilang"]),
+                 "Jalur Gemilang", "Ciri keselamatan: corak guilloche + teks mikro"]),
     dict(key="C2", no="KONSEP 2", theme="KESELAMATAN DOKUMEN", title="Daulat Terpelihara, Rahsia Terjaga",
          accent=(0.886, 0.737, 0.31),
          body=("Kedaulatan negara bermula dengan maklumat yang terpelihara. Corak guilloche keemasan, iaitu teknik "
@@ -42,7 +43,7 @@ CONCEPTS = [
                "pelajar menunjukkan telefon berkunci: setiap rakyat bertanggungjawab tidak berkongsi maklumat rasmi."),
          checks=["Istana Negara, Jalan Duta", "Pegawai keselamatan: PDRM + ATM + Su-30MKM TUDM",
                  "Rakyat / anak muda: pelajar universiti", "Penyelidikan: penyelidik keselamatan siber",
-                 "Jalur Gemilang"]),
+                 "Jalur Gemilang", "Ciri keselamatan: guilloche, teks mikro, Jata kerajang emas"]),
     dict(key="C3", no="KONSEP 3", theme="EKONOMI", title="Berhemah Hari Ini, Teguh Esok",
          accent=(1.0, 0.54, 0.24),
          body=("Konflik di Timur Tengah menjejaskan bekalan dan harga tenaga dunia. Bekalan minyak, gas asli, arang batu "
@@ -53,11 +54,11 @@ CONCEPTS = [
                "berhemah. Pelantar minyak dan gas di luar pesisir, krew minyak dan gas yang memantau keselamatan bekalan, "
                "ladang solar sebagai langkah penjimatan tenaga, kapal peronda TLDM KD Kelantan yang mengiringi kapal tangki, "
                "dan Su-30MKM TUDM yang mengawal laluan tenaga negara. "
-               "Semua elemen tenaga ialah foto sebenar."),
+               "Corak guilloche dan teks mikro \"Rahsiakan Rahsia Kerajaan\" ialah ciri keselamatan dokumen."),
          checks=["Tenaga: kapal tangki, pelantar minyak & gas, tangki gas, arang batu, grid TNB",
                  "Pegawai keselamatan: kapal peronda TLDM + Su-30MKM TUDM",
                  "Rakyat: krew minyak dan gas", "Penjimatan tenaga: ladang solar",
-                 "Jalur Gemilang"]),
+                 "Jalur Gemilang", "Ciri keselamatan: corak guilloche + teks mikro"]),
 ]
 
 
@@ -130,8 +131,7 @@ for c in CONCEPTS:
     y = 682
     for item in c["checks"]:
         pg.draw_circle(pymupdf.Point(x0 + 8, y + 10), 7, color=None, fill=c["accent"])
-        text(pg, (x0 + 24, y, 1180, y + 26), item, 15, "Medium", WHITE)
-        y += 30
+        y = text(pg, (x0 + 24, y, 1180, y + 26), item, 15, "Medium", WHITE) + 4      # a wrapped item pushes the next down
     mk = os.path.join(OUT, f"_deck_mock_{c['key']}.jpg")
     Image.open(os.path.join(OUT, f"mockup_{c['key']}.jpg")).resize((900, 675), Image.LANCZOS).save(mk, quality=88)
     image(pg, (1210, 330, 1560, 600), mk)
