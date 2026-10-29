@@ -409,16 +409,18 @@ def _circle(cx, cy, r, n=3000):
 
 def guilloche_medallion(cx, cy, r0, petals=18):
     """A banknote-style rosette seal around the "Rahsiakan Rahsia Kerajaan" stamp (29 Oct, "explore pattern
-    guilloche"): rope ring, petal band, scalloped border, hairlines. r0 = the stamp's radius (mm)."""
+    guilloche"): rope ring, petal band, hairlines. r0 = the stamp's radius (mm). 29 Oct review: the outer
+    scalloped ring is gone and the petals tightened, so the seal ends at r0 + 7.2 (44 mm across a 30 mm
+    stamp, was 54): Zharief asked for the stamp to read smaller, and the seal now stops short of the thread."""
     c = []
-    c += _ring_band(cx, cy, lambda t: r0 + 1.0 + 0 * t, lambda t: r0 + 2.8 + 0 * t, 64, 4)
-    c.append(_circle(cx, cy, r0 + 3.4))
-    c += _ring_band(cx, cy, lambda t: r0 + 3.9 + 0 * t, lambda t: r0 + 7.6 + 1.1 * np.cos(petals * t), petals * 3, 5)
-    c.append(_circle(cx, cy, r0 + 9.2))
-    c += _ring_band(cx, cy, lambda t: r0 + 9.7 + 0.5 * np.sin(2 * petals * t),
-                    lambda t: r0 + 11.6 + 0.5 * np.sin(2 * petals * t + np.pi), petals * 4, 4)
-    c.append(_circle(cx, cy, r0 + 12.2))
+    c += _ring_band(cx, cy, lambda t: r0 + 1.0 + 0 * t, lambda t: r0 + 2.6 + 0 * t, 64, 4)
+    c.append(_circle(cx, cy, r0 + 3.1))
+    c += _ring_band(cx, cy, lambda t: r0 + 3.6 + 0 * t, lambda t: r0 + 6.2 + 0.8 * np.cos(petals * t), petals * 3, 5)
+    c.append(_circle(cx, cy, r0 + MEDALLION_EXTRA))
     return _draw_curves(c)
+
+
+MEDALLION_EXTRA = 7.2                    # mm beyond the stamp's radius: the seal's outer hairline
 
 
 def guilloche_band(y_mm, half_mm=2.8, wavelength=6.5, copies=6):
@@ -500,13 +502,15 @@ def add_security(root, key, st, color, base_top_mm, field_opacity=0.55, frame_op
     style = os.environ.get("CGSO_GUILLOCHE", style or "field")
     knock = 1 - text_burn(root, key, "Headline", feather_mm=1.2, spread_mm=(1.4, 1.0)) * 0.95
     if "medallion" in style:
+        out_r = lay["roundel_c"][0] + lay["roundel_r"] + MEDALLION_EXTRA
+        assert out_r < 146.2 - 2.2 / 2 - 0.5, f"medallion runs into the security thread: {out_r:.1f} mm"
         md = guilloche_medallion(lay["roundel_c"][0], lay["roundel_c"][1], lay["roundel_r"], petals) * knock
         st.add("Security - guilloche medallion (stamp seal)",
                np.dstack([np.broadcast_to(np.clip(hexf(color) * 1.08, 0, 1), (H, W, 3)), md * 0.7]).astype(np.float32))
     if "band" in style and border_y:
         bd = guilloche_band(border_y) * knock
         if "medallion" in style:
-            bd *= 1 - radial(*lay["roundel_c"], lay["roundel_r"] + 13.0, 2.5)
+            bd *= 1 - radial(*lay["roundel_c"], lay["roundel_r"] + MEDALLION_EXTRA + 1.0, 2.5)
         st.add("Security - guilloche border band",
                np.dstack([np.broadcast_to(np.clip(hexf(color) * 1.08, 0, 1), (H, W, 3)), bd * 0.8]).astype(np.float32))
     mf = place(load_rgba(os.path.join(sec, "C2_microtext_frame_300ppi.png")), left_mm=0, top_mm=0, width_mm=154)
